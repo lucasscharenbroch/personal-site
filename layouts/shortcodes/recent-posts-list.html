@@ -1,0 +1,14 @@
+<ul class="page-list">
+{{ $type := .Get 0 }}
+{{ $num := .Get 1 }}
+
+{{ range ( where .Site.RegularPages "Type" $type ) | first $num }}
+        <li>
+            {{ .Date.Format "January 2006" }} &nbsp; &mdash; &nbsp;
+            <a href="{{.RelPermalink}}">{{.Title}}</a>
+            {{ with .Params.subtitle }}
+            &nbsp; &mdash; &nbsp; {{.}}
+            {{ end }}
+        </li>
+{{ end }}
+</ul>
