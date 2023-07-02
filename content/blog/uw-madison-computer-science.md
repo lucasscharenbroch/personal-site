@@ -4,11 +4,11 @@ subtitle: "An overview of classes and resources"
 date: 2023-07-01T17:41:21-05:00
 ---
 
-I generally like to plan things out, especially things of high importance. Since college happens to fall into that category, I've spent a significant amount of time planning out courses, and I've made a habit of studying for every math/cs course *before* the class begins. I was able to do both of these things with the help of online resources, many of which were student-created. I hope to make this post an overview of the degree requirements and my experience with the classes for anybody who may be interested in what it entails or how to go about it. My main focus is the Computer Science Major, but there is some overlap with general degree requirements.
+I like to plan things out, especially things of high importance. Since college happens to fall into that category, I've spent a significant amount of time planning out courses, and I've made a habit of studying for every math/cs course *before* the class begins. I was able to do both of these things with the help of online resources, many of which were student-created. I intend for this post to serve as an overview of the degree requirements and my experience with the classes for anybody who may be interested in what the degree entails or how to go about it. My main focus is the Computer Science major, but there is some overlap with general degree requirements.
 
 ## General Resources
-- [Official CS Requirements (BS)](https://guide.wisc.edu/undergraduate/letters-science/computer-sciences/computer-sciences-bs/#requirementstext)
-- [Public Course Search & Enroll](https://public.enroll.wisc.edu/search)
+- [Official CS Requirements (BS)](https://guide.wisc.edu/undergraduate/letters-science/computer-sciences/computer-sciences-bs/#requirementstext) &mdash; BS and BA are almost the same, except for general requirements
+- [Public Course Search & Enroll](https://public.enroll.wisc.edu/search) &mdash; Central site for class availability and enrollment.
 - [Noguera's Course Map](https://www.noguera.dev/course-map/) &mdash; Great visualization of CS course dependencies.
 - [UW Discord Server](https://discord.com/college) &mdash; A center for classes, clubs, and general banter.
 - [Rui Pan's Course Guide](https://ruipan.xyz/wisc_courses.html) &mdash; Similar to this post.
@@ -19,16 +19,16 @@ The university lays things out pretty well, but there are some small ambiguities
 
 - Any subset of degree requirement from the set {General Education (Quantatative Reasoning A and B, Communication A and B, Ethnic Studies), Breadth (Natural/Physical/Biological Science, Literature, etc.), Difficulty (Intermediate/Advanced), Other Degree Requirement (for CS: Theory of CS, Software/Hardware, Applications, Electives, etc.)} can be fulfilled by a single course, but no element in the set can be fufilled *more than once* by a single course.
 - This also means that courses that can be retaken for credit (i.e. Music 113, "Clap for Credit") only count towards their respective breadth the first time around
-- Literature is a subset of Humanities: all Literature-Breadth courses also count for Humanities Breadth.
+- Literature is a subset of Humanities: all Literature-Breadth courses also count for Humanities Breadth (a class taken for Literature credit also counts for Humanities, despite the above rule).
 - Retroactive credits are *only* earned with a B or higher.
 - The Summer Session credit limit rule applies on a per-session-basis: i.e. "no more than x credits in an x-week session" implies (assuming x is the 8-week session DHH) "no more than 8 credits in DHH". This doesn't add any restrictions on sessions that may overlap with DHH, despite the average credit per week potentially exceeding 1 credit.
 - "In-Residence" doesn't literally imply "Living in Madison". Online classes through UW count as "In-Residence".
 
 ## The Plan
 
-To be completely honest, my goal is to graduate in as few semesters as possible. This is for two main reasons (1) I like pushing the limits: the rewards of my efforts seem to be proportional to the amount of work I put in, so I refuse to purposely hold back. (2) College is expensive. *Really* expensive. We could go into the details, but I think you get the point.
+My goal is to graduate in as few semesters as possible. This is for two main reasons (1) I like pushing the limits: the rewards of my efforts seem to be proportional to the amount of work I put in, so I refuse to purposely hold back. (2) College is expensive. We could go into the details, but you probably get the point.
 
-Personally, I think that this reasoning is relatively straightforward and probably relatable for a lot of people, but my advisor refused to even discuss a 2-year plan, repeatedly insisting that I rethink my plan, or else my mental health and networking opportunities were at stake. I bring this up to point out that my advisor was not entirely wrong: such a plan *is not* fit for everybody, and there are certainly *some* opportunities that will be missed by graduating early. At the same time, I think it's presumptuous to assume that such a plan is not fit *for any* student, and that the opportunities gained by graduating later necessarily outweigh the cost (namely the financial vulnerability) incurred by extra semesters. I am not an extraordinary student, but I did put a considerable amount of work in to prepare for classes and study CS in general. I encourage anybody considering early graduation to consider the opportunity costs of *all* of the options, and to avoid underestimating their own abilities.
+I think that this reasoning is relatively straightforward and probably relatable for a lot of people, but my advisor refused to even discuss a 2-year plan, repeatedly insisting that I rethink my plan, or else my mental health and networking opportunities were at stake. I bring this up to point out that my advisor was not entirely wrong: such a plan *is not* fit for everybody, and there are certainly *some* opportunities that will be missed by graduating early. At the same time, I think it's closed-minded to assume that such a plan is not fit for *any* student, and that the opportunities gained by graduating later necessarily outweigh the cost (namely the financial vulnerability) incurred by extra semesters. I am not an extraordinary student, but I did put a considerable amount of work in to prepare for classes and study CS in general. I encourage anybody considering early graduation to consider the opportunity costs of *all* of the options, and to avoid underestimating their own abilities.
 
 ### AP Credits
 - Math 221 &mdash; Calculus AB (5I)
