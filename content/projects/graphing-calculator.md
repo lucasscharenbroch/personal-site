@@ -4,8 +4,6 @@ subtitle: "Recursive descent parser and graphing tool (C++, WASM)"
 date: 2023-03-25T18:14:48-05:00
 ---
 
-# Graphing Calculator
-
 <iframe src="https://lucasscharenbroch.github.io/GraphingCalculator/"></iframe>
 
 ### ([Github Link](https://github.com/lucasscharenbroch/GraphingCalculator))

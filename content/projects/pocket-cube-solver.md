@@ -4,8 +4,6 @@ subtitle: "2x2x2 Rubik's Cube solver and visualizer (C++, WASM)"
 date: 2023-02-05T14:37:08-05:00
 ---
 
-# Pocket Cube Solver
-
 <iframe src="https://lucasscharenbroch.github.io/PocketCubeSolver/"></iframe>
 
 ### ([Github Link](https://github.com/lucasscharenbroch/PocketCubeSolver))

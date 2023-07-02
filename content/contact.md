@@ -18,7 +18,7 @@ echo "f@d" | sed -e "s/f/lucas/" -e "s/d/scharenbroch.dev/"
 {{< highlight bash >}}
 yhpnf@fpuneraoebpu.qri
 {{< /highlight >}}
-- B----F---
+- B---F---
 {{< highlight brainfuck >}}
 ++++++++[>+>++>+++>++++>+++++>++++++>+++++++>++++++++>++++++
 +++>++++++++++>+++++++++++>++++++++++++>+++++++++++++>++++++
