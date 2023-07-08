@@ -49,7 +49,7 @@ Examples:
 
 Even if the definitions were more clearly defined, it would still be difficult to get an accurate measurement of what percentage of Leetcode's problems fall into which categories (especially with the unavoidable overlaps), so the following estimate is based completely on my experience: 60% Basic DSA, 30% Implementation, 7.5% Advanced DSA, 2.5% Math.
 
-It's also worth noting that the style of problems changes over time (with newer problems tending to be more convoluted, and more often falling into implementation and advanced dsa). This is apparent by looking at the length of problem lengths over time.
+It's also worth noting that the style of problems changes over time (with newer problems tending to be more convoluted, and more often falling into implementation and advanced DSA). This is apparent by looking at the length of problem names over time.
 
 {{% center-text %}}
 <img src="/images/lc-graph.jpg" alt="Leetcode problem name lengths graphed over time"/>
