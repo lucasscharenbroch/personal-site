@@ -49,6 +49,12 @@ Examples:
 
 Even if the definitions were more clearly defined, it would still be difficult to get an accurate measurement of what percentage of Leetcode's problems fall into which categories (especially with the unavoidable overlaps), so the following estimate is based completely on my experience: 60% Basic DSA, 30% Implementation, 7.5% Advanced DSA, 2.5% Math.
 
+It's also worth noting that the style of problems changes over time (with newer problems tending to be more convoluted, and more often falling into implementation and advanced dsa). This is apparent by looking at the length of problem lengths over time.
+
+{{% center-text %}}
+<img src="/images/lc-graph.jpg" alt="Leetcode problem name lengths graphed over time"/>
+{{% /center-text %}}
+
 ## How to Study
 
 My method for studying was to pick problems at random, and only looking at the solution as a last-resort. I tried doing this before I had a solid understanding of basic DSA, and as a result, I spent many hours trying to "debug" bogus solutions to advanced DSA problems. Several months later, when I had a better understanding of DSA, I spent a lot of time solving implementation problems, some of which were too easy to be worth bothering with. While I think that practicing implementation was good for my general programming skills, it didn't help me much with learning DSA, which was my main goal in using Leetcode. The bottom line is that studying problems at random is inefficient unless your areas-of-improvement exactly match Leetcode's category distribution. Lists like the [Blind 75](https://leetcode.com/list/oizxjoit/) are made for this purpose, and I've found them to be convenient, tough they might not be ideal for everybody.
