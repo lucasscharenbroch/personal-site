@@ -102,7 +102,7 @@ Computation at the binary, transistor, logic-gate, machine-language, and assembl
 (fall 2023)
 
 ## CS/Math Electives
-### Math 340 &mdash; Elementary Matrix & Linear Algebra
+### Math 340 &mdash; Elementary Matrix & Linear Algebra<a name="340"></a>
 An introduction to the axioms of Linear Algebra. The first three chapters or so outlined relationships between linear systems and matrices, properties of matrices, matrix multiplication, and matrix inversion. The remainder of the course consisted mostly of memorizing a number of properties of matrices or vector-spaces that had implications on other properties of matrices (i.e. A is invertible <=> Ax = 0 has only the trivial solution <=> A is row (or column) equivalent to I[n] <=> the linear system Ax = b has a unique solution for every b in R^n <=> A is a product of elementary matrices <=> det(A) != 0 <=> the rank of A is n <=> the nullity of A is 0). I took this class at the same time as CS240, which was helpful because although there were no proofs in 340, there was some use of set theory and basic logic that wasn't completely explained. 340, unlike 341 (which requires Calc 3 as a prerequisite) is *not a proof based class*: the professor and TAs made this very clear, and often used it as an excuse not to explain certain properties (whose simplest explanation would likely require a proof). It was kind of amusing hearing "this is not a proof based class" as a slogan, but it certainly didn't make the material more intuitive, and as a result, the class consisted almost entirely of memorizing properties, which made the class easy, but not very interesting.
 
 ### CS 368 &mdash; Learn a Programming Language: Python
