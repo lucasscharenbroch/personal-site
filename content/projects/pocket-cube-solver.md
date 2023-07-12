@@ -10,7 +10,7 @@ date: 2023-02-05T14:37:08-05:00
 
 ## The Solving Algorithm
 
-I've always been intrigued by the difficulty of solving a [Rubik's Cube](https://en.wikipedia.org/wiki/Rubik's_Cube). As a young child, I desperately failed at solving even the first layer which, though I didn't bother to realize it, would have been the easiest part. Several years later, with the help of the internet, I was able to successfully solve a 3x3, and with casual practice over a few weeks, I was able to bring my time down to a little under 2 minutes.
+I've always been intrigued by the difficulty of solving a [Rubik's Cube](https://en.wikipedia.org/wiki/Rubik's_Cube). As a young child, I desperately failed at solving even the first layer which, though I didn't bother to realize it, would have been the easiest part. Several years later, with the help of the internet, I was able to successfully solve a 3x3, and with casual practice over a few months, I was able to bring my time down to a little under 2 minutes.
 
 I had little consistency, though, and since I was still using the beginner method, the clear path to cutting my time was memorizing and drilling tens of "algorithms" (move combinations) for the second and third layers. I, of course, gave up at this point, because playing video games was much more fun than memorization.
 
@@ -61,7 +61,7 @@ When writing the graphics for this program, I had just finished my Calc II cours
 
 This project was my first time using web-assembly and [emscripten](https://emscripten.org/) (a c++ to WASM compiler), and it turned out to be pretty easy after the initial debugging stage. The source compiles into a .WASM and .js file pair (instead of the usual .out file). There a few catches, namely that all C++ functions called from Javascript must be specified in the build options. I also ran into an issue with the heap overflowing because the search algorithm makes so many allocations, but the heap size can also be changed in the build options. I'm not sure how much faster WASM actually is (as compared to JS), and I'm not eager to try to write anything significant in Javascript to find out, but the convenience of C++ alone sold me on using WASM.
 
-Even after full compiler optimization, the graphics still felt really sluggish (my shoddy raycasting implementation is probably to blame here). After several test runs, I found that the bottleneck was the lineIntersection subroutine, which is called by the raycasting algorithm for each pixel.
+Even after full compiler optimization, the graphics still felt really sluggish (my shoddy raycasting implementation is probably to blame here). After several test runs, I found that the bottleneck was the lineIntersection subroutine, which is called by the raycasting algorithm six times for each pixel (once for each face).
 
 {{< highlight cpp >}}
 // lineIntersection: computes the point of intersection between *this and l; if they do not
@@ -83,4 +83,4 @@ Point Rect::lineIntersection(const Line& l) const {
 }
 {{< /highlight >}}
 
-Removing the dot-product lines caused the program's lag to disappear, so the extra work of allocating 12 Vector objects (though they only consisted of 3 doubles each) was dragging the program down significantly. Adding the "inline" modifier to Vector's constructor and the dot function fixed the problem. Moral of the story: heap allocation vs stack allocation makes a big difference, especially in nested loops.
+Removing the dot-product lines caused the program's lag to disappear, so the extra work of allocating 8 Vector objects and computing 4 dot products was dragging the program down significantly. Adding the "inline" modifier to Vector's constructor and the dot function cut the lag significantly. Moral of the story: small optimizations can make a big difference, especially in nested loops.
