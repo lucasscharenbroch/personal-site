@@ -109,8 +109,14 @@ An introduction to the axioms of Linear Algebra. The first three chapters or so 
 Zybooks for credit. There were weekly lectures, but attendance was work 5%, while the class was pass/fail (with 80% or above being a pass), and the other 95% was zybooks. In addition to the usual zybooks, there were "zybooks labs" at the end of each chapter, which were similar to leetcode easy problems, often with a few more implementation difficulties. The coverage of Python was in general quite rudimentary (the zybook was an intro-programming-with-Python book), but there were some useful topics covered (list comprehensions, advanced uses of f-strings, variadic functions, etc.).
 
 ### CS 577 &mdash; Intro to Algorithms
-(summer 2023)
+An overview of algorithmic paradigms. This class is commonly considered to be one of the most difficult "required" CS classes (520 is the only alternative to this class). It was significantly easier for me because of the large overlap with [ICPC](https://pages.cs.wisc.edu/~dieter/ICPC/), but learning paradigms, problem-solving, proofs, and examples at the same time makes for a hard class. I was lucky enough to find loads of class resources from a previous semester on the 577 Discord (Thanks, Fahim!), so I came into the class having watched all of the lecture and done all of the homework, and I was able to spend time in class reinforcing rather than of discovering. The final was still tough, though.
 ### CS 540 &mdash; Intro to Artificial Intelligence
 (summer 2023)
 ### CS 435 &mdash; Intro to Cryptography
 (summer 2023)
+### CS 542 &mdash; Software Security
+(fall 2023)
+### CS 559 &mdash; Computer Graphics
+(fall 2023)
+### CS 502 &mdash; CS Education
+(fall 2023)
