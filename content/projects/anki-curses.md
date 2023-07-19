@@ -98,7 +98,7 @@ To make a representation with no ambiguity, the db-text to editable-text convers
 
 ## Practical OOP
 
-The entire program is made up of only two (2) distinct "screen types"[^editor] (ui layouts): reviewer and the select-from-list. The reviewer only has one use, but there are several uses of select-from-list (deck manager, note browser (:find, :findin), choose-a-note-type (:new)). The *SelectFromList* class[^lambda] is used for all of them.
+The entire program is made up of only two (2) distinct "screen types"[^editor] (ui layouts): reviewer and select-from-list. The reviewer only has one use, but there are several uses of select-from-list (deck manager, note browser (:find, :findin), choose-a-note-type (:new)). The *SelectFromList* class[^lambda] is used for all of them.
 
 [^editor]: With exception of the text-editor, but all text-editing is done by calling $EDITOR on a tempfile; this is easy to implement and ideal for workflow.
 
