@@ -12,7 +12,7 @@ string email(string domain_name, string first_name) {
 {{< /highlight >}}
 - Bash
 {{< highlight bash >}}
-echo "f@d" | sed -e "s/f/lucas/" -e "s/d/scharenbroch.dev/"
+e=\${f}@\${d} f=lucas d=scharenbroch.dev ; eval echo $e
 {{< /highlight >}}
 - ROT13
 {{< highlight bash >}}
