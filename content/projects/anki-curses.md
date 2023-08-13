@@ -1,6 +1,6 @@
 ---
 title: "Anki Curses"
-subtitle: "A front-end for the powerful flashcard tool, Anki"
+subtitle: "A front-end for the powerful flashcard tool, Anki (Python)"
 date: 2023-07-16
 ---
 
