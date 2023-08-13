@@ -1,7 +1,7 @@
 ---
 title: "Why I Use Vim"
 subtitle: "How to edit text efficiently and why it matters"
-date: 2023-08-10T18:35:07-05:00
+date: 2023-08-13
 ---
 
 ## The Vim Lecture
