@@ -75,6 +75,11 @@ iframe > * {
     color: white;
 }
 
+pre {
+    background-color: #272822;
+}
+
+
 @media (max-width: 59em) {
     .navbar, .navbar > ul, .side-by-side {
         flex-direction: column;

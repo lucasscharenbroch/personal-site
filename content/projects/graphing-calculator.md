@@ -4,6 +4,8 @@ subtitle: "Recursive descent parser and graphing tool (C++, WASM)"
 date: 2023-03-25T18:14:48-05:00
 ---
 
+## Note: this post was updated after a major refactor in 8/2023; [click here](/misc/graphing-calculator-original) for the original post.
+
 <iframe src="https://lucasscharenbroch.github.io/GraphingCalculator/"></iframe>
 
 ### ([Github Link](https://github.com/lucasscharenbroch/GraphingCalculator))
@@ -21,167 +23,220 @@ Even though I was dissatisfied with the options, I wanted surprisingly little:
 I realized that there is no reason I couldn't have it all in the browser. I also wanted it to be fast (and I prefer to avoid dealing with Javascript directly), so C++ compiled to WASM was the chosen toolkit.
 
 ## Recursive Descent Parsing
-Parsing mathematical expressions is actually a pretty tough problem because of the way operators work. Order of operations along with the mix of prefix and infix operators and the properties of nested parenthesis call for a nuanced algorithm: [Recursive Descent Parsing](https://en.wikipedia.org/wiki/Recursive_descent_parser). Though there are ways around it, like the [Shunting yard Algorithm](https://en.wikipedia.org/wiki/Shunting_yard_algorithm), I wanted stronger control of expressions (for things like variable assignment) and I wanted to get a working parser to make sure I understood it. In the process of getting it working, I found myself coming back to [this video](https://www.youtube.com/watch?v=SToUyjAsaFk&t=1297s) by hhp3.
+The goal of a calculator is to correctly evaluate mathematical expressions.
+We'd like to take input in the form of a character-string (e.g. "2 + 3 * 4"), and output a real number.
+However, it's not really obvious how the computer should start evaluating, and it's especially unclear how to evaluate in a way that obeys the order of operations.
 
-Before parsing, the text input is "tokenized" (i.e. strings of digits is turned into a sequence of objects, representing numbers, variables, and operators). This is usually done with [regular expressions](https://en.wikipedia.org/wiki/Regular_expression). Each token is referred to as a "terminal symbol" during parsing (loosely because recursion bottoms out (terminates) upon reaching terminal symbols).
+Ideally, we'd like input in a form that has no ambiguity in order of evaluation.
+That is, we want the corresponding equation tree to be trivially extractable from the input.
+
+It turns out to be a little tricky to do this, and as a result, historic programs and calculators used [Reverse Polish Notation](https://en.wikipedia.org/wiki/Reverse_Polish_notation), which uses a recursive "LEFT RIGHT OP" structure.
+
+```
+  Infix Notation                         Reverse-Polish Notation                         Equation Tree
+
+    1 + 2 + 3                                   1 2 + 3 +                                      +
+                                                                                              / \
+                                                                                             +   3
+                                                                                            / \
+                                                                                            1 2
+
+
+  (1 + 2) * (3 + 4)                           1 2 + 3 4 + *                                    *
+                                                                                              / \
+                                                                                             +   +
+                                                                                            / \ / \
+                                                                                           1  2 3  4
+
+   1 / 2 ^ 3 ^ 4                               1 2 3 4 ^ ^ /                                  /
+                                                                                             / \
+                                                                                            1   ^
+                                                                                               / \
+                                                                                              2   ^
+                                                                                                 / \
+                                                                                                 3  4
+
+```
+
+Ultimately, the problem is converting Infix Notation into an equation tree.
+Though I'm aware of a few different ways to approach this problem, such as using the [Shunting yard Algorithm](https://en.wikipedia.org/wiki/Shunting_yard_algorithm) or other parsing techniques/ using [yacc](https://en.wikipedia.org/wiki/Yacc),
+[Recursive Descent Parsing](https://en.wikipedia.org/wiki/Recursive_descent_parser)
+is my favorite by far because of its elegance and versitility.
+The idea is simple: define the structure of an equation *entirely recursively*.
+This can be done by defining a heierarchical structure of *nonterminal symbols* which are reduced to each other depending on their context in the equation; this structure is called the *grammar*.
+If we set up this grammar in a very particular way, it can correctly reduce the input into equation trees that obey the order of operations.
+It's kind of hard to explain without an example, so here's the grammar for the calculator.
+
+```
+S -> E$
+
+E -> T = E                                  (T must be a variable or function)
+  -> T {(+|-) T} [(==|!=|<|<=|>|>=) E]
+
+T -> F {(*|/|//|%|<nothing>) F}
+
+F -> [-]X [{(^|**) F]                       (don't parse negation when parsing implicit multiplication)
+
+X -> (E)
+  -> NUM
+  -> VAR[{'}(ARGS)]
+
+ARGS -> {E {, E {, ...}}}
+```
+
+*S,* *E*, *T*, *F*, *X*, and *ARGS* are all called *nonterminal symbols*: they're non-terminal because they correspond to groups of tokens that are already reduced.
+In this case, the names of the nonterminals are abbreviations for Statement, Expression, Term, Factor, eXponential, and ARGument liSt, respectively.
+The "->" represents a reduction, e.g. "S -> E$" means that "E$" reduces to "S".
+Another way to think about it: when parsing an "S", since "S" only has one reduction, we must first parse an "E", then a $ (the end-of-string must be mached).
+If "S" had multiple reductions, we would attempt to match each, in the order given.
+
+*VAR* and *NUM* are *terminal symbols*: they represent variable and numeric constants respectively; note that input is "lexed" (the string is turned into a series of "tokens") before given to the parser, so the parser need not know exactly what makes up a variable or number: that can be defined elsewhere. They're called *terminals*, because they are parsed directly, not recursively (unlike non-terminals); more on this later.
+
+The parenthesis/braces/brackets have special meaning here (with the exception of "X -> (E)", where the parenthesis are intended literally) in a similar way to regular expressions;
+parenthesis are used for grouping, usually with the "|" operator, which implies that multiple symbols may be matched (e.g. "(+|-)" matches either "+" or "-").
+"{...}" means "0 or more of {...}", and "[...]" means "0 or 1 of ...".
+This use of symbols is completely arbitrary: this grammar definition isn't a program, nor is it ever interpreted by a program (though there are some programs that can interpret grammars with a certain syntax), but rather a descripton of how to write the parser.
+
+The remaining symbols ("+", "-", "'", "%", etc.) represent their literal values; these are also *terminal symbols* (like *VAR* and *NUM*).
+
+From here, the algorithm is pretty straight-forward: it defines a recursive routine for each non-terminal (e.g. parseS(), parseE(), parseT(), etc...), which take (implicitly) the current index in the token-list, attempt to match each reduction, in order, by recursively calling other non-terminal routines or matching literal tokens with the input stream; the index in the toke-list is advanced accordingly, and the resuntant tree (or null, if no match is unsuccessful) is returned. Here's an example of such function from src/calc/parser.cpp with added comments.
+
 
 {{< highlight cpp >}}
-/*
- * Terminal symbols: three (3) types.
- *
- * (1) (VAR)iable identifier:
- *     - A (letter (case sensitive) or underscore) followed by zero or more (letters, underscores, or 
- *       digits).
- *     - Regex: "[a-zA-Z_][a-zA-Z_0-9]*".
- *
- * (2) (NUM)eric literal
- *     - A "basic" decimal floating point literal in base-10.
- *         - (one or more decimal digits)
- *         - [(one or more decimal digits)].(one or more decimal digits)
- *         - Regex: "(([0-9]*\\.[0-9]+)|([0-9]+))".
- *     - A "scientific-notation" decimal floating point literal in base-10.
- *         - ("basic" floating point literal)(e or E)[-](one or more decimal digits)
- *         - Regex: "(([0-9]*\\.[0-9]+)|([0-9]+))((e|E)-?[0-9]+)".
- *     - Leading '-' symbols are ignored, as they are handled as a unary operator during gramatical
- *       parsing.
- *     - A binary literal
- *         - (a sequence of 1s and 0s with a leading "0b" or "0B")
- *         - Regex: "(0[bB][01]+)".
- *     - A hexidecimal literal
- *         - (a sequence of hex characters (not case-sensitive) with a leading "0x" or "0X")
- *         - Regex: "(0[xX][0-9a-fA-F]+)"
- *     - Regex: "((([0-9]*\\.[0-9]+)|([0-9]+))((e|E)-?[0-9]+)?)|(0[bB][01]+)|(0[xX][0-9a-fA-F]+)".
- *
- * (3) (OP)erator symbol
- *     - "+", "-", "/", "*", "//", "%", "^", "(", ")", "=", "==", "!=", ">", "<", ">=", "<=" ",", "'"
- *     - Regex: "\\+|-|\\*|//|/|%|\\^|\\(|\\)|=|==|!=|>|<|>=|<=|,|'"
- */
-{{< /highlight >}}
+unique_ptr<TreeNode> parseT() {
+    unique_ptr<TreeNode> lhs = parseF();
+    if(lhs == nullptr) return nullptr;      // all valid terms must begin with an F (see the grammar),
+                                            // so if there is no F, then there is no T.
 
-Then the string of tokens is "parsed". The basic idea is that every statement is made up of recursively defined parts. We use "nonterminals" (represented here with uppercase strings: S, E, T, F, X, FN, etc.) to make intermediate groups of symbols during the recursive process. S denotes the statement, E denotes an expression, T denotes a term, F denotes a factor, and X denotes an exponential (note that these names don't necessarily imply that the respective operation is actually being performed (i.e. exponentials need not involve exponentiation), but rather that the tokens grouped into those nonterminals are being parsed at that level of precedence (e.g. an expression in parenthesis must be parsed before it is used as an exponent, so any parenthetical must be parsed into an exponential before it becomes a factor)). These nonterminals are recursively made up of other terminals and nonterminals through a set of "rules" (recursive matches) that are defined by the grammar. The algorithm itself consists of a set of parseY functions (Y here is a placeholder for the name of a nonterminal), one for each nonterminal; the functions take a pointer to the current position in the token array, and attempt to find a match for each rule for Y by calling the respective parseY functions. For example, a statement must consist of exactly one expression, so it only has one rule: "S -> E$" (where $ denotes end of the token array). Thus parseS simply calls parseE (which we inductively assume will correctly parse an expression), and checks that the end of the token array has been reached; if not, it returns null as signal that parsing a statement failed. An Expression (E) can be made up of any assignment or comparison or a sum (or difference) of terms (note that such sum of more than two terms cannot be recursively handled, because 1 - 1 - 1 != (1 - 1) - 1). A term (T) is made up of factors (F) multiplied/divided together (or if there is no multiplication or division, a term is simply any factor (the {} denote "match what is inside 0 or more times; as many times as possible")). A factor (F) is made up of exponentials (X) exponentiated with each other. Exponentials are made up of numeric literals, variable literals (identifiers), function literals, parenthesized expressions, or negated exponentials. Observe that the hierarchy of the grammar defines how operators are parsed: it is laid out in such a way that any valid statement nonterminal must be a valid statement by the order of operations, and the tree formed by the parsing algorithm (each nonterminal can keep a pointer to the symbols that it is made up of) represents the order of evaluation for that expression.
+    while(true) {                           // {(*|/|//|%|<nothing>) F}
+        unique_ptr<Token>& op = next_tok(); // next_tok() is a helper defined exactly as follows:
+                                            // unique_ptr<Token>& next_tok() {
+                                            //     return i == tokens.size() ? eos : tokens[i++];
+                                            // }
+                                            // where i is the current position in the token stream
 
-{{< highlight cpp >}}
-/*
- * Grammar Rules:
- *
- * S -> E$
- *
- * E -> VAR = E
- *   -> FN = E
- *   -> T {(+|-) T} == E
- *   -> T {(+|-) T} != E
- *   -> T {(+|-) T} < E
- *   -> T {(+|-) T} <= E
- *   -> T {(+|-) T} > E
- *   -> T {(+|-) T} >= E
- *   -> T {(+|-) T}
- *
- * T -> F {(*|/|//|%) F}
- *
- * F -> X {^ X}
- *
- * X -> -X
- *   -> (E)
- *   -> NUM
- *   -> VAR
- *   -> FN
- *
- * FN -> VAR{'}(ARGS)
- *       VAR(ARGS)
- *
- * ARGS -> {E {, E {, ...}}}
- */
+        if(&op == &eos) return lhs;         // reached end of input, but we have a valid match, so return it
+        bool is_implicit = false;
 
-/*
- * S -> E$
- */
-unique_ptr<TreeNode> parseS(vector<unique_ptr<Token>>& tokens, int i) {
-    int j = i; /* j is used as a dispensable copy of i that can be passed
-                * (by reference) to other parseY functions */
-    if(j == tokens.size()) return nullptr; // reached end of tokens
+        if(!op->is_op() ||                  // current token isn't an operand: perhaps a variable or number
+           op->str_val() != "*"  &&
+           op->str_val() != "/"  &&
+           op->str_val() != "//" &&
+           op->str_val() != "%") {
+            unget_tok();                    // void unget_tok() {
+                                            //     i--;
+                                            // }
+            is_implicit = true;
+        }
 
-    unique_ptr<TreeNode> tree = parseE(tokens, j);
+        if(is_implicit) parsing_impl_mult = true;  // parsing_impl_mult is a global variable: it needs to be set
+                                                   // to ensure that the binary '-' isn't interpreted as unary
+                                                   // (2-3 != 2*-3); it needs to be saved and restored upon
+                                                   // recursive calls to parseE, however, since 2(-3) = 2*-3.
+                                                   // see the full source for more details
+        unique_ptr<TreeNode> rhs = parseF();
+        parsing_impl_mult = false;
 
-    if(j != tokens.size()) return nullptr; // expression doesn't span all tokens
-
-    i = j;
-    return tree;
-}
-
-/*
- * E -> VAR = E
- *   -> FN = E
- *   -> T {(+|-) T} == E
- *   -> T {(+|-) T} != E
- *   -> T {(+|-) T} < E
- *   -> T {(+|-) T} <= E
- *   -> T {(+|-) T} > E
- *   -> T {(+|-) T} >= E
- *   -> T {(+|-) T}
- */
-unique_ptr<TreeNode> parseE(vector<unique_ptr<Token>>& tokens, int& i) {
-    int j = i;
-    if(j == tokens.size()) return nullptr; // reached end of tokens
-
-    // -> VAR = E
-    if(tokens[j]->is_var() && j + 1 != tokens.size() &&
-       tokens[j + 1]->is_op() && tokens[j + 1]->str_val() == "=") {
-        /* ... parse the E on the RHS and return the tree node ... */
-    }
-
-    // -> FN = E
-    unique_ptr<TreeNode> fn = parseFN(tokens, j);
-    if(fn != nullptr && j != tokens.size() && tokens[j]->is_op() &&
-                                              tokens[j]->str_val() == "=") {
-        /* ... parse the E on the RHS and return the tree node ... */
-    }
-
-    // -> T {(+|-) T} == E
-    // -> T {(+|-) T} != E
-    // -> T {(+|-) T} < E
-    // -> T {(+|-) T} <= E
-    // -> T {(+|-) T} > E
-    // -> T {(+|-) T} >= E
-    // -> T {(+|-) T}
-    une_ptr<TreeNode> lhs = parseT(tokens, j);
-    if(lhs == nullptr) return nullptr; // failed to read term
-
-    // T$ or T? (where ? isn't one of the above options) => skip loop
-    // ==, !=, <, <=, >, >=, +, or -                     => loop
-    while(j != tokens.size() && tokens[j]->is_op()) {
-        string op = tokens[j]->str_val();
-        if(op == "==" || op == "!=" || op == "<" || op == "<=" ||
-           op == ">" || op == ">=" || op == "+" || op == "-") j++;
-        else break;
-
-        unique_ptr<TreeNode> rhs = (op == "+" || op == "-") ? parseT(tokens, j) : parseE(tokens, j);
         if(rhs == nullptr) {
-            i = j - 1; // token before op
-            return lhs;
+            if(is_implicit) return lhs;
+            else throw invalid_expression_error("expected operand after `" +  op->str_val() + "`");
         }
-
-        // continue loop for + and - to maintain order of operations
-        if(op == "+") lhs = make_unique<AdditionNode>(std::move(lhs), std::move(rhs));
-        else if(op == "-") lhs = make_unique<SubtractionNode>(std::move(lhs), std::move(rhs));
-        else {
-            i = j;
-            if(op == "==") return make_unique<EqualityNode>(std::move(lhs), std::move(rhs));
-            else if(op == "!=") return make_unique<InequalityNode>(std::move(lhs), std::move(rhs));
-            else if(op == "<") return make_unique<LessThanNode>(std::move(lhs), std::move(rhs));
-            else if(op == ">") return make_unique<GreaterThanNode>(std::move(lhs), std::move(rhs));
-            else if(op == "<=") return make_unique<LessOrEqualNode>(std::move(lhs), std::move(rhs));
-            else if(op == ">=") return make_unique<GreaterOrEqualNode>(std::move(lhs), std::move(rhs));
-        }
+        lhs = unique_ptr<TreeNode> {new BinaryOpNode(std::move(lhs), std::move(rhs),       // combine lhs and rhs into
+                                                     is_implicit ? "*" : op->str_val())};  // lhs; note that this
+                                                                                           // preserves left-
+                                                                                           // associativity.
     }
-
-    i = j;
-    return lhs;
 }
-
-/* ... other parseY functions ... */
 {{< /highlight >}}
 
-In a normal calculator, the parseY functions could simply return floating point values (and throw an exception or return some sentinal value for a failed parse), so the result of the expression would be the return value of parseS, but in order to have graphing and function assignment capabilities, the expression tree itself must be remembered. I used this as an opportunity to apply some of those OOP skills (unique_ptr&lt;TreeNode&gt; => polymorphism!). I also was able to use similar functionality for the Token (terminal symbol) classes. This provides convenient ways to get strings and double values for any expression: the parent node (in general) doesn't need to know the type of its children; it can simply call eval() or to_string() to get the corresponding value from the child subtree.
+The other parsing functions are similar in nature: the main idea is that they use recursive calls and keep close track of their state to ensure that the described structure is exactly preserved.
+
+To parse the entire input string into an equation tree, parseS is called. The following are a few traces of the whole routine; hopefully they make clear why it's called "recursive descent".
+Indentation signifies level of recursion.
+
+```
+input: "1 + 2 + 3"
+
+parseS:
+    parseE:
+        parseT:
+        |   parseF:
+        |       first token is '-'? no: put it back
+        |       parseX:
+        |           return 1
+        |       check next token: it is '+'; that's not '^' or '**', so return 1
+        |   check next token: it is '+'; that's not '*' or '/' or '//' or '%', so assume implicit multiplication
+        |   parseF:
+        |       first token is '-'? no: put it back
+        |       parseX:
+        |           nothing matches '+', so return null
+        |       got null from parseX, so return null
+        |   got null from parseF, so there's no implicit multiplication after all; return 1
+        match '+': expect another term
+        parseT:
+        |   // same as above, except "2" instead of "1"
+        match "+": expect another term
+        parseT:
+        |   // same as abmove, "3" instead of "2"
+        nothing left to match, so return the current tree (((1 + 2) + 3))
+    match '$' is successful, so return the tree
+
+```
+```
+
+input: "(1 + 2) * (3 + 4)"
+
+parseS:
+    parseE:
+        parseT:
+            parseF:
+            |   first token is '-'? no: put it back
+            |   parseX:
+            |       matched '('
+            |       parseE:
+            |           parseT:
+            |               parseF:
+            |                   first token is '-'? no: put it back
+            |                   parseX:
+            |                       return 1
+            |                   check next token: it is '+'; that's not '^' or '**', so return 1
+            |               check next token: it is '+'; not '*' or '/' or '//' or '%'; assume implicit multiplication
+            |               parseF:
+            |                   first token is '-'? no: put it back
+            |                   parseX:
+            |                       nothing matches '+', so return null
+            |                   got null from parseX, so return null
+            |               got null from parseF, so there's no implicit multiplication after all; return 1
+            |           match "+": expect another term
+            |           parseT:
+            |               // same as above, except "2" instead of "1"
+            |           nothing left to match, so return the current tree ((1 + 2))
+            |       match ')' is successful, so return the tree
+            |   check next token: it is '*'; that's not '^' or '**', so return the current tree ((1 + 2))
+            match '*': expect F
+            parseF:
+            |   // same as above, except (3 + 4) is returned instead of (1 + 2).
+            nothing left to match, to return current treee ((1 + 2) * (3 + 4))
+        nothing left to match, to return current treee ((1 + 2) * (3 + 4))
+    match '$' is successful, so return the tree
+```
+
+Despite the simplicity of recursive-descent, it can be tough to implement: grammars are not very intuitive to write, and subtle differences can lead to unexpected behavior (see [this video by hhp3](https://www.youtube.com/watch?v=SToUyjAsaFk&t=1297s) for a good example of this).
+One such subtlty is the difference between left-associative and right-associative operators, e.g. '+' and '^' respectively.
+Left-associative operators have to be handled iteratively (keep checking if there is one more, e.g. "T -> {(+|-) T} ..."), while right-associative operators can be handled recursively, e.g. "X (^|\*\*) F"
+
+Additionally, it's pretty much impossible to debug without writing the whole thing, since, as the name suggests, each parsing routine calls the one below it.
+Any failure to put back a token when it was unsuccessfully matched can have unintended consequences and unexpected results because of the recursion involved (something might get messed up in a call, but it won't cause a problem until the stack unrolls a call or two).
+I used *cout* more than I care to admit while debugging, and I spent way too long tracking down one or two forgotten calls to *unget_tok()*;
+This is one case where I can really see the merit of a debugger.
+
+## Object Oriented Programming
+
+
+For simplicity, the parsing-functions for a numerical calculator could just return the real-number that results from the equation instead of the tree itself. This doesn't work very well in generality, though, and in order to have graphing and other desired functionality, the full tree must be returned.
+I used this as an opportunity to apply some of those OOP skills (unique_ptr&lt;TreeNode&gt; => polymorphism!).
+I also was able to use similar functionality for the Token (terminal symbol) classes.
+This provides convenient ways to get strings and double values for any expression: the parent node (in general) doesn't need to know the type of its children; it can simply call eval() or to_string() to get the corresponding value from the child subtree.
 
 {{< highlight cpp >}}
 struct TreeNode { // Abstract superclass for all other node types
@@ -208,11 +263,23 @@ All functions and variables are kept in a hashtable with their names (strings) a
 
 Built-in functions are more straightforward, as their argument values can be passed directly into a backend function. I was able to make use of some [template metaprogramming](https://en.wikipedia.org/wiki/Template_metaprogramming) with the class "NDoubleFunction" (that, as you might expect, takes n doubles and returns 1 double).
 
-Some non-calculation functions are also defined for user-interaction with the backend (e.g. "graph", "ans", and "clear"). These functions have some funny implications when used in the same context as standard math functions (e.g. trying to graph the graph function; trying to take the derivative of the clear function, etc.). I tried to catch all such bugs that I foresaw actually coming up with daily-use, but I admit that I didn't bother to think of (nor prevent) all of these cases, so feel free to break the calculator and blame it on my poor design.
+## Macros
+
+Some non-calculation functions are also defined for user-interaction with the backend (e.g. "graph", "ans", and "clear").
+These functions have some funny implications when used in the same context as standard math functions (e.g. trying to graph the graph function; trying to take the derivative of the clear function, etc.).
+I initially let these remain, since they don't usually come up by accident, but when revisiting this project to add algebraic manipulation, I needed a means of manipulating the tree before evaluating it. That is, given an input like "graph(deriv(x^2))", "deriv(x^2)" should be replaced by the symbolic derivative of "x^2" ("2x") before it is graphed (the symbolic derivative shouldn't be computed each time a point is drawn).
+
+I thus fabricated the concept of a "macro": a function that changes its own tree-structure.
+There's probably a better name for this than "macro", but the changing of syntax before execution kind of mimics the functionality of C's preprocessor-macros, and "macro" is a short term.
+Macros are kind of hard to implement cleanly, since TreeNodes don't have pointers to their parents, and calling a macro almost certainly results in mutilating the tree-structure and removing the function call.
+I eventually oped for adding a new function to TreeNode called *exe_macros()*; in which every non-function TreeNode simply replaces its children with *exe_macros()* called on the children (i.e. *left = left->exe_macros()*).
+This conveniently fixes the problem of graphing the graph function and other silly tricks like that, because by making all special-functions macros that evaluate to NAN or something, we can ensure that we never graph a function without executing its macros and thus ensure that we never graph a special function.
+
+
 
 ## Math
 
-Even though my degree's calculus requirements are behind me, I still wanted to program numerical derivative with [Lagrange's Notation](https://en.wikipedia.org/wiki/Notation_for_differentiation#Lagrange's_notation) instead of the ugly nderiv notation used by the TI-84. It was a simple addition to the parser, and aside from the non-calculation functions described above, it works on any built-in function (though I don't think I've ever used it for that purpose).
+Even though my degree's calculus requirements are behind me, I still wanted to program numerical derivative with [Lagrange's Notation](https://en.wikipedia.org/wiki/Notation_for_differentiation#Lagrange's_notation) instead of the ugly nderiv notation used by the TI-84. It was a simple addition to the parser, and it works on any built-in function (even the non-differentiable ones!).
 
 Numerical differentiation is surprisingly trivial: the formula is: (f(x + step) - f(x - step)) / (2 * step), where step is some small constant, which is pretty much the definition of the derivative. Floating point rounding errors are an issue, of course, and in this case, I tried a few values of step to find one that worked sufficiently (1e-6). The step size can be changed from the command-line by changing the "DERIV_STEP" variable.
 
