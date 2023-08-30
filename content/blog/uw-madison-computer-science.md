@@ -17,8 +17,7 @@ I like to plan things out, especially things of high importance. Since college h
 ## Requirement Clarifications
 The university lays things out pretty well, but there are some small ambiguities due to the non-programatic definition of the requirements. It turns out that [DARS](https://registrar.wisc.edu/dars/) is the soultion to this issue (you can find it more details in Course Search and Enroll and Noguera's page (see above)), but here are a few clarifications that I was initially uncetain of.
 
-- Any subset of degree requirement from the set {General Education (Quantatative Reasoning A and B, Communication A and B, Ethnic Studies), Breadth (Natural/Physical/Biological Science, Literature, etc.), Difficulty (Intermediate/Advanced), Other Degree Requirement (for CS: Theory of CS, Software/Hardware, Applications, Electives, etc.)} can be fulfilled by a single course, but no element in the set can be fufilled *more than once* by a single course.
-- This also means that courses that can be retaken for credit (i.e. Music 113, "Clap for Credit") only count towards their respective breadth the first time around
+- Any subset of degree requirement from the set {General Education (Quantatative Reasoning A and B, Communication A and B, Ethnic Studies), Breadth (Natural/Physical/Biological Science, Literature, etc.), Difficulty (Intermediate/Advanced), Other Degree Requirement (for CS: Theory of CS, Software/Hardware, Applications, Electives, etc.)} can be fulfilled by a single course, but no element in the set can be fufilled *more than once* by a single course, unless that course can be taken multiple times for credit (in which case it can count towards each requirement once per time taken).
 - Literature is a subset of Humanities: all Literature-Breadth courses also count for Humanities Breadth (a class taken for Literature credit also counts for Humanities, despite the above rule).
 - Retroactive credits are *only* earned with a B or higher.
 - The Summer Session credit limit rule applies on a per-session-basis: i.e. "no more than x credits in an x-week session" implies (assuming x is the 8-week session DHH) "no more than 8 credits in DHH". This doesn't add any restrictions on sessions that may overlap with DHH, despite the average credit per week potentially exceeding 1 credit.
@@ -42,7 +41,7 @@ I think that this reasoning is relatively straightforward and probably relatable
 ### Fall 2022
 - CS 300 &mdash; Programming II (3I) [CS Req.]
 - Math 222 &mdash; Calculus & Analytic Geometry 2 (4I) [CS Req.]
-- Spanish 204 &mdash; Fourth Semester Spanish (4I +12E (retro)) [Forth Unit of Foreign Language]
+- Spanish 204 &mdash; Fourth Semester Spanish (4I + (4I + 8E) (retro)) [Forth Unit of Foreign Language]
 - ILS 203 &mdash; Western Culture: Literature & The Arts 1 (3E) [Literature]
 - Music 43 &mdash; University Band (1E)
 - Music 113 &mdash; Music in Performance (Clap for Credit) (1E) [Humanities]
@@ -61,11 +60,11 @@ I think that this reasoning is relatively straightforward and probably relatable
 - CS 577 &mdash; Intro to Algorithms (4A) [Theory of CS 1/1]
 - CS 540 &mdash; Intro to Artificial Intelligence (3A) [CS Applications 1/1]
 - CS 435 &mdash; Intro to Cryptography (3A) [Math elective 2/2]
-- AAE 335 &mdash; Intro to data analysis (2E)
+- AAE 335 &mdash; Intro to Data Analysis (2E)
 
 ### Fall 2023 (enrolled)
 - CS 559 &mdash; Computer Graphics (3I) [CS Electives 1/2]
-- CS 542 &mdash; Intro to Software Security (3I) [CS Electives 2/2]
+- CS 542 &mdash; Intro to Software Security (3I) [Software and Hardware 2/2]
 - CS 354 &mdash; Machine Organization & Programming (3I) [CS Req.]
 - CS 502 &mdash; CS Education (1I)
 - Astronomy 200 &mdash; The Physical Universe (3I) [Physical Science]
@@ -73,9 +72,9 @@ I think that this reasoning is relatively straightforward and probably relatable
 - Music 43 &mdash; University Band (1E)
 
 ### Spring 2024 (planned)
-- CS 536 &mdash; Intro to Programming Languages and Compilers (3A)
+- CS 536 &mdash; Intro to Programming Languages and Compilers (3A) [CS Electives 2/2]
 - CS 537 &mdash; Intro to Operating Systems (4A) [Software and Hardware 1/2]
-- CS 538 &mdash; Intro to Theory and Design of Programming Languages (3A) [Software and Hardware 2/2]
+- CS 538 &mdash; Intro to Theory and Design of Programming Languages (3A)
 - Horticulture 120 &mdash; Survey of Horticulture (3E) [Biological Science]
 - Music 151 &mdash; Basic Concepts of Music Theory (3E) [Humanities]
 - Music 43 &mdash; University Band (1E)
