@@ -6,9 +6,9 @@ date: 2023-03-25T18:14:48-05:00
 
 ## Note: this post was updated after a major refactor in 8/2023; [click here](/misc/graphing-calculator-original) for the original post.
 
-<iframe src="https://lucasscharenbroch.github.io/GraphingCalculator/"></iframe>
+<iframe src="https://lucasscharenbroch.github.io/graphing-calculator-cas/"></iframe>
 
-### ([Github Link](https://github.com/lucasscharenbroch/GraphingCalculator))
+### ([Github Link](https://github.com/lucasscharenbroch/graphing-calculator-cas))
 
 I've used a variety of calculators over the years (namely for math homework), but none of them have everything I want. The TI-83/84 provides most of the desired functionality, but since it is a physical calculator, it comes with all sorts baggage: weight in backpack, battery (=> need to charge or buy batteries), expensive replacement cost, non-ergonomic button layout (any keyboard that isn't a keyboard is not ergonomic in my opinion), non-ergonomic user interface (manually setting the window, navigating menus), etc. As a result, even though I own a TI-84, I didn't think it was worth it to carry it around campus. Instead, I would use [Desmos](https://www.desmos.com/calculator) for graphing when I needed that, and I would type equations into the Google search bar for basic calculations. Desmos was convenient and good for graphing, but it didn't have integration with the numerical calculations, and though Google's calculator was surprisingly decent, it was not ideal for obvious reasons.
 
