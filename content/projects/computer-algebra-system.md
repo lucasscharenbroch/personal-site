@@ -62,7 +62,7 @@ I could have done this, but ideally, I wanted a program that was integrated with
 I found a program for the TI-83+ called [Symbolic](https://detachedsolutions.com/symbolic) that did everything I wanted, so the project essentially morphed into an attempt to port Symbolic to the TI-84+CE.
 
 Long story short, this is easier said than done. The architecture of the TI83+ and TI84+CE is similar but different in a few critical areas.
-TI-OS allows code that changes its behavior (like making a custom function callable from the home screen) through a feature called "hooks", which are essentially option function pointers that are called before/after certain TI-OS routines.
+TI-OS allows code that changes its behavior (like making a custom function callable from the home screen) through a feature called "hooks", which are essentially optional function pointers that are called before/after certain TI-OS routines.
 TI intended hooks to only be used by official "apps", and to enforce this, hooks that reside in user memory (where user programs are executed) are not called.
 "Apps" are stored in flash-memory, and aren't moved to user-memory when executing, so hooks that are defined in apps work as expected.
 The key detail here is that TI ensures that normal users can't make apps by requiring that they are cryptographically signed.
@@ -96,7 +96,7 @@ Base-Cases:
 - deriv(x) = 1
 - deriv(c) = 0
 - deriv(cx) = c
-- deriv(x^c) = 0 if c = 0, otherwise cx^(c - 1)
+- deriv(x^c) = cx^(c - 1)
 - deriv(ln(x)) = 1 / x
 - deriv(e^x) = e^x
 - deriv(sin(x)) = cos(x)
@@ -115,7 +115,7 @@ Recursive-Rules:
 - deriv(u * v) = deriv(u) * v + deriv(v) * u
 - deriv(u / v) = (v * deriv(u) - u * deriv(v)) / v^2
 
-I don't disagree that this is a good way to teach it, but I find it particularly curious that the recursive nature is hidden first (by just showing the base-cases where u = x), then applied later with the chain rule, instead of describing every rule as a recursive rule (except deriv(x) and deriv(c)) with the recursion baked in, then explaining why the base-cases hold (because the derivative of x is 1, so the deriv(u) factor can be ignored).
+I don't disagree that this is a good way to teach it, but I find it particularly curious that the recursive nature is hidden first (by just showing the base-cases where u = x), then applied later with the chain rule, instead of first describing every rule with the reduction baked in (except deriv(x) and deriv(c)), then explaining why the base-cases hold (because the derivative of x is 1, so the deriv(u) factor can be ignored).
 The following are the rules used by my algorithm.
 
 Base-Cases:
@@ -163,8 +163,7 @@ The simplification algorithm results in the following.
 {{% /center-text %}}
 
 I consulted a textbook (Computer Algebra and Symbolic Computation: Mathematical Methods by Joel S Cohen) for the algorithm for this, and it was surprisingly almost identical to how I would implement it naively: it consists almost entirely of applying trivial rules (like 0 * u = 0, 1 * u = u), combining nested binary sums/products into n-ary sums/products, and comparing/combining their terms/factors.
-Probably the most useful idea from the book is the development of a well-defined ordering of terms/factors in a sum/product: if this ordering is always followed, terms/products can be merged in a merge-sort like routine to maintain the order, and only adjacent terms need to be compared to check for matches.
-The details of the recursive approach this were a little tricky to understand, because of the variety of the different inductive assumptions made/not made.
+Probably the most useful idea from the book's algorithm is the development of a well-defined ordering of terms/factors in a sum/product: if this ordering is always followed, terms/products can be merged in a merge-sort like routine to maintain the order, and only adjacent terms need to be compared to check for matches.
 
 The following is a diagram from the book describing the algorithm in its entirety: it makes things seem more complicated than they are, in my opinion, but nevertheless it's a good illustration of exactly how the parts are interconnected.
 
