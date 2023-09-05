@@ -12,8 +12,8 @@ Hi, I'm Lucas. I like making things. I'm currently a student at [UW-Madison](htt
 
 # Recent Projects
 
-{{< recent-posts-list "projects" 5 >}}
+{{< recent-posts-list "projects" 10 >}}
 
 # Recent Posts
 
-{{< recent-posts-list "blog" 5 >}}
+{{< recent-posts-list "blog" 10 >}}
