@@ -94,7 +94,7 @@ If "S" had multiple reductions, we would attempt to match each, in the order giv
 
 The parenthesis/braces/brackets have special meaning here (with the exception of "X -> (E)", where the parenthesis are intended literally) in a similar way to regular expressions;
 parenthesis are used for grouping, usually with the "|" operator, which implies that multiple symbols may be matched (e.g. "(+|-)" matches either "+" or "-").
-"{...}" means "0 or more of {...}", and "[...]" means "0 or 1 of ...".
+"{...}" means "0 or more of ...", and "[...]" means "0 or 1 of ...".
 This use of symbols is completely arbitrary: this grammar definition isn't a program, nor is it ever interpreted by a program (though there are some programs that can interpret grammars with a certain syntax), but rather a descripton of how to write the parser.
 
 The remaining symbols ("+", "-", "'", "%", etc.) represent their literal values; these are also *terminal symbols* (like *VAR* and *NUM*).
