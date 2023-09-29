@@ -74,6 +74,9 @@ filter (not . elem 'z') names
 
 -- sum the odd-indexed elements of each row of 2d `list'
 map (sum . map snd . filter (odd . fst) . zip [0..]) list
+
+-- element-wise addition of the 2d lists `a' and `b'
+zipWith (zipWith (+)) a b
 {{< /highlight >}}
 
 
