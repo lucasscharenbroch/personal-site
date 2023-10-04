@@ -25,7 +25,11 @@ The university lays things out pretty well, but there are some small ambiguities
 
 ## The Plan
 
-My goal is to graduate in as few semesters as possible. This is for two main reasons (1) I like pushing the limits: the rewards of my efforts seem to be proportional to the amount of work I put in, so I refuse to purposely hold back. (2) College is expensive. We could go into the details, but you probably get the point.
+My goal is to graduate in as few semesters as possible.
+This is for three main reasons:
+(1) The standard lecture/discussion/homework/exam format of college rarely aligns well with my desired pace/focus.
+(2) I like pushing the limits: the rewards of my efforts seem to be proportional to the amount of work I put in, so I refuse to purposely hold back.
+(3) College is expensive. We could go into the details, but you probably get the point.
 
 I think that this reasoning is relatively straightforward and probably relatable for a lot of people, but my advisor refused to even discuss a 2-year plan, repeatedly insisting that I rethink my plan, or else my mental health and networking opportunities were at stake. I bring this up to point out that my advisor was not entirely wrong: such a plan *is not* fit for everybody, and there are certainly *some* opportunities that will be missed by graduating early. At the same time, I think it's closed-minded to assume that such a plan is not fit for *any* student, and that the opportunities gained by graduating later necessarily outweigh the cost (namely the financial vulnerability) incurred by extra semesters. I am not an extraordinary student, but I did put a considerable amount of work in to prepare for classes and study CS in general. I encourage anybody considering early graduation to consider the opportunity costs of *all* of the options, and to avoid underestimating their own abilities.
 
