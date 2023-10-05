@@ -111,6 +111,7 @@ Please note:
 - =\<motion\> - smart-indent text
 - gw\<motion\> - format text
 - gq\<motion\> - format text, move cursor to the end of formatted text
+- gU\<motion\>, gu\<motion\> - capitalize/un-capitalize text
 - g?\<motion\> - filter given text through rot13
 - /\<pattern\>\<enter\> - search forwards for \<pattern\>
 - ?\<pattern\>\<enter\> - search backwards for \<pattern\>
