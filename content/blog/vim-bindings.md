@@ -124,6 +124,7 @@ Please note:
 - \<ctrl-a\> - insert same text as last insert
 - \<ctrl-y\> - copy character from same column in line above
 - \<ctrl-e\> - copy character from same column in line below
+- \<ctrl-w\> - delete from cursor to start of last word
 - \<ctrl-r\>\<char\> - insert contents of given register
 - \<ctrl-n\>, \<ctrl-p\> - next/previous word in autocomplete
 
