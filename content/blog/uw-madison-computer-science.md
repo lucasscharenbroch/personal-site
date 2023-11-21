@@ -66,23 +66,24 @@ I think that this reasoning is relatively straightforward and probably relatable
 - CS 435 &mdash; Intro to Cryptography (3A) [Math elective 2/2]
 - AAE 335 &mdash; Intro to Data Analysis (2E)
 
-### Fall 2023 (enrolled)
+### Fall 2023
 - CS 559 &mdash; Computer Graphics (3I) [CS Electives 1/2]
-- CS 542 &mdash; Intro to Software Security (3I) [Software and Hardware 2/2]
+- CS 542 &mdash; Intro to Software Security (3I) [Software and Hardware 1/2]
 - CS 354 &mdash; Machine Organization & Programming (3I) [CS Req.]
 - CS 502 &mdash; CS Education (1I)
 - Astronomy 200 &mdash; The Physical Universe (3I) [Physical Science]
 - Literaure in Translation 203 &mdash; 19th & 20th Century Russian Literature (4E) [Literature, Comm B]
 - Music 43 &mdash; University Band (1E)
 
-### Spring 2024 (planned)
+### Spring 2024 (enrolled)
 - CS 536 &mdash; Intro to Programming Languages and Compilers (3A) [CS Electives 2/2]
-- CS 537 &mdash; Intro to Operating Systems (4A) [Software and Hardware 1/2]
-- CS 538 &mdash; Intro to Theory and Design of Programming Languages (3A)
-- Horticulture 120 &mdash; Survey of Horticulture (3E) [Biological Science]
-- Music 151 &mdash; Basic Concepts of Music Theory (3E) [Humanities]
+- CS 538 &mdash; Intro to Theory and Design of Programming Languages (3A) [Software and Hardware 2/2]
+- CS 368 &mdash; Learn a Programming Language: C++ (1I)
+- Nutritional Sciences 132 &mdash; Nutrition Today (3E) [Biological Science]
+- Linguistics 101 &mdash; Human Language (3E)
+- Music 151 &mdash; Basic Concepts of Music Theory (3E)
 - Music 43 &mdash; University Band (1E)
-- 1-credit intermediate (1I)
+- Music 113 &mdash; Music in Performance (Clap for Credit) (1E)
 
 ## CS Requirements
 ### CS 200 &mdash; Programming I
