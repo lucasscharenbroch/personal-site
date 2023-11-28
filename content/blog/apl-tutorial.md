@@ -1,21 +1,20 @@
 ---
 title: "APL Tutorial"
-subtitle: "Making sense of (⊃⍳⍤≢(⊢⌊⌷⍤1∘.+⌷)/⍤,⊂)Nm"
-date: 2023-11-26T09:07:11-06:00
-draft: true
+subtitle: "Making sense of (⊃⍳⍤≢(⊢⌊⌷⍤1∘.+⌷)/⍤,⊂)Y"
+date: 2023-11-27T09:07:11-06:00
 ---
 
 I've been working on writing an APL Interpreter recently.
 Understanding the language is a prerequisite to writing an interpreter, and I'm pretty sure I've got it figured out, but I figure it's still a beneficial exercise to transcribe that knowledge into an explanation.
 
-APL was originally a mathematical notation rather than a computer programming language, so there are many different variations of APL. The tutorial focuses on [Dyalog](https://www.dyalog.com)'s implementation, as that is the implementation my interpreter is modeled after.
+[APL](https://en.wikipedia.org/wiki/APL_(programming_language)) was originally a mathematical notation rather than a computer programming language, so there are many different variations of APL. The tutorial focuses on [Dyalog](https://www.dyalog.com)'s implementation, as that is the implementation my interpreter is modeled after.
 
 To add a little motivation, I'll make the goal of this tutorial to explain how the following code works.
 
 {{< highlight apl >}}
-⍝ Shortest path length matrix from weighted adjacency matrix Nm, using Floyd-Warshall
+⍝ Shortest path length matrix from weighted adjacency matrix Y, using Floyd-Warshall
 ⍝ (taken from aplcart.info)
-(⊃⍳⍤≢(⊢⌊⌷⍤1∘.+⌷)/⍤,⊂)Nm
+(⊃⍳⍤≢(⊢⌊⌷⍤1∘.+⌷)/⍤,⊂)Y
 {{< /highlight >}}
 
 While this example isn't close to being representative of all of the functionality of Dyalog APL[^dyalog], I believe it touches on the most difficult parts of the core functionality of the language.
@@ -28,7 +27,7 @@ The only data type in APL is the (multidimensional) array.
 
 Every array is defined by (1) its shape, and (2) its elements.
 
-1. "Shape" is effectively equivalent to "dimensions". A 2x2 array (matrix) has shape [2, 2].
+1. "Shape" is effectively equivalent to "dimensions". A 2x2 array (matrix) has shape [2, 2]. Each element (number) of the shape array is refered to as an "axis".
 2. Each element of an array is either a number, character, or array[^rank-ne-depth].
 
 [^rank-ne-depth]: Though nesting arrays is permitted (and often necessary), adding depth is **not** equivalent to changing the shape. (1 2) (3 4) ≢ 2 2⍴⍳4.
@@ -104,6 +103,35 @@ Note the high-minus-sign ('¯') used for numeric *literals* - this prevents over
 
 The forth line in each of the above examples uses "rank polymorphism": even though the shape of the left and right arguments don't match, because one of the arguments (in this case, the left agument) has shape [1], it is implicitly reshaped to the shape of the right argument (which is [3] in this case, so the left argument effectively becomes 3 3 3).
 Rank polymorphism applies to *some* functions - the function itself decides whether or not it supports rank polymorphism.
+
+{{< highlight apl >}}
+⍝ ⍴ (monadic: shape, dyadic: reshape)
+⍴1
+⍝ 1
+
+⍴1 2 3
+⍝ 3
+
+2 2⍴1 2 3 4
+⍝ 1 2
+⍝ 3 4
+
+3 3 3⍴(⍳100)
+⍝  1  2  3
+⍝  4  5  6
+⍝  7  8  9
+⍝
+⍝ 10 11 12
+⍝ 13 14 15
+⍝ 16 17 18
+⍝
+⍝ 19 20 21
+⍝ 22 23 24
+⍝ 25 26 27
+
+⍴(3 3 3⍴(⍳100))
+⍝ 3 3 3
+{{< /highlight >}}
 
 ## Operators
 
@@ -228,7 +256,7 @@ custom_fib ← {      ⍝ arguments are the starting values of the sequence
 (5 custom_fib 9) 5  ⍝ 37
 
 custom_fib2 ← {     ⍝ left arg (⍺⍺) is initial array, right arg (⍵⍵) is combination function
-    ⍵ ≤ ≢⍺⍺ : ⍺⍺[⍵] ⍝ ≢ is tally (length of array)
+    ⍵ ≤ ≢⍺⍺ : ⍺⍺[⍵] ⍝ ≢ is tally (first element of the shape of the array (length, in this case))
     (∇ ⍵ - 1) ⍵⍵ ∇ ⍵ - 2
 }
 
@@ -254,7 +282,7 @@ pow ← {                     ⍝ ⍺⍺ is the number of times to apply ⍵⍵ 
 
 When functions are placed directly next to each other without being applied to an array, they are combined into a single function through constructions called "forks" and "atops".
 
-[Stefan Kruger's APL tutorial](https://xpqz.github.io/learnapl/intro.html) has a great [summary of forks and atops](https://xpqz.github.io/learnapl/tacit.html#summary-forks-and-atops), which I've reproduced below.
+[Stefan Kruger's APL Tutorial](https://xpqz.github.io/learnapl/intro.html) has a great [summary of forks and atops](https://xpqz.github.io/learnapl/tacit.html#summary-forks-and-atops), which I've reproduced below.
 
 ```
 Assume X, Y, and Z are arrays, and f, g, and h are functions.
@@ -291,7 +319,7 @@ Dfn syntax doesn't support overloading in this generalized way, but each pair of
 ### Trains
 
 In general, forks and atops only encompass lists ("trains") of 2-3 functions/arrays.
-When there is a longer list (4+ functions/arrays in a row), the functions/arrays are grouped into a tree (where each node is either a function [leaf], array [leaf][^arr-in-train], atop [internal node with 2 children], or fork [internal node with three children]) which can be evaluated to a function.
+When there is a longer list (4+ functions/arrays in a row), the functions/arrays are grouped into a tree (where each node is either a function [leaf], array [leaf], atop [internal node with 2 children], or fork [internal node with three children]) which can be evaluated to a function.
 
 Below shows how these groupings are made.
 In general, all non-leaf nodes are forks except the root node, which is an atop iff the length of the train is even.
@@ -417,16 +445,16 @@ SYNTAX ERROR: Missing right argument
         2 + -
 ```
 
-### Putting it All Together
+## Putting it All Together
 
-Here's an explanation of the initial example of Floyd-Warshall.
+Here's an explanation of the initial example of [Floyd-Warshall](https://en.wikipedia.org/wiki/Floyd-Warshall_algorithm).
 
 {{< highlight apl >}}
-⍝ Shortest path length matrix from weighted adjacency matrix Nm, using Floyd-Warshall
+⍝ Shortest path length matrix from weighted adjacency matrix Y, using Floyd-Warshall
 ⍝ (taken from aplcart.info)
-(⊃⍳⍤≢(⊢⌊⌷⍤1∘.+⌷)/⍤,⊂)Nm
+(⊃⍳⍤≢(⊢⌊⌷⍤1∘.+⌷)/⍤,⊂)Y
 
-⍝ this is a train (in parenthesis) being applied to the matrix Nm
+⍝ this is a train (in parenthesis) being applied to the matrix Y
 ⍝ (⍤), (∘.), and (/) are operators (dyadic, monadic, and monadic, resp.)
 ⍝ (this may be easy to tell from the syntax highlighting)
 ⍝ but all other glyphs in the train are functions
@@ -452,14 +480,14 @@ Here's an explanation of the initial example of Floyd-Warshall.
 ⍝ ...  ,
 
 ⍝ find the tree for the left-hand-side of ⍤:
-(⊢⌊(⌷⍤1)(∘.+)⌷)/ ⍝ derived function from the monadic operator /.
+(⊢⌊(⌷⍤1)(∘.+)⌷)/     ⍝ derived function from the monadic operator /.
 ⍝    /
 ⍝  ┌─┘
 ⍝ ...
 
 ⍝ left-hand-side of /:
 (⊢⌊(⌷⍤1)(∘.+)⌷)
-(⊢ ⌊ (⌷⍤1) (∘.+) ⌷) ⍝ spaces between the function
+(⊢ ⌊ (⌷⍤1) (∘.+) ⌷)  ⍝ spaces between the functions
 ⍝ this is a 5-train; 5 is odd, so the root is a fork, and the resulting tree is:
 ⍝ ┌─┼─────┐
 ⍝ ⊢ ⌊ ┌───┼─┐
@@ -484,3 +512,239 @@ The overall tree:
     ⌷ 1 ∘ +
 ```
 
+{{< highlight apl >}}
+⍝ parens to show grouping of forks and atops
+( ⊃ ((⍳⍤≢) (((⊢ ⌊ ((⌷⍤1) (∘.+) ⌷))/)⍤,) ⊂) )Y
+
+⍝ the operator ⍤, when applied to functions, is "atop", and has
+⍝ identical behavior to the "atop" constructions used in trains
+⍝ the original tree is equivalent to
+⍝ ┌──┴──┐
+⍝ ⊃ ┌───┼──┐
+⍝  ┌┴┐ ┌┴┐ ⊂
+⍝  ⍳ ≢ / ,
+⍝    ┌─┘
+⍝  ┌─┼─────┐
+⍝  ⊢ ⌊ ┌───┼─┐
+⍝      ⍤   . ⌷
+⍝     ┌┴┐ ┌┴┐
+⍝     ⌷ 1 ∘ +
+
+⍝ reducing (f⍤g) => (fg) in the expression yields an equivalent result
+( ⊃ ((⍳≢) (((⊢ ⌊ ((⌷⍤1) (∘.+) ⌷))/),) ⊂) )Y
+
+⍝ note that the remaining ⍤ has 1 as a a right argument;
+⍝ 1 is not function, so ⍤ is not atop in this case
+
+⍝ walking through the recursive evaluation of the derived function may
+⍝ be a little excessive, but we can use the generalization of the behavior from the
+⍝ above examples: apply the argument (Y) recursively to the right ascendants of atops
+⍝ and the left and right descendants of forks:
+⍝ ┌──┴───┐
+⍝ ⊃ ┌────┼──┐         (*)
+⍝  ┌┴┐  ┌┴┐ ⊂Y
+⍝  ⍳ ≢Y / ,
+⍝     ┌─┘
+⍝   ┌─┼─────┐
+⍝   ⊢ ⌊ ┌───┼─┐
+⍝       ⍤   . ⌷
+⍝      ┌┴┐ ┌┴┐
+⍝      ⌷ 1 ∘ +
+⊃ ((⍳≢Y) (((⊢ ⌊ ((⌷⍤1) (∘.+) ⌷))/),) (⊂Y))
+⍝         ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+⍝ note that the middle child of the highest fork (*) isn't applied on any arguments
+⍝ (it's used as the dyadic function to combine the left and right children)
+⍝ let's abstract this away for now; we'll refer to this function as f
+f ← ((⊢ ⌊ ((⌷⍤1) (∘.+) ⌷))/),
+⊃ ((⍳≢Y) f (⊂Y))
+
+⍝ ┌──┴──┐
+⍝ ⊃ ┌───┼──┐
+⍝  ┌┴┐  f  ⊂Y
+⍝  ⍳ ≢Y
+
+⍝ monadic ⊃: "first" - returns the first element of the given array, "unboxing" it if it is a "scalar-array"
+⍝ monadic ⊂: "enclose" - "boxes" an array (turning it into a "scalar-array", so it can be an element of another array)
+⍝ monadic ≢: "tally" - returns the number of "major cells" in an array - this is the first number of the shape
+⍝ monadic ⍳: "index generator" - (when given a scalar); returns an array of numbers from 1 to the argument (inclusive)
+
+⍝ it's relatively easy to see what this outer tree does: it returns the first
+⍝ element of the array returned by f, when applied on (the numbers from 1 to ≢Y)
+⍝ on the left, and (boxed Y) on the right
+
+⍝ here's f:
+⍝     ┌┴┐
+⍝     / ,
+⍝   ┌─┘
+⍝ ┌─┼─────┐
+⍝ ⊢ ⌊ ┌───┼─┐
+⍝     ⍤   . ⌷
+⍝    ┌┴┐ ┌┴┐
+⍝    ⌷ 1 ∘ +
+
+⍝ we know that f will be applied dyadically, so we can repeat the same process as above
+
+f ← { ⍺(((⊢ ⌊ ((⌷⍤1) (∘.+) ⌷))/),)⍵ }
+⍝     ┌┴─┐
+⍝     / ⍺,⍵
+⍝   ┌─┘
+⍝ ┌─┼─────┐
+⍝ ⊢ ⌊ ┌───┼─┐
+⍝     ⍤   . ⌷
+⍝    ┌┴┐ ┌┴┐
+⍝    ⌷ 1 ∘ +
+
+f ← { ((⊢ ⌊ ((⌷⍤1) (∘.+) ⌷))/) ⍺,⍵ }
+⍝      ^^^^^^^^^^^^^^^^^^^^^
+
+⍝ again, we have a relatively large function tree on the left that has no arguments.
+⍝ let's abstract it below the / operator
+
+g ← { ⍺(⊢ ⌊ ((⌷⍤1) (∘.+) ⌷))⍵ }
+f ← { (g/) ⍺,⍵ }
+
+⍝   ┌┴─┐
+⍝   / ⍺,⍵
+⍝ ┌─┘
+⍝ g
+
+⍝ dyadic ,: "catenate": joins two arrays along their "trailing axis" (the last number of their shape)
+
+⍝ f takes its left and right arguments, combines them into an array,
+⍝ and returns that array after reducing it with g
+⍝ therefore the top-level code catenates (⍳≢Y) and (⊂Y) (appends a boxed Y to the end of
+⍝ the array [1...(≢Y)]), reduces that with g, and returns the first element of the result
+
+⍝ here's g:
+⍝ ┌─┼─────┐
+⍝ ⊢ ⌊ ┌───┼─┐
+⍝     ⍤   . ⌷
+⍝    ┌┴┐ ┌┴┐
+⍝    ⌷ 1 ∘ +
+
+⍝ again, apply recursive reductions
+
+⍝ ┌───┼─────┐
+⍝ ⍺⊢⍵ ⌊ ┌───┼──┐
+⍝      ⍺⍤⍵  . ⍺⌷⍵
+⍝      ┌┴┐ ┌┴┐
+⍝      ⌷ 1 ∘ +
+
+g ← { (⍺⊢⍵) ⌊ (⍺(⌷⍤1)⍵) (∘.+) (⍺⌷⍵) }
+
+⍝ dyadic ⊢: "right": returns the right argument
+⍝ dyadic ⌊: (element-wise) minimum (of the two arguments)
+⍝ dyadic ⌷: "index": the ⍵'th element of ⍺ (when ⍵ is a scalar)
+
+⍝ monadic ∘.: "outer product": the derived function returns a "multiplication-table" between the
+⍝                              two array arguments (with the given function instead of multiplication)
+{{< /highlight >}}
+
+Contarary to how the tree looks, "∘." is effectively a single (monadic) operator.[^outer-product-op]
+[^outer-product-op]: Syntactically, "∘" (which is an operator, *not* a function) is allowed as a left argument to ".". This is a special-case: all other operators and functions are made up of single glyphs. This oddity is also reflected in the function tree.
+
+{{< highlight apl >}}
+g ← { (⍺⊢⍵) ⌊ (⍺(⌷⍤1)⍵) (∘.+) (⍺⌷⍵) }
+⍝ the above g is equivalent to (remove "⍺⊢")
+g ← { ⍵ ⌊ (⍺(⌷⍤1)⍵) (∘.+) (⍺⌷⍵) }
+
+⍝ ⍤ (when applied to a function (on the left) and an array
+⍝ (on the right)) is "rank": it is a specialized for-each;
+⍝ the left argument is the function to apply to each element (or pair of
+⍝ elements, if applied dyadically), and the right argument is *how many axes
+⍝ the for-each ignores* during iteration. The derived function is rank-polymorphic,
+⍝ so the shapes of the arguments (after ignoring the given number of axes)
+⍝ doesn't need to match if one of the two is a scalar
+
+⍝ recall that g is being used to reduce ((⍳≢Y),(⊂Y))
+⍝ since / is a right-fold, g is first called with (⍺ ← ≢Y) and (⍵ ← Y)
+⍝ thus ⍺ has shape [1], and ⍵ has the same shape as Y (assume Y is 2d)
+
+⍝ if ⍺ is a scalar and ⍵ is a rank-2 (2d) matrix, (⍺(⌷⍤1)⍵)
+⍝ applies ⌷ on ⍺ and each *row* of ⍵ (the column axis is ignored)
+⍝ (the trailing axis of ⍺ is also ignored, but it remains a scalar)
+⍝ this expression yields the ⍺'th column of ⍵
+
+⍝ thus (⍺(⌷⍤1)⍵) (∘.+) (⍺⌷⍵) is an addition-table between the ⍺'th column
+⍝ of ⍵ and the ⍺'th row of ⍵, so result[i, j] = ⍵[i, ⍺] + ⍵[⍺, j]
+⍝ and, in general (in pseudocode/math notation),
+⍝ g maps ⍵[i, j] to min(⍵[i, j], ⍵[i, ⍺] + ⍵[⍺, j])
+⍝ this exactly matches the bellman-equation for Floyd-Warshall (with ⍵ instead of dp)
+
+⍝ it follows that ⍵[i, j] = dp[i, j, k] after the k'th application of g
+⍝ when the reduction (/g) is complete, then the boxed shortest path-length
+⍝ matrix remains; it is unboxed and returned by the left argument of the highest atop (⊃)
+{{< /highlight >}}
+
+The above explanation goes pretty far into the weeds, but the bottom line is that g takes in a 2d slice of the 3d dp matrix, and it returns the next 2d slice.
+Once this is done N times, once with ⍺ assigned to each value in [1...N], then the dp matrix is the shortest-path-distance matrix.
+
+The following may help clarify exactly how the reduction (right-fold) does this.
+
+```
+      Y ← 3 3⍴0 2 99 99 0 3 4 99 0
+      Y
+ 0  2 99
+99  0  3
+ 4 99  0
+      g ← { (⍺⊢⍵) ⌊ (⍺(⌷⍤1)⍵) (∘.+) (⍺⌷⍵) }
+      ⍳≢Y
+1 2 3
+      ⊂Y
+┌────────┐
+│ 0  2 99│
+│99  0  3│
+│ 4 99  0│
+└────────┘
+      (⍳≢Y),(⊂Y)
+┌─┬─┬─┬────────┐
+│1│2│3│ 0  2 99│
+│ │ │ │99  0  3│
+│ │ │ │ 4 99  0│
+└─┴─┴─┴────────┘
+      3⌷Y
+4 99 0
+      3(⌷⍤1)Y
+99 3 0
+      (3(⌷⍤1)Y) (∘.+) (3⌷Y)
+103 198 99
+  7 102  3
+  4  99  0
+      3g(Y)
+0  2 99
+7  0  3
+4 99  0
+      2g(3g(Y))
+0  2 5
+7  0 3
+4 99 0
+      1g(2g(3g(Y)))     ⍝ (A)
+0 2 5
+7 0 3
+4 6 0
+      (g/)((⍳≢Y),(⊂Y))
+┌─────┐
+│0 2 5│
+│7 0 3│
+│4 6 0│
+└─────┘
+      ⊃(g/)((⍳≢Y),(⊂Y)) ⍝ (B)
+0 2 5
+7 0 3
+4 6 0
+```
+
+(A) and (B) are identical in applications of g - the applications of g in (A) match the applications of g through the reduction (/) in (B).
+The extra enclosure/disclosure (boxing) is only necessary to place Y as an element at the end of the array.
+
+## Everything Else
+
+There are a few syntactical topics I glossed over[^topics] (or left out entirely), but for the most part, all that's left[^all-thats-left] is learning what all the glyphs do.
+Dyalog's documentation ([pdf](https://docs.dyalog.com/latest/Dyalog%20APL%20Language%20Reference%20Guide.pdf), [web](https://help.dyalog.com)) is a great resource for this.
+
+[^topics]: Including but not limited to: [array subscripting](https://course.dyalog.com/selecting-from-arrays/), [boxing](https://course.dyalog.com/multidimensional-and-nested-arrays/), [modified assignment](https://help.dyalog.com/latest/Content/Language/Primitive%20Operators/Assignment%20Modified.htm), [selective assignment](https://help.dyalog.com/18.0/Content/Language/Primitive%20Functions/Assignment%20Selective.htm), [array shape and rank](https://course.dyalog.com/cells-and-axes/), [function valence](https://aplwiki.com/wiki/Function), and (of course) the vast majority of Dyalog's libraries and workspace functionality.
+
+For a much more complete overview, I'd recommend [Stefan Kruger's APL Tutorial](https://xpqz.github.io/learnapl/intro.html), or Dyalog's own [Mastering Dyalog APL](https://mastering.dyalog.com/README.html).
+
+[^all-thats-left]: For the "core-functionality" (according to me) of Dyalog APL.
