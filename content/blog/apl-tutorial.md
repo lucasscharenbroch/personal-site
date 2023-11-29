@@ -315,7 +315,7 @@ f g h => { (⍺ f ⍵)g(⍺ h ⍵) } ⍝ (dyadic) overloaded with
          { (f ⍵)g(h ⍵) }     ⍝ (monadic)
 ```
 
-Dfn syntax doesn't support overloading in this generalized way, but each pair of functions represents a single function that is overloaded with a monadic and dyadic implementation. The result of forks and atops are *functions*, and they need not be immediately applied.
+Dfn syntax doesn't support ambivalence, but each pair of functions represents a single ambivalent function (a function that is overloaded with a monadic and dyadic implementation). The result of forks and atops are *functions*, and they need not be immediately applied.
 
 ### Trains
 
