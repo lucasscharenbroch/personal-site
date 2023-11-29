@@ -46,11 +46,11 @@ Array literals are always scalars (shape [1]) or vectors (shape [n]).
 
 ## Functions
 
-Functions have two possible types: monadic (taking one argument), or dyadic (taking two arguments)[^mon-dy].
-Almost all glyphs that represent functions are overloaded in this sense.
+Functions have three possible types: monadic (taking one argument), dyadic (taking two arguments), and ambivalent (both monadic and dyadic)[^mon-dy].
+The majority of glyphs are ambivalent.
 For the example, ***⍳*** ("iota") is the function "index generator" when applied monadically, and "index of" when applied dyadically.
 
-[^mon-dy]: Every glyph or dfn can (syntactically) be applied either monadically or dyadically (Dyalog sometimes returns 'SYNTAX ERROR' when functions are applied with the wrong number of arguments (e.g. ⍲1), but I believe this is a misnomer, as the exception is thrown during execution, not during parsing[^domain-err]), but they may throw errors when they're executed with the 'wrong' number of arguments. This better explains how dfns and operators really work, but I've chosen to leave it out for the sake of conciseness.
+[^mon-dy]: Every glyph or dfn can (syntactically) be applied either monadically or dyadically (Dyalog sometimes returns 'SYNTAX ERROR' when functions are applied with the wrong number of arguments (e.g. ⍲1), but I believe this is a misnomer, as the exception is thrown during execution, not during parsing[^domain-err]), but they may throw errors when they're executed with the 'wrong' number of arguments.
 
 [^domain-err]: '⍲1⍲3' throws a 'DOMAIN ERROR', not a 'SYNTAX ERROR': unless evaluation is done during parsing, this implies that it is a valid grammar tree (assuming that input is converted into a tree before it is executed).
 
@@ -211,6 +211,7 @@ f 3                     ⍝ 6
 {2 × ⍵} 3               ⍝ 6
 3 g 3                   ⍝ 9
 3 {⍺ × ⍵} 3             ⍝ 9
+3 {2 × ⍵} 3             ⍝ 6 (all dfns are ambivalent, so, unused arguments (⍺ in this case) are ignored)
 
 fib ← {
     ⍵ ≤ 1 : 0           ⍝ ':' is used to return early - "if ⍵ ≤ 1, then return 0"
