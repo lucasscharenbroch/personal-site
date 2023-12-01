@@ -130,6 +130,7 @@ Please note:
 
 ## Visual Mode (and Visual Line Mode)
 - o, O - cursor to opposite side of block
+- g \<ctrl-a\>, g \<ctrl-x\> - cascading increment/decrement of selected numbers
 - \<parameterized action\> - execute action on selected text instead of supplying a motion
 - \<other actions\> - roughly analagous to their corresponding action in normal mode
 
