@@ -653,7 +653,7 @@ g ← { ⍵ ⌊ (⍺(⌷⍤1)⍵) (∘.+) (⍺⌷⍵) }
 ⍝ ⍤ (when applied to a function (on the left) and an array
 ⍝ (on the right)) is "rank": it is a specialized for-each;
 ⍝ the left argument is the function to apply to each element (or pair of
-⍝ elements, if applied dyadically), and the right argument is *how many axes
+⍝ elements, if applied dyadically), and the right argument is *how many trailing axes
 ⍝ the for-each ignores* during iteration. The derived function is rank-polymorphic,
 ⍝ so the shapes of the arguments (after ignoring the given number of axes)
 ⍝ doesn't need to match if one of the two is a scalar
