@@ -411,10 +411,10 @@ Monad transformers preserve the behavior of the monad they receive, and add thei
 [^lift]: Functions can be applied on successively deeper monads by applying [lift](https://hackage.haskell.org/package/transformers-0.5.6.2/docs/Control-Monad-Trans-Class.html#v:lift).
 
 It's interesting to note that **`MatchFn`** itself is no longer a function: it is a monad whose state internal state is a function[^internal-state-fn].
-[^internal-state-fn]: More specifically, its internal state is the function **`[Token] -> MaybeT (Reader IdMap) (a, [Token])`**, where the return type encapsulates a value: **`Reader IdMap (Maybe (a, [Token]))`**, which encapsulates the function: **`IdMap -> Maybe a`**. So, in effect, **`MatchFn`** stores a function of type **`[Token] -> IdMap -> Maybe (a, [Token])`**, which its interface provides fine-grained control over. It's worth noting that this effective state is isomorphic to **`MatchFn`** from version 2.
+[^internal-state-fn]: More specifically, its internal state is the function **`[Token] -> MaybeT (Reader IdMap) (a, [Token])`**, where the return type encapsulates a value: **`Reader IdMap (Maybe (a, [Token]))`**, which encapsulates the function: **`IdMap -> Maybe (a, [Token])`**. So, in effect, **`MatchFn`** stores a function of type **`[Token] -> IdMap -> Maybe (a, [Token])`**, which its interface provides fine-grained control over. It's worth noting that this effective state is isomorphic to **`MatchFn`** from version 2.
 
 
-This requires another working of the "match-" functions, but the "parse-" functions can (again) stay mostly the same, except **`(<$>)`** (fmap) replaces **`chFst`**, and **`(=<<)`** (or **`(>>=)`** or do-notation) replaces **`mchFst`**.
+This requires another reworking of the "match-" functions, but the "parse-" functions can (again) stay mostly the same, except **`(<$>)`** (fmap) replaces **`chFst`**, and **`(=<<)`** (or **`(>>=)`** or do-notation) replaces **`mchFst`**.
 
 {{< highlight diff >}}
 +evalMatchFn :: IdMap -> [Token] -> MatchFn a -> Maybe (a, [Token])
@@ -528,7 +528,7 @@ parseDerFn = matchOne [_parseOpExpr, parseFn]
 
 ### Parser, Version 4 (+Applicative)
 
-My favorite part about Haskell: realizing that does precisely what you want.
+My favorite part about Haskell: realizing a built-in function does precisely what you want.
 
 It turns out that, [circa 2014](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal), all Monads in Haskell are also [Applicative Functors](https://hackage.haskell.org/package/base-4.19.0.0/docs/Control-Applicative.html).
 **`(<*>)`**, **`(<*)`**, and **`(*>)`** remove the need for the **`MatchT`** functions, and the vast majority of lambdas (typically as the LHS's of **`<$>`**).
@@ -641,7 +641,7 @@ Since any arbitrary function might have full control over the program state, in 
 [^impure]: Impure in the sense that it returns a monad which has access to the entire global state.
 
 The majority of built-in **`Functions`** don't touch the global state, and the ones that do usually only use it for a very narrow purpose.
-I wanted a mechanism that allowed me to define these **`Functions`** with maximally constraining types, yet to easily convert them into the full (non-constrained) monad (nicknamed '**`EvalM`**') without causing a combinatorial explosion of helper functions.
+I wanted a mechanism that allowed me to define these **`Functions`** with maximally constraining types, yet to easily convert them into the full (non-constrained) monad (**`EvalM`**) without causing a combinatorial explosion of helper functions.
 I used the typeclass **`SubEvalM`** to do this.
 
 {{< highlight haskell >}}
@@ -679,8 +679,8 @@ instance SubEvalM RandAndIoM where
 
 {- Monad Wrappers -}
 
-pureMonFn :: FnInfoM -> (Array -> Array) -> Function
-pureMonFn i f = mkMonFn i (Identity . f)
+mkMonFn :: SubEvalM m => FnInfoM -> (Array -> m Array) -> Function
+mkMonFn i f = MonFn i (\a -> toEvalM $ f a)
 
 mkDyadFn :: SubEvalM m => FnInfoD -> (Array -> Array -> m Array) -> Function
 mkDyadFn i f = DyadFn i (\a b -> toEvalM $ f a b)
@@ -881,28 +881,28 @@ The following is a (far from complete) laundry-list of discrepancies between my 
 - Differing properties:
     - Amount of whitespace when printing arrays with non-zero rank, but with 0 ∊ shape
     - Whitespace and some number formatting when printing matrices of real-numbers
-    - Printing format of arrays as leafs of function trees
+    - Printing format of arrays as leaves of function trees
     - Printing format of arrays as axis specifications
     - Printing of dfns/dops (∇)
     - Exact rules for sorting order
-    - Propagation rules for function properties (i.e. identity, ability to select, axis specification) on derived functions
-    - Fine-grained behavior of execute and format
-- Dyalog has... / in Dyalog...
-    - Nameclasses and weird behavior after reassignment[^nameclass]
+    - Propigation rules for function properties (i.e. identity, ability to select, axis specification) on derived functions
+    - Fine-grained behavior of execute (⍎) and format (⍕)
+- In Dyalog, ...
+    - Variables have nameclasses and weird behavior after reassignment[^nameclass]
     - Some dops can't be used inline
     - Dyadic operators can't be in the right-hand-side of assignments
     - The default ⍺ can be a function in dops
 - In my interpreter, ...
     - Dops/dfns are not strongly short-circuited: if the condition in a guard is false, the rhs isn't evaluated, but it is still parsed (in Dyalog, it isn't parsed)
     - Scalars are not 0-rank: they are vectors with a single element (this approach seems more simple[^simple], but it causes some incompatibilities in the behavior of certain functions)
-    - Arrays with non-zero rank cannot have zero as an element in their shape (Dyalog allows this)
+    - Arrays with non-1 rank cannot have zero as an element in their shape (Dyalog allows this)
     - LCM, GCD, factorial, and binomial only work on integers (Dyalog allows reals and complex numbers)
-    - The circle operator only supports 1 2 3, ¯1, ¯2, ¯3
+    - The circle function (dyadic ○) only supports 1 2 3, ¯1, ¯2, ¯3
     - Dfns cannot *modify* global variables
     - ⎕IO can be *any integer* (not just 0 or 1)
     - Axis spec operator is more limited (several functions don't support it (e.g. ⊂)), it also only takes singleton numbers, never vectors
     - Dyadic ⍒/⍋ is limited to vector (not higher-dimensional array) collation sequences
-    - Reduce doesn't take negative or zero argument on left (window)
+    - Reduce can't take a negative or zero argument on left (window)
     - Encode only works on integers
 - My interpreter does not support ...
     - Complex numbers
@@ -930,12 +930,12 @@ The time I spent debugging runtime errors in Haskell was significantly smaller i
 
 That being said, runtime errors still happened, and many of them had similar nature to those in other languages (typically logic errors, or panics). Such errors grew more common and more difficult to debug as the project grew in scale[^err].
 
-It was also relatively difficult to get code to compile (and writing code in general).
+It was also relatively difficult to get code to compile (and writing code in general) (in comparison to in other languages).
 It's hard to tell how much of this has to do with the fact that I'm new to Haskell, and how much easier it will become over time.
 It's hard to gage my progress over the course of project, because the nature of the problems I'm solving (and their complexity) has fluctuated a lot.
 I've certainly become more fluent in Haskell, but I've continued to battle compilation errors.
 
-[^comp]: Namely: it guarantees that there are no side-effects that that all types line up (these rules have a log of implications, because almost everything is a function, and everything has a type).
+[^comp]: Namely: it guarantees that there are no side-effects that that all types line up (these rules have a lot of implications, because almost everything is a function, and everything has a type).
 
 [^work]: This has been a very rare occurrence, and I've grown to expect disappointment when running code for the first time.
 
@@ -990,8 +990,8 @@ After implementing assignment, it took me a while to realize that, if the RHS of
 
 ```
     x ← 1 + 'c' ⍝ this statement succeeds
-    1 + 2
-3               ⍝ execution continues as normal
+    1 + 2       ⍝ execution continues as normal
+3
     y ← x + 1   ⍝ this is fine as well
     y           ⍝ x is only evaluated when the concrete value of y is needed for printing
 DOMAIN ERROR: expected number
