@@ -44,7 +44,7 @@ Furthermore, globally defined names could potentially share identifiers with nam
 
 Prefixing each name with "s2j_" fixes the latter problem, but the former problem is a little trickier, because all valid JS identifier characters are valid Scheme identifier characters, so there is no obvious escape character[^escape-underscore].
 
-[^escape-underscore]: One way to solve this is to choose a valid identifier character (e.g. '_') as the designated escape character, then to use a sort of huffman-code to determine what the characters following _ mean (much like the use of '\' as an escape character).
+[^escape-underscore]: One way to solve this is to choose a valid identifier character (e.g. '_') as the designated escape character, then to use a sort of huffman-code to determine what the characters following _ mean (much like the use of '\\' as an escape character).
 
 Luckily, it turns out that Scheme literals are supposed to be case-insensitive, so Scheme names of varying case can (and should) be mapped deterministically to a single JS identifier.
 The natural way to do this is to map all scheme identifiers to lowercase.
@@ -74,12 +74,9 @@ mangle :: String -> String
 mangle id = "s2j_" ++ concatMap mangleChar id
 {{< /highlight >}}
 
-
 [^id-chars]: In addition to letters, (non-leading) digits, and underscores, "!$%&*/:<=>?~^+-." are allowed.
 
 [^global-scope]: This could be fixed by adding a new scope around all transpiled code, but this adds unnecessary complexity.
-
-
 
 ### Wrapper Types
 
@@ -87,7 +84,7 @@ I opted to use wrapper-types instead of directly using native JS types types.
 These (or some equivalent) are necessary for:
 
 - Run-time arity checking
-- Truthy Values (in Scheme, #f and '() are falsy, and everything else is truthy)
+- Truthy values (in Scheme, #f and '() are falsy, and everything else is truthy)
 - Representing data types specific to scheme (e.g. symbols)
 
 They also make printing, debugging, and ambiguity a lot easier to deal with.
@@ -137,10 +134,9 @@ class SchemeNum extends SchemeObject { type = "number"; }
 class SchemeChar extends SchemeObject { type = "char"; }
 class SchemeSymbol extends SchemeObject { type = "symbol"; }
 
-
 {{< /highlight >}}
 
-I couldn't find a way to get JS to use obj.truthy() to determine the truthiness in a short-circuited (&&)/(||) expression, but functions can be used as a work-around to this:
+I couldn't find a way to get JS to use obj.truthy() to determine the truthiness in short-circuited (&&)/(||) expressions, but functions can be used as a work-around to this:
 
 ```
 ; source
@@ -203,7 +199,7 @@ genExpr (ExprBegin exprs) = genBody $ Body [] exprs
 
 A set of standard functions[^std] is necessary to perform non-trivial operations on the wrapper types.
 Implementing these functions in Scheme is much nicer than in JS, because the latter requires a lot of extra boilerplate (mangling, calling with ".call()", etc.), however some JS is necessary to provide the baseline functionality (Scheme on its own knows nothing about the wrapper types).
-For this reason, I separated the "standard" functions into two sets: *js-lib/core.js*, which contains the wrappers themselves and a minimal set of standard functions, and *scm-lib/std.scm*, which defines the remainder of the "standard" functions.
+For this reason, I separated the standard functions into two sets: *js-lib/core.js*, which contains the wrappers themselves and a minimal set of standard functions, and *scm-lib/std.scm*, which defines the remainder of the standard functions.
 
 [^std]: The "standard functions" I refer to are a subset of those from  the [Third Revised Report on Scheme](https://standards.scheme.org/official/r3rs.pdf) (those which I found the most useful). In general, this entire project is heavily guided by that report.
 
@@ -326,8 +322,10 @@ Closures are dynamically constructed (during evaluation), while procedures are a
 Closures themselves are simply a list of *'closure* (the symbol closure), a procedure, and an environment (*env*) (a list of association-lists of variable bindings in progressively higher scopes).
 
 Transpiled code rides off of JavaScript's scoping, but there's no clear way to do this dynamically with the eval-apply model.
-Thus we manually keep track of scope with *env*, but still allow for lookups/modifications in the JS scope when the *env* runs out.
+Thus we manually keep track of scope with *env* (=> allow use of closures), but still allow for lookups/modifications in the JS scope when the *env* runs out (=> allow use of procedures).
 This is admittedly an ugly kludge.
+
+The same behavior is mirrored in lookup/modification of variables.
 
 {{< highlight scheme >}}
 (define (lookup sym env)
@@ -399,7 +397,7 @@ The return and curly brackets are unnecessary[^redundant] in this case (because 
 
 [^redundant]: Redundancy and generality were favored over clarity of output.
 
-It's not clear how the "s2j_y" and "(s2j_add_nat).call(...)" expressions can locally decide whether to return or not, because they are values, not statements.
+It's not clear how the "s2j_y" and "(s2j_add_nat).call(...)" expressions can be changed to locally decide whether to return or not, because they are values, not statements.
 
 An easy way around this is to avoid trying to use return-statements in the first place, and just set a local variable when tail-recursion should happen.
 If the variable isn't set, then the value of the expression is returned.
@@ -446,7 +444,7 @@ In this way, quotation is a lot like macros.
 ## IDEs, Tooling
 
 I primarily used VSCode for this project (as opposed to /usr/bin/vim, which I've used on all of my previous work with Haskell), and it worked swimmingly.
-The real-time type-checking by HLS (Haskell Language Server) practially eliminated compiler errors (which are almost always cryptic).
+The real-time type-checking by HLS (Haskell Language Server) practically eliminated compiler errors (which are almost always cryptic).
 It probably cut my development time in half.
 
-Hlint also fixed a lot of syntactic inconveinences in my code caused by my lack of knowledge of library functions.
+Hlint also fixed a lot of syntactic inconveniences in my code caused by my lack of knowledge of library functions.
