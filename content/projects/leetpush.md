@@ -42,7 +42,9 @@ I'd like to try to better understand it so I can contribute in less-trivial ways
 
 ## The Chrome Extension
 
-This is the first time I've written a Chrome Extension; it was easier than I thought.
+This is the first time I've written a Chrome Extension; it was simpler[^chrome-simple] than I thought.
+
+[^chrome-simple]: The API is simple to use, not necessarily simple under the hood.
 
 A hello-world is just a matter of writing a manifest.json file with a hand-full of lines, e.g.
 (from [google's tutorial](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world))
@@ -74,7 +76,7 @@ From there, it's just a matter of adding "permissions", which give your script a
 >   ]
 {{< /highlight >}}
 
-## The ~~Soy~~ Web-Dev Workflow
+## The ~~Soy-Dev~~ Web-Dev Philosophy
 
 Web APIs, Libraries, Frameworks and IDEs fit together quite nicely, and they all are heavily tied around one main idea: **all problems are solved with more JavaScript**[^more-js].
 
