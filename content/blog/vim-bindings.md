@@ -15,7 +15,7 @@ Please note:
 2. Angle-brackets (\<\>) denote meta-meaning (except when they're used literally)
 3. Some especially specialized bindings have been excluded (for example, the list of marks is purposely not exhaustive): consider this a list of "generally useful" bindings
 4. This list is far from complete, especially the /usr/bin/vim section
-5. If you notice a useful binding that isn't on the list, please [contact me](/contact).
+5. If you notice a useful binding that isn't on the list, please [contact me](/contact)
 
 # Generalized Vim Bindings[^generalized]
 
