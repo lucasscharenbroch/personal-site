@@ -18,10 +18,10 @@ It's also is also the most generic: (2)-(5) all refer to some specific resource 
 When people recommend (1), usually usually mean the following:
 
 - Gaining skills through writing code (in general)
-- **Lazy Learning** - Waiting to acquiring information until it is necessary to know
+- **Lazy Learning** - Waiting to acquire information until it is necessary to know
 
 The two are very tightly intertwined.
-Writing code almost always implies some degree of lazy learning.
+Writing code almost always implies some degree of lazy learning;
 Lazy learning is much more general: it encompasses a lot of things, because the "necessary to know" clause can be imposed by anything[^procrastination].
 The most useful way to use lazy learning is to purposefully make the target information "necessary to know" by beginning to write a program that requires it.
 
@@ -56,7 +56,7 @@ Eager learning (e.g. reading books, watching tutorials, going to lectures) has i
     - This makes it possible to explore complex problems incrementally, which is infeasible in lazy learning
     - The deferral of implementation also makes it possible to reason about especially abstract ideas
 - Long-form materials make it easier to gain a wider, deeper, more high-level understanding
-- Materials often group information together (and point to other materials), make extended exploration easy and likely
+- Materials often group information together (and point to other materials), making extended exploration easy and likely
 
 And drawbacks.
 
@@ -69,8 +69,11 @@ And drawbacks.
 If you want to become a proficient developer, you must have a wide range of knowledge and practical experience.
 To gain these, you must employ both eager and lazy learning.
 
-If you avoid eager learning, you will be stuck working with the technologies and ideas you are familiar with, and you will be naive and bind to the world of possibilities within technologies unknown to you.
+If you avoid eager learning, you will[^well] be stuck working with the technologies and ideas you are familiar with, and you will be naive and bind to the world of possibilities within technologies unknown to you.
 You will have no mechanism for discovering new ideas, and you will be stubborn to change.
+
+[^well]: These statements are admittedly extreme, but I use them in attempt to make my point clear.
+Reality is more complex than this, but these are relatively true in generality.
 
 If you avoid lazy learning, you probably aren't writing much code, which means the code you do write probably isn't very refined.
 What you do learn is completely hypothetical and will likely soon be forgotten.
@@ -80,6 +83,6 @@ What you do learn is completely hypothetical and will likely soon be forgotten.
 Do whatever feels best for you, so long as you are avoiding the above pitfalls.
 Doing what you are excited about is the easiest way to make quick and effortless progress.
 
-In general, lazy learning should occupy more time, because writing code is necessary to gain practical experience.
+In general, lazy learning should occupy more time, because practical experience cannot be gained without writing code.
 This is likely the reason lazy learning is so highly recommended by internet programmers.
 Another reason might be the tendency for beginner programmers to find their way into into cycles of eager learning ("tutorial hell"), as lazy learning can be particularly difficult at first.
