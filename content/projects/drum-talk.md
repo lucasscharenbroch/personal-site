@@ -23,7 +23,7 @@ It's a pretty safe bet that nobody except me will actually use this program.
 
 When drummers[^drummers] want to communicate a rhythmic idea without directly playing it[^no-play], they often use a specialzed collction of words and sounds, which I will refer to as *drum-talk*[^capital].
 
-[^drummers]: The term "drummers" here is used as a general term for percussionists or musicians alike, or really anybody who vocalizes drum sounds.
+[^drummers]: The word "drummers" here is used as a general term for percussionists or musicians alike, or really anybody who vocalizes drum sounds.
 [^no-play]: Speaking out rhythms (rather than playing) can also be used to more clearly communicate *how* a passage is played, not just what it sounds like. For example, a specific sticking (assignment of hands to notes) is implied by the word "paradiddle".
 [^capital]: The phrase "drum-talk" is unfortunately overloaded: I use it to refer to both the language drummers speak, and the language that I wrote a compiler for. The latter will be written with capital letters.
 
@@ -245,7 +245,6 @@ parseRudiment :: ParseFn Word
 --             | "tuh" | "duh"
 --             | "dduh" | "ttuh"
 --             | "ddut" | "ttut"
-
 parseMiscSound :: ParseFn (Tuple Duration Note)
 
 -- short-stroke => "tap" | "t" | "." | "!"

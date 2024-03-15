@@ -40,7 +40,7 @@ A -----> B ------> C -----> D
 f :: A -> B
 g :: B -> C
 h :: C -> D
-(h . g . f) :: A -> D
+(\x -> h (g (f x))) :: A -> D
 ```
 
 Say we want to maintain some shared state of type **`E`** over these function calls (**`f`**, **`g`**, and **`h`**, can read or modify that data, as if it were a global variable).
