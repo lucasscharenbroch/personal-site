@@ -321,11 +321,8 @@ testStep :: forall o. H.HalogenM State Action () o Aff Unit
 stopTesting :: forall o. H.HalogenM State Action () o Aff Unit
 {{< /highlight >}}
 
-The above functions are the most impure part of the program: through the **`HHalogenM`** monad, they have complete access to the entirity of the current **`State`** and the outside world (through the **`Effect`** and **`Aff`** monads).
+The above functions are the most impure part of the program: through the **`H.HalogenM`** monad, they have complete access to the entirity of the current **`State`** and the outside world (through the **`Effect`** and **`Aff`** monads).
 There is no constraint on where (or what **`State`**) <b>`Action`</b>s can come from, so <b>`Action`</b>s that assume a certain **`State`** have to do a dispatch (case-analysis) on the current **`State`** to unwrap the data they're looking for.
-
-The obvious high-level refactor would be to try to maximally decouple state and computation.
-The event-based nature of the web implies the need for event-triggered actions that perform both computation and state modification, so the actions will have to be impure wrappers of the pure computations (i.e. "onClick" will read the current state, feed it through some comptuation, and write the resulting state).
 This is useful for actions like **`Reset`** that have defined behavior regaurdless of state but inconvenient/hypothetically-bug-prone for actions like **`SolveGame`** that expect for some invariant to be true.
 
 {{< highlight haskell >}}
@@ -438,7 +435,7 @@ The size-comparison alone isn't really fair, since the JS version has all the ex
 
 Readability is debatable: the scan in the functional version is admittedly cryptic[^tuple] (perhaps there's a better way to do the one-to-one mapping), but once that part is understood, it's way easier to be confident in exactly what **`gradeGuess`** does than in what **`clickEnter`** does (even without the side-effects of **`clickEnter`** (the imperative style alone is flimsy)).
 
-[^tuple]: The Tuple constructor doesn't help with readability - the Haskell version would be 30 characters shorter for that reason alone.
+[^tuple]: The Tuple constructor doesn't help with readability either - the Haskell version would be 30 characters shorter for that reason alone.
 
 We can do a similar comparison for the heart of the solving algorithm: determining whether a given word fits the board.
 
@@ -632,9 +629,9 @@ Functional (PURS):
 The PureScript version uses partial application to avoid re-computation of the constraint data structures (e.g. **`minCnts`**, **`maxCnts`**, and **`charFns`**) (analagous to **`wordRequirements`** in the JS version) for each word.
 This makes for a nice mix of modularity and efficiency: the caller (**`wordsFittingBoard`**) need not compute, nor even know about these structures.
 
-The functions that begin with "_" (or some equivalent) are necessary because PureScript waits until all variables are recieved before computing the values of variables in the where-clauses.
+The functions that begin with "_" are necessary because PureScript waits until all variables are recieved before computing the values of variables in the where-clauses.
 
-Here's the transpiled version of fitsPosConstraints: note that the majority of the computation is done after **`board`** is recieved (and before **`s`** is recieved: the values of the variables are stored in the closure).
+Here's the transpiled version of fitsPosConstraints: note that the majority of the computation is done immediately after **`board`** is recieved (and before **`s`** is recieved: the values of the variables are stored in the closure).
 
 {{< highlight javascript "hl_lines=26-28" >}}
 var fitsPosConstraints = function (board) {
