@@ -35,7 +35,7 @@ So, for the purposes of this post, we'll use these domain-specific definitions:
 ## Efficiency and Exclusivity
 
 Lazy learning is incredibly efficient in most situations.
-It sets up a dichotomy between learning and failing: either you learn what's necessary to write the program, or you don't.
+It sets up a dichotomy between learning and failing: either you learn what's necessary to write the program, or the program isn't written.
 This is ideal, so long as you succeed.
 By its nature, lazy learning makes it easy to...
 
