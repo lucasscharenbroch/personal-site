@@ -1,23 +1,31 @@
 ---
-title: "Contact"
-date: 2023-06-25T14:02:08-05:00
+title: "Contact Information"
 ---
-# Contact Information
 
 - C++
 {{< highlight cpp >}}
 string email(string domain_name, string first_name) {
     return first_name + "@" + domain_name;
 }
+
+std::cout << email("scharenbroch.dev", "lucas") << std::endl;
 {{< /highlight >}}
+
 - Bash
 {{< highlight bash >}}
 e=\${f}@\${d} f=lucas d=scharenbroch.dev ; eval echo $e
 {{< /highlight >}}
-- ROT13
-{{< highlight bash >}}
-yhpnf@fpuneraoebpu.qri
+
+- Vimscript
+{{< highlight vim >}}
+norm iyhpnf@fpuneraoebpu.qriVg?
 {{< /highlight >}}
+
+- APL
+{{< highlight apl >}}
+⎕UCS 2⊥⍉(22/2)⊤⍎¨⊂⍤1⊢7 7⍴'4194295412876712145932105944314734307075612020450'
+{{< /highlight >}}
+
 - B---F---
 {{< highlight brainfuck >}}
 ++++++++[>+>++>+++>++++>+++++>++++++>+++++++>++++++++>++++++
