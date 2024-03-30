@@ -226,6 +226,8 @@ Speedrunning isn't for everybody: it probably doesn't make sense if you fall int
     - You don't have to worry about debt, so college has fewer downsides
 - Not excited by your major
     - Don't do this for a money-grab: you'll quickly lose energy and patience
+- Heavily reliant on the structure of classes to orient learning
+    - It will be difficult to study outside of class, and taking many classes at once will be harder
 
 ## Preemptive Defense
 
