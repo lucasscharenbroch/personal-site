@@ -1,5 +1,6 @@
 languageCode = 'en-us'
 title = "Lucas's Webpage"
+buildFuture = true
 
 [markup.goldmark.renderer]
 unsafe = true
