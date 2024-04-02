@@ -18,7 +18,7 @@ The class briefly touches on Haskell, and somebody posted the following question
 {{% /center-text %}}
 
 The question is almost certainly a joke: our professor set up [a bot](https://github.com/kpister/538bot) that will generate responses to posts tagged with "gpt": this question is likely a ploy to see what sort of response the LLM will give.
-I find it to be a very compelling question, though, and I was inclined to write a reponse to it, but I wasn't able to come up with a concise and compelling response in after a few minutes.
+I find it to be a very compelling question, though, and I was inclined to write a response to it, but I wasn't able to come up with a concise and compelling response in after a few minutes.
 I've decided to write a response to the question in a blog post in order to give a more complete response and to more clearly understand the reasons I[^i] love writing Haskell.
 
 [^i]: I've only been programming in Haskell in a few months, but I've written a [fair](/projects/apl-interpreter) [amount](/projects/scheme-to-js) [of](/projects/drum-talk) [Haskell](/blog/functional-refactoring-wordle) in that time.
@@ -27,7 +27,7 @@ I've decided to write a response to the question in a blog post in order to give
 
 Haskell is memory safe, statically typed, and purely functional, which[^abuse], together, provide a lot[^a-lot] of guarantees about programs that successfully compile.
 
-In other langauges, running after compilation (or just running) is so consistently disappointing that I've become conditioned to expect failure.
+In other languages, running after compilation (or just running) is so consistently disappointing that I've become conditioned to expect failure.
 When I started using Haskell, I was shocked by the frequency that my programs ran as expected upon compilation.
 It's a glorious feeling.
 
@@ -106,7 +106,7 @@ At the most primitive level, Haskell is just a typed lambda calculus with a hand
 
 - Define Types (ADTs)
 - Express values of those types
-- Deconstruct values of those types (do a case-analysis on an ADT and retrive any inner values it has)
+- Deconstruct values of those types (do a case-analysis on an ADT and retrieve any inner values it has)
 - Define Typeclasses
 - Declare Typeclass Instances
 - Define Functions
@@ -168,8 +168,8 @@ What really sets Haskell apart from many other functional and multi-paradigm lan
 
 Though concepts like <i>Monad</i>s, <i>Monoid</i>s and <i>Functor</i>s have a steep initial learning curve, once they are understood, they offer a way to bootstrap expressivity and generality, and a much more robust framework for defining the behavior of types (and data transformations, which is the essence of programming).
 
-These mathematical ideas are inherent in the way we write programs; you ignore their existance, but you can't avoid using them.
-Haskellers embrace these ideas and use them to their advantage to have a greater understanding of the patterns beneath their code and to write programs that better align with those patterns, which yeilds a massive gain in expressivity that leads to greater concision, safety, and generality.
+These mathematical ideas are inherent in the way we write programs; you ignore their existence, but you can't avoid using them.
+Haskellers embrace these ideas and use them to their advantage to have a greater understanding of the patterns beneath their code and to write programs that better align with those patterns, which yields a massive gain in expressivity that leads to greater concision, safety, and generality.
 
 The [Typeclassopedia](https://wiki.haskell.org/Typeclassopedia) is a great resource for understanding these patterns, and the [Parsec](https://wiki.haskell.org/Parsec) and [Lenses](https://en.wikibooks.org/wiki/Haskell/Lenses_and_functional_references) libraries are great examples of the many Haskell libraries that heavily use these patterns.
 
