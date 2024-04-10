@@ -25,9 +25,9 @@ The downside is that, because it is so effective, there's much less of a need fo
 
 Here's a compelling quote from Gerald Jay Sussman (one of the writers of [SICP](https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs)), from [this video](https://www.youtube.com/watch?v=OgRFOjVzvm0), where he's commenting on why MIT no longer teaches SICP:
 
-> "It seemed to be that the change in the engineering type that was needed in the future no longer [put] so much pressure on understanding how a bigger thing is made out of smaller things by combining the parts and understanding from the pieces how the parts work... [it had shifted] to one that is more like science: **you grab this piece of library, and you write programs that poke at it to see what it does, and you say 'can I tweak it to do the thing I want?'**. It's what we do now, a lot."
+> "It seemed to be that the change in the engineering type that was needed in the future no longer [put] so much pressure on understanding how a bigger thing is made out of smaller things by combining the parts and understanding from the pieces how the parts work... [it had shifted] to one that is more like science: **you grab this piece of library, and you write programs that poke at it to see what it does, and you say 'can I tweak it to do the thing I want?'** It's what we do now, a lot."
 
-Software today is not modular in the way it was several decades ago: in order to good modern software, you must be willing to stand on the shoulders of giants and make use of the sea of existing tools and libraries, which no individual can hope of ever totally understanding.
+Software today is not modular in the way it was several decades ago: in order to create good modern software, you must be willing to stand on the shoulders of giants and make use of the sea of existing tools and libraries, which no individual can ever hope of totally understanding.
 
 Software developers must learn to use sparsely documented APIs and open-source projects.
 Even the most well documented libraries don't spell out exactly how they should be used.
