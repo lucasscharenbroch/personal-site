@@ -8,7 +8,7 @@ subtitle: "A stack exchange for LLM answers (JS)"
 <img src="/images/chat-wiz.jpg" alt="ChatWiz search page"/>
 {{% /center-text %}}
 
-### ([Github Link](https://github.com/mxudev/visualizer), [Devpost Link](https://devpost.com/software/visualizer-idr2ej))
+### ([Github Link](https://github.com/mxudev/ChatWiz), [Devpost Link](https://devpost.com/software/visualizer-idr2ej))
 
 ## Background
 This project was made in 24 hours during Madhacks ([ephemeral link](https://madhacks.io), [devpost](https://madhacks-fall-2023.devpost.com), [github](https://github.com/MadHacks)), a hackathon ran by the [UW UPL](https://www.upl.cs.wisc.edu).
