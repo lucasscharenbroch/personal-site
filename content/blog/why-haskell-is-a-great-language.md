@@ -91,7 +91,7 @@ In Haskell:
 {{< highlight haskell >}}
 trap :: [Int] -> Int
 trap [] = 0
-trap height = sum . map (max 0) $ zipWith (-) (zipWith min left right) height
+trap height = sum $ zipWith (-) (zipWith min left right) height
     where left = scanl max (head height) (tail height)
           right = scanr max (last height) (init height)
 {{< /highlight >}}
