@@ -7,12 +7,12 @@ date: 2023-07-01T17:41:21-05:00
 I like to plan things out, especially things of high importance. Since college happens to fall into that category, I've spent a significant amount of time planning out courses, and I've made a habit of studying for every math/cs course *before* the class begins. I was able to do both of these things with the help of online resources, many of which were student-created. I intend for this post to serve as an overview of the degree requirements and my experience with the classes for anybody who may be interested in what the degree entails or how to go about it. My main focus is the Computer Science major, but there is some overlap with general degree requirements.
 
 ## General Resources
-- [Official CS Requirements (BS)](https://guide.wisc.edu/undergraduate/letters-science/computer-sciences/computer-sciences-bs/#requirementstext) &mdash; BS and BA are almost the same, except for general requirements
+- [Official CS Requirements (BS)](https://guide.wisc.edu/undergraduate/letters-science/computer-sciences/computer-sciences-bs/#requirementstext) &mdash; BS and BA are almost the same, except for general requirements.
 - [Public Course Search & Enroll](https://public.enroll.wisc.edu/search) &mdash; Central site for class availability and enrollment.
 - [Noguera's Course Map](https://www.noguera.dev/course-map/) &mdash; Great visualization of CS course dependencies.
 - [UW Discord Server](https://discord.com/college) &mdash; A center for classes, clubs, and general banter.
 - [Rui Pan's Course Guide](https://ruipan.xyz/wisc_courses.html) &mdash; Similar to this post.
-- [UPL](https://www.upl.cs.wisc.edu/coords.html) &mdash; The UPL has a course night every semester; see their discord server for slides.
+- [UPL](https://www.upl.cs.wisc.edu) &mdash; The UPL has a course night every semester; see their discord server for slides.
 
 ## Requirement Clarifications
 The university lays things out pretty well, but there are some small ambiguities due to the non-programatic definition of the requirements. It turns out that [DARS](https://registrar.wisc.edu/dars/) is the soultion to this issue (you can find it more details in Course Search and Enroll and Noguera's page (see above)), but here are a few clarifications that I was initially uncetain of.
@@ -135,10 +135,10 @@ A mix of mathematical and practical topics regarding the efficient drawing of 2d
 ### CS 502 &mdash; Theory and Practice in CS Education
 An abstract guide to being a decent TA. Approximately 1 hour per week discussing personal opinions on high-level concepts with peers (discussion section), .25 hours reading/responding to various academic writings about tutoring, 1 hour on "the shelf" (the CS Learning Center), 1 hour in a "study group", and maybe 1 hour observing a TA/Peer Mentor in office hours. I think that this course has good intention, but it's not very effective. The theoretical portion of it was way too drawn out, repetitive, and obvious to maintain exigence (some of the insights are good, but the presentation didn't do them service). The practical part of the course was also ineffective, because nobody ever showed up to the CSLC or the study groups. Apparently the course is being reworked, so it will probably be in a different format in coming semesters.
 
-### CS 536 Intro to Programming Languages and Compilers
+### CS 536 &mdash; Intro to Programming Languages and Compilers
 (spring 2024)
 
-### CS 538 Intro to the Theory and Design of Programming Languages
+### CS 538 &mdash; Intro to the Theory and Design of Programming Languages
 (spring 2024)
 
 ### CS 368 &mdash; Learn a Programming Language: C++
