@@ -91,7 +91,7 @@ The core unit of logic in the parser if the **`MatchFn`**. Its definition change
 type MatchFn a = [Token] -> Maybe (a, [Token])
 {{< /highlight >}}
 
-**`MatchFn`**'s for [nonterminals](https://en.wikipedia.org/wiki/Terminal_and_nonterminal_symbols) can now be trivially described.
+**`MatchFn`**'s for [terminals](https://en.wikipedia.org/wiki/Terminal_and_nonterminal_symbols) can now be trivially described.
 
 {{< highlight haskell >}}
 data Token = NumTok Double
