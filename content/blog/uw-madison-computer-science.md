@@ -13,6 +13,8 @@ I like to plan things out, especially things of high importance. Since college h
 - [UW Discord Server](https://discord.com/college) &mdash; A center for classes, clubs, and general banter.
 - [Rui Pan's Course Guide](https://ruipan.xyz/wisc_courses.html) &mdash; Similar to this post.
 - [UPL](https://www.upl.cs.wisc.edu) &mdash; The UPL has a course night every semester; see their discord server for slides.
+- [David Teather's CS 500+ Tier List](https://dteather.com/blogs/madison-class-rankings/) &mdash; Includes fine-grained class info as well (topics, hw format)
+- [Nico Salm's Class Tier List](https://nicosalm.io/blog/uw_class_tierlist/) &mdash; "Coming Soon"
 
 ## Requirement Clarifications
 The university lays things out pretty well, but there are some small ambiguities due to the non-programatic definition of the requirements. It turns out that [DARS](https://registrar.wisc.edu/dars/) is the soultion to this issue (you can find it more details in Course Search and Enroll and Noguera's page (see above)), but here are a few clarifications that I was initially uncetain of.
