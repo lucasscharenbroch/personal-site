@@ -10,10 +10,10 @@ Hi, I'm Lucas. I'm currently a student at [UW-Madison](https://en.wikipedia.org/
 
 {{% /img-right-aside %}}
 
-# Recent Projects
+## Notable Projects
 
-{{< recent-posts-list "projects" 10 >}}
+{{< notable-posts-list "projects" 5 >}}
 
-# Recent Posts
+## Notable Posts
 
-{{< recent-posts-list "blog" 10 >}}
+{{< notable-posts-list "blog" 5 >}}
