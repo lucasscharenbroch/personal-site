@@ -93,7 +93,7 @@ I'm honestly convinced that, for all practical purposes, *computers really are m
 This is important, because if magic exists in the world, I'd like to master it.
 Who wouldn't?
 
-It's all to easy to imagine yourself in a fantasy world where classical magic exists.
+It's all too easy to imagine yourself in a fantasy world where classical magic exists.
 I suspect most people would say that, when placed in that world, they would put great effort towards becoming a maximally skilled wizard.
 But would really they do that if they actually there?
 
