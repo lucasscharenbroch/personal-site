@@ -95,7 +95,7 @@ Who wouldn't?
 
 It's all too easy to imagine yourself in a fantasy world where classical magic exists.
 I suspect most people would say that, when placed in that world, they would put great effort towards becoming a maximally skilled wizard.
-But would really they do that if they actually there?
+But would they really do that if they actually there?
 
 Computers are the magic-system of our world.
 Their ubiquity makes it harder to see their magic, but it's still there.
