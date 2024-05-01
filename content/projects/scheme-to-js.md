@@ -1,6 +1,7 @@
 ---
 title: "Scheme to JS"
 subtitle: "A Scheme-to-JavaScript Transpiler (Haskell)"
+notability: 6
 date: 2024-02-03T09:27:32-06:00
 ---
 

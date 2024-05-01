@@ -1,8 +1,9 @@
 ---
 title: "Why Haskell is a Great Language"
 subtitle: "Seriously"
-date: 2024-04-01T15:35:59-05:00
+notability: 7
 tags: ["FP"]
+date: 2024-04-01T15:35:59-05:00
 ---
 
 No, this is *not* an April Fools' Day joke.

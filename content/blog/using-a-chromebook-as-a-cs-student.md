@@ -1,8 +1,9 @@
 ---
 title: "Using a Chromebook as a CS Student"
 subtitle: "Is it possible?"
-date: 2023-06-26T18:26:55-05:00
+notability: 7
 tags: ["College"]
+date: 2023-06-26T18:26:55-05:00
 ---
 
 {{% center-text %}}

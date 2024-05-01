@@ -1,6 +1,7 @@
 ---
 title: "UW Schedule Converter"
 subtitle: "Minimalist webpage for text-to-.ical conversion (JS)"
+notability: 1
 date: 2024-01-14T20:44:21-06:00
 ---
 

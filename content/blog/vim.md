@@ -1,8 +1,9 @@
 ---
 title: "Why I Use Vim"
 subtitle: "How to edit text efficiently and why it matters"
-date: 2023-08-13
+notability: 6
 tags: ["Workflow"]
+date: 2023-08-13
 ---
 
 ## The Vim Lecture

@@ -1,8 +1,9 @@
 ---
 title: "APL Tutorial"
 subtitle: "Making sense of (⊃⍳⍤≢(⊢⌊⌷⍤1∘.+⌷)/⍤,⊂)Y"
-date: 2023-11-27T09:07:11-06:00
+notability: 5
 tags: ["PL", "Tutorial"]
+date: 2023-11-27T09:07:11-06:00
 ---
 
 I've been working on writing an APL Interpreter recently.

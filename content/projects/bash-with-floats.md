@@ -1,6 +1,7 @@
 ---
 title: "Bash With Floats"
 subtitle: "A fork of Bash with support for floating-point operations (C)"
+notability: 5
 date: 2023-08-15
 ---
 

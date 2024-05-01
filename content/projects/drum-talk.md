@@ -1,6 +1,7 @@
 ---
 title: "Drum-Talk"
 subtitle: "A DSL for percussion enthusiasts (PureScript)"
+notability: 6
 date: 2024-03-05T14:35:00
 ---
 

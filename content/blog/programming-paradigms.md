@@ -1,9 +1,10 @@
 ---
 title: "Programming Paradigms"
 subtitle: "Why it's practical to learn a variety of languages"
+notability: 7
+tags: ["PL", "FP"]
 date: 2024-03-06T10:03:14-06:00
 draft: true
-tags: ["PL", "FP"]
 ---
 
 ## Ideas and Code

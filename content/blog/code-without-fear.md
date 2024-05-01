@@ -1,8 +1,9 @@
 ---
 title: "Code Without Fear"
 subtitle: "Minimizing the development-time cognitive load"
-date: 2024-04-21T10:28:06-05:00
+notability: 6
 tags: ["Workflow", "FP", "PL"]
+date: 2024-04-21T10:28:06-05:00
 ---
 
 Programming is hard.

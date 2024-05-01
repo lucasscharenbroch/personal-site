@@ -1,8 +1,9 @@
 ---
 title: "Computers Are Magic"
 subtitle: "Finding child-like curiosity in CS"
-date: 2024-04-30T08:47:56-05:00
+notability: 6
 tags: ["Learning"]
+date: 2024-04-30T08:47:56-05:00
 ---
 
 Disclaimer: This post is unapologetically romantic.

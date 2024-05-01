@@ -1,0 +1,15 @@
+<ul class="page-list">
+{{ $type := .Get 0 }}
+{{ $num := .Get 1 }}
+
+{{ $sortedPages := sort (where .Site.RegularPages "Type" $type) ".Params.notability" "desc" }}
+{{ range first $num $sortedPages }}
+        <li>
+            {{ .Date.Format "January 2006" }} &nbsp; &mdash; &nbsp;
+            <a href="{{.RelPermalink}}">{{.Title}}</a>
+            {{ with .Params.subtitle }}
+            &nbsp; &mdash; &nbsp; {{.}}
+            {{ end }}
+        </li>
+{{ end }}
+</ul>

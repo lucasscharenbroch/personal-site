@@ -1,8 +1,9 @@
 ---
 title: "Lazy vs Eager Learning"
 subtitle: "What's the best way to learn programming skills?"
-date: 2024-03-13T09:53:10-05:00
+notability: 6
 tags: ["Learning"]
+date: 2024-03-13T09:53:10-05:00
 ---
 
 There are a lot of opinions about the "best ways" to learn programming on the internet, but they're usually some combination of the following:

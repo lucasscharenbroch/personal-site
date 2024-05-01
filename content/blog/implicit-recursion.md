@@ -1,8 +1,9 @@
 ---
 title: "Implicit Recursion"
 subtitle: "Observing built-in recursive structures in Haskell and C"
-date: 2023-09-05T14:21:16-05:00
+notability: 2
 tags: ["FP", "PL"]
+date: 2023-09-05T14:21:16-05:00
 ---
 
 I recently started learning Haskell, and I came across a structure in the language that really made me think: [Currying](https://en.wikipedia.org/wiki/Currying).

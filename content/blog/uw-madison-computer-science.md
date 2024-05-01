@@ -1,8 +1,9 @@
 ---
 title: "UW Madison Computer Science"
 subtitle: "An overview of classes and resources"
-date: 2023-07-01T17:41:21-05:00
+notability: 7
 tags: ["College"]
+date: 2023-07-01T17:41:21-05:00
 ---
 
 I like to plan things out, especially things of high importance. Since college happens to fall into that category, I've spent a significant amount of time planning out courses, and I've made a habit of studying for every math/cs course *before* the class begins. I was able to do both of these things with the help of online resources, many of which were student-created. I intend for this post to serve as an overview of the degree requirements and my experience with the classes for anybody who may be interested in what the degree entails or how to go about it. My main focus is the Computer Science major, but there is some overlap with general degree requirements.
