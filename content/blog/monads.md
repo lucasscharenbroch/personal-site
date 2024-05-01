@@ -2,6 +2,7 @@
 title: "Monads"
 subtitle: "An attempt to precisely describe a notorious concept"
 date: 2024-03-06T07:34:10-06:00
+tags: ["FP", "Tutorial"]
 ---
 
 Monads are **data types**[^category-theory] that expose methods for *chaining*, typically for the sake of **abstracting state**.

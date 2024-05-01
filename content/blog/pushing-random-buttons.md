@@ -2,6 +2,7 @@
 title: "Pushing Random Buttons"
 subtitle: "A critical skill for every developer's toolbelt"
 date: 2024-04-01T18:46:54-05:00
+tags: ["Learning"]
 ---
 
 Before I discovered programming, a lot of my time around computers was spent becoming intimately familiar with the software I used on a daily basis.

@@ -3,6 +3,7 @@ title: "Rewriting a Toy Compiler"
 subtitle: "Java to Haskell (-xx% LoC)"
 date: 2024-04-25T07:59:41-05:00
 draft: true
+tags: ["Refactoring", "PL", "FP"]
 ---
 
 - my 536 class is an intro to compilers

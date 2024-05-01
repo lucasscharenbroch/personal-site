@@ -2,6 +2,7 @@
 title: "Effective Anki Cards"
 subtitle: "Against long flashcards"
 date: 2023-07-08T19:35:55-05:00
+tags: ["Workflow"]
 ---
 
 TL;DR: long cards are bad; short cards are good.

@@ -2,6 +2,7 @@
 title: "Leetcode: 4 Types of Problems"
 subtitle: "Practical categorization"
 date: 2023-07-04T15:03:41-05:00
+tags: ["Workflow", "Learning"]
 ---
 
 ## What and Why

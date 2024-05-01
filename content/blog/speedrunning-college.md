@@ -2,6 +2,7 @@
 title: "Speedrunning College"
 subtitle: "The underrated third option"
 date: 2024-03-29T09:10:05-06:00
+tags: ["College"]
 ---
 
 A few decades ago, universities were the only place where it was possible for students to use and learn about computers;

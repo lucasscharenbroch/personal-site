@@ -2,6 +2,7 @@
 title: "Every Vim Binding I Know"
 subtitle: "An extensive list"
 date: 2023-10-01T08:58:26-05:00
+tags: ["Workflow"]
 ---
 
 I love [vim](/blog/vim). It makes editing text fast and fun.

@@ -2,6 +2,7 @@
 title: "Functional Refactoring: Wordle"
 subtitle: "JavaScript to PureScript"
 date: 2024-03-17T09:17:24-05:00
+tags: ["Refactoring", "FP", "PL"]
 ---
 
 Functional programming (FP) has an odd status among developers.
