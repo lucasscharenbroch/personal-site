@@ -94,10 +94,10 @@ This is important, because if magic exists in the world, I'd like to master it.
 Who wouldn't?
 
 It's all too easy to imagine yourself in a fantasy world where classical magic exists.
-I suspect most people would say that, when placed in that world, they would put great effort towards becoming a maximally skilled wizard.
-But would they really do that if they actually there?
+I suspect that most people would say that, when placed in that world, they would put great effort towards becoming a maximally skilled wizard.
+But would they really do that if they were actually there?
 
 Computers are the magic-system of our world.
-Their ubiquity makes it harder to see their magic, but it's still there.
+Their ubiquity makes it harder to see their magic, but it's here.
 The world's biggest magical library (the internet) has its doors wide open.
 The road to mastery is at your fingertips.
