@@ -140,10 +140,31 @@ A mix of mathematical and practical topics regarding the efficient drawing of 2d
 An abstract guide to being a decent TA. Approximately 1 hour per week discussing personal opinions on high-level concepts with peers (discussion section), .25 hours reading/responding to various academic writings about tutoring, 1 hour on "the shelf" (the CS Learning Center), 1 hour in a "study group", and maybe 1 hour observing a TA/Peer Mentor in office hours. I think that this course has good intention, but it's not very effective. The theoretical portion of it was way too drawn out, repetitive, and obvious to maintain exigence (some of the insights are good, but the presentation didn't do them service). The practical part of the course was also ineffective, because nobody ever showed up to the CSLC or the study groups. Apparently the course is being reworked, so it will probably be in a different format in coming semesters.
 
 ### CS 536 &mdash; Intro to Programming Languages and Compilers
-(spring 2024)
+A (somewhat) practical intro to classic ideas in the space of compilers.
+As far as I know, this course has not changed an ounce since the 90s.
+The good part about this is that it contains all of the good ideas that were taught then;
+the downside is that it's quite dry and the code for the projects is (in my humble opinion) awful.
+I'm currently working on a blog post where I refactor the code from this class.
+The topics are a mix of discrete-math-like ideas (FSMs, Lexing, Parsing) and low-level implementation details (Code Generation, Language Features, etc.).
+[The course material is publicly available online](https://pages.cs.wisc.edu/~hasti/cs536/).
+The central project is divided into 6 parts, dispensed across the semester;
+the grade is entirely composed of projects (40%) and exams (60%).
+The project is a reasonable amount of work considering how much of the grade it's worth.
 
 ### CS 538 &mdash; Intro to the Theory and Design of Programming Languages
-(spring 2024)
+Sundries under the large umbrella of PLs.
+Kaiser, the professor who taught and designed the course (at the time I took it) is young and enthusiastic; he doesn't have the pretension of older and "more qualified" professors.
+That being said, the courage has a lot of rough edges.
+It gets very mathematical at times (with Lambda Calculus, Continuation-Passing-Style, Imperative Proofs, Haskell, etc.), yet also implementation-heavy (JavaScript, Closures, OOP).
+Many important ideas are covered, but the experience as a whole is a little fragmented.
+The 9 homeworks, 9 programming assignments, and 2 exams vary greatly in difficulty, and a handful are way harder then they ought to be, often because of needless ambiguity.
+Some course material may be on [Kaiser's website](https://pister.dev/).
+Overall, it's not a bad choice if you are interested in the subject.
 
 ### CS 368 &mdash; Learn a Programming Language: C++
-(spring 2024)
+A high-independence C++ workshop.
+I took this with [Tyler](https://tyler.caraza-harter.com/), who was on leave at the beginning of the semester, so the 1-credit course was compressed into the second half of the semester.
+The materials are publicly available on [his website](https://tyler.caraza-harter.com/cs368/s24/schedule.html).
+It's 6 short (25-50 LoC) projects, plus some optional lectures.
+Grading is pass-fail, and very forgiving.
+The range of C++ covered is pretty narrow, but that's to be expected given the breadth of C++, and the most important ideas are mentioned.
