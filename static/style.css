@@ -14,7 +14,7 @@ p, li {
     font-size: 19px;
 }
 
-main {
+main, footer {
     max-width: 60em;
     margin: auto;
 }
@@ -84,4 +84,33 @@ pre {
     .navbar, .navbar > ul, .side-by-side {
         flex-direction: column;
     }
+}
+
+#prevnext {
+    display: flex;
+    justify-content: space-between;
+}
+
+.previous-button {
+    text-align: left;
+}
+
+.next-button {
+    text-align: right;
+}
+
+.taglist {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.taglist li {
+    margin-right: 15px;
+}
+
+.taglist li:last-child {
+    margin-right: 0;
 }

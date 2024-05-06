@@ -1,0 +1,24 @@
+{{ if and .IsPage (.IsDescendant (.Site.GetPage "/blog")) }}
+    {{ if or .NextInSection .PrevInSection }}
+        <div id="prevnext">
+            <div class="previous-button">
+            {{ if .PrevInSection }}
+                <a href="{{ .PrevInSection.Permalink }}">
+                    =&lt;&lt; Previous
+                    <br>
+                    {{ .PrevInSection.Title }}
+                </a>
+            {{ end }}
+            </div>
+            <div class="next-button">
+            {{ if .NextInSection }}
+                <a href="{{ .NextInSection.Permalink }}">
+                    Next &gt;&gt;=
+                    <br>
+                    {{ .NextInSection.Title }}
+                </a>
+            {{ end }}
+            </div>
+        </div>
+    {{ end }}
+{{ end }}

@@ -14,5 +14,9 @@
             {{ block "main" . }}
             {{ end }}
         </main>
+        <footer>
+            {{ partial "tags.html" .}}
+            {{ partial "prevnext.html" .}}
+        </footer>
     </body>
 </html>
