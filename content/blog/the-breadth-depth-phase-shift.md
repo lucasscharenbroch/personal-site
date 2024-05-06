@@ -44,16 +44,34 @@ The above is a highly scientific plotting of snowball radius over time.
 An interesting thing to note here is that the vast majority of radius growth happens in the breadth phase, very early on in a programmer's journey (say, 1-5 years of learning).
 The chart isn't to scale (or is cut off on the right), but the depth phase expands indefinitely outward: even though expertise greatly increases over the years, breadth doesn't expand too much beyond that initial foundation.
 
-## So What?
+## Manifestation
 
 All of this seems relatively obvious when it's pointed out, but it can be easy to ignore when you're up close to the painting (when you're so consumed in your own learning that it's hard to objectively analyze and adjust your trajectory).
 Furthermore, this phase-shift demands a change in strategy: when you're in the breadth phase, practically any pursuit of knowledge will end up expanding the frontier in many directions, simply because the dimensions are much more interconnected near the origin.
 It's easy to begin to expect success from these pursuits, then lose direction when they become less effective as the frontier grows.
 
-For example, you might write a lot of miscellaneous programs when first learning to code, but as you improve, the programs get larger and larger, and soon, every program you write takes weeks (or months) to complete, yet, because those programs aren't very directed, you gain less and less from them (and your time is less effective)[^happened].
+For example, you might write a lot of miscellaneous programs[^apply] when first learning to code, but as you improve, the programs get larger and larger, and soon, every program you write takes weeks (or months) to complete, yet, because those programs aren't very directed, you gain less and less from them (and your time is less effective)[^happened].
+
+[^apply]: The same applies for solving drills (e.g. leetcode), or reading textbooks/articles at random.
 
 [^happened]:This happened to me, and it took me a long time to realize it.
 
+This example elucidates more nuance in this equation: the increasing-surface-area isn't the only reason projects increase in difficulty over time.
+It's also natural for programmers to pursue larger goals as they build their skills, and larger goals usually imply bigger and more complex programs (which take way more time).
+Not only does the frontier's size balloon as it expands, but the difficulty of expanding the frontier at any given point is harder as that point moves away from the origin (as the topics becomes more advanced).
+
+The below represents the difficulty of frontier-expansion (the z-axis) with respect to the area of the frontier being expanded (the x and y axes).
+
+{{% center-text %}}
+<img src="/images/snowball-frontier-graph.jpg" alt="Bowl-shaped 3d graph" height="500px"/>
+{{% /center-text %}}
+
+## So What?
+
 If you find yourself in situations like this, pushing incessantly on your snowball, yet making little ground, then it might be a good idea to narrow your focus[^narrow].
+It's better to avoid fighting against nature, to understand your limitations, and work within their bounds.
+This is the most efficient and rewarding way forward.
 
 [^narrow]: This doesn't imply making a long-term commitment towards a specific area of study: focus can be rapidly shifted.
+It's also possible (and ideal) to still go for "breadth", but in a much more shallow way (in a limited arc of the frontier).
+For example, shifting from an overall generic focus to a focus in the realm of databases, or in development tooling.
