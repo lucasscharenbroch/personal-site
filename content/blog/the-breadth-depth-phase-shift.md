@@ -29,15 +29,20 @@ The snowball analogy isn't perfectly accurate: the difficulty of pushing the sno
 So, though it's possible to keep learning the same *overall volume* of material, the *expansion of the frontier of knowledge* will inevitably slow.
 
 [^poly]: I think: my intuition for higher-dimensional geometry isn't strong, and I don't intend for this to be a math post).
+Perhaps it's exponential if the number of dimensions is variable.
 
 It naturally follows that, if you want to acquire mastery in CS, you must accept specialization, and shift towards expanding your frontier in a much narrower direction.
+
+This is precisely what happens in both industry and academia: your skills are directed and tuned in to pursue depth in a particular field.
+In industry, it's usually a particular set of tools, part of the tech-stack, or area of application; in academia, it's a subject area.
 
 {{% center-text %}}
 <img src="/images/snowball-size-over-time.jpg" alt="Graph of snowball size over time - the curve resembles the logistic function" height="500px"/>
 {{% /center-text %}}
 
-This is precisely what happens in both industry and academia: your skills are directed and tuned in to pursue depth in a particular field.
-In industry, it's usually a particular set of tools, part of the tech-stack, or area of application; in academia, it's a subject area.
+The above is a highly scientific plotting of snowball radius over time.
+An interesting thing to note here is that the vast majority of radius growth happens in the breadth phase, very early on in a programmer's journey (say, 1-5 years of learning).
+The chart isn't to scale (or is cut off on the right), but the depth phase expands indefinitely outward: even though expertise greatly increases over the years, breadth doesn't expand too much beyond that initial foundation.
 
 ## So What?
 
