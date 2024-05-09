@@ -39,12 +39,12 @@ I think that this reasoning is relatively straightforward and probably relatable
 
 ### AP Credits
 - Math 221 &mdash; Calculus AB (5I)
-- Econ 101 &mdash; Microeconomics (4E) [Social Studies]
-- Econ 102 &mdash; Macroeconomics (4E) [Social Studies]
+- Econ 101 &mdash; Microeconomics (4E) [Social Science]
+- Econ 102 &mdash; Macroeconomics (4E) [Social Science]
 - History X13 &mdash; US History (3E)
 - History X13 &mdash; World History (3E)
 - English X04 &mdash; Language and Composition (3E)
-- Political Science 104 &mdash; Government and Politics (4E) [Social Studies]
+- Political Science 104 &mdash; Government and Politics (4E) [Social Science]
 
 ### Fall 2022
 - CS 300 &mdash; Programming II (3I) [CS Req.]
