@@ -79,7 +79,7 @@ I think that this reasoning is relatively straightforward and probably relatable
 - Literaure in Translation 203 &mdash; 19th & 20th Century Russian Literature (4E) [Literature, Comm B]
 - Music 43 &mdash; University Band (1E)
 
-### Spring 2024 (enrolled)
+### Spring 2024
 - CS 536 &mdash; Intro to Programming Languages and Compilers (3A) [CS Electives 2/2]
 - CS 538 &mdash; Intro to the Theory and Design of Programming Languages (3A) [Software and Hardware 2/2]
 - CS 368 &mdash; Learn a Programming Language: C++ (1I)
