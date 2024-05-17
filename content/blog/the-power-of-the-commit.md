@@ -26,9 +26,12 @@ Commits are one thread we can pull on to do this.
 ## Rhythm (Building Up)
 
 Commits provide structure: they're discrete steps towards solving problems: bricks in the building of a program.
-It's easy to get lost in the complexity and sheer volume of code that must be written: commits are an antidote to this: they're a proof of progress.
+It's easy to get lost in the complexity and sheer volume of code that must be written: commits are an antidote to this: they're a proof of progress[^little-acorns].
 This makes committing inherently satisfying, even if it's trivial.
 They give intermediate gratification[^leetcode], and they lead into each other: they help develop a rhythm of advancement.
+
+[^little-acorns]: This observation can be applied to most other facets of life too; it's often helpful to break problems into little pieces that can be individually tackled.
+The intro to [the White Stripes song "Little Acorns"](https://www.youtube.com/watch?v=KSvGOKH5zxk) makes a compelling case for this.
 
 [^leetcode]: Not unlike seeing that sweet green text after solving a leetcode problem.
 There's something about the color green...
