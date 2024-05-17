@@ -146,10 +146,10 @@ The standard format uses the following sections:
 
 If you're self-taught, "education" and "experience" are mostly empty, so your bread-and-butter is "projects" and "skills".
 "Skills" is generally ignored, though, unless there's something especially relevant to the position (in which case it's usually more of a non-negative impact than a hugely positive one), and "projects" section means very little,
-as trivial projects look almost the same as very-impressive projects through the lens of three bullet points,
+as trivial projects look almost the same as highly-involved projects through the lens of three bullet points,
 especially to recruiters and HR-people with minimal technical knowledge.
 
-The only reliable way to get hired in software today is through networking, and if you don't have leads on that front, you're bound to be demoralized trying to find a job as a self-taught developer.
+The only reliable way to get hired in software today is through networking and appealing to "experience" (other jobs), and if you don't have leads on that front, you're bound to be demoralized trying to find a job as a self-taught developer.
 
 ### Direction
 
