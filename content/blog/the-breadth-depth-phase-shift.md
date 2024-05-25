@@ -2,7 +2,7 @@
 title: "The Breadth-Depth Phase Shift"
 subtitle: "When to Stop Learning for Breadth"
 notability: 6
-tags: ["Learning"]
+tags: ["Learning", "Analogy"]
 date: 2024-05-05T08:20:04-05:00
 ---
 
