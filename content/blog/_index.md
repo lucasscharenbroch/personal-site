@@ -1,6 +1,9 @@
 ---
 title: "Blog"
-date: 2024-05-01T11:07:23-05:00
 ---
 
 ## [Browse By Tag](/tags)
+
+This is my personal blog, where I ramble about various topics I'm interested in.
+Most posts are connected to programming in one way or another.
+If I had to name the blog, it would probably be something like "artistic optimiztion" (but that name will probably become less accurate over time).
