@@ -11,7 +11,7 @@ tags: ["Workflow"]
 {{% /center-text %}}
 
 In my youth, I practiced Tae-Kwon-Do.
-I had very little talent, but it taught me many valuable lessons.
+I had very little talent, but I still learned many valuable lessons.
 Few of those lessons were directly related to computer programming, but I have a knack for drawing tenuous connections between code and the outside world.
 
 Board-breaking was an occasional[^tests] event in the school that I trained with.
@@ -41,7 +41,7 @@ Each challenge can be viewed as a board to be broken[^extend].
 The same challenges (and advice) apply to these metaphorical boards.
 
 [^extend]: If you want to get really detailed on the analogy, you can view the different varieties of challenges as boards of different material and thickness, in a variety of locations (calling for different techniques).
-For example, making a trivial change to documentation might be a centimeter-thick sliver of wood that can be sliced like butter by a downward knife-hand strike, while finding the cause of a seg-fault might be more like breaking a cinder block with a flying back-piercing kick.
+For example, making a trivial change to documentation might be a centimeter-thick sliver of wood that can be sliced like butter by a downward knife-hand strike (your typical "karate-chop"), while finding the cause of a seg-fault might be more like breaking a cinder block with a flying back-piercing kick.
 And that wicked interview problem you're supposed to white-board in 30 minutes is like trying to break a stone pillar with a high-flat finger-tip thrust.
 
 In the same way that it's easy to lose momentum as the fist approaches the board, it's easy to lose motivation as a problem (or commit, or project, or milestone) nears its solution (or immediately after)[^reason].
@@ -54,12 +54,12 @@ Frequently, these feelings are subtle and unnoticed: my goal is to bring awarene
 
 This is especially true if you're trying to break multiple boards with one punch (this might equate to multiple commits when developing a feature, or even multiple unrelated challenges tackled with a single [kreplit](https://www.urbandictionary.com/define.php?term=Kreplit)[^kreplit]).
 The boards might be spaced out, so the velocity of your fist when it reaches the first board doesn't do much to help you break the boards beyond it.
-It's critical that your fist maintains momentum as it passes through each board, because, as soon as it slows, the subsequent board will refuse to break, and you will be left sore-knuckled and disappointed.
+It's critical that your fist maintains momentum as it passes through each board, because, as soon as it slows, the subsequent board will refuse to break, and you will be left sore-knuckled and egg-faced.
 
 [^kreplit]: I learned about the wonderful word "kreplit" ("a unit of time and attention") from a [Jessica Kerr talk](https://www.youtube.com/watch?v=Lbcyyu8XB_Y&t=255s).
 You can imagine a kreplit equating to a single punch or kick.
 
-We can attain this though the same strategy used to break physical boards: by focusing on punching *through* the challenges:
+We can attain this through the same strategy used to break physical boards: by focusing on punching *through* the challenges:
 by refusing to slow once a task is done, by [finding a rhythm to commits](/blog/the-power-of-the-commit), by preventing ourselves from getting distracted in those critical moments where we decide between stopping and taking one more tug on the strand of solution.
 
 This mind-set can be applied on the next level up too: each punch (or kreplit) can be thought of as a bigger type of board, which is punched by a bigger fist (a work/grind-session), and each of those is its own board, which is punched by an even bigger fist (the work week), etc.
@@ -73,12 +73,11 @@ It's no wonder they resent board-breaking: it is slow and painful for them, and 
 
 On the other end of the spectrum, you have people who can break large stacks of boards in single smooth strokes.
 They either think of the boards as fragile, conquerable speed humps, or ignore them entirely, focusing on (and sending each punch towards) the space beyond the boards.
-They either enjoy board-breaking, or they're indifferent.
+They either enjoy board-breaking, or they're indifferent about it.
 
 Personally, I've frequently seen myself with both mind-sets, often when breaking similar (or even indistinguishable[^indistinguishable]) boards.
-I'm not entirely sure why I ended up in those positions, what triggered them, and to what degree  awareness of this advice would help.
 I've found that there is little space in the middle of the spectrum: most days are either painful grind, or blissful spree.
-The latter is both the most efficient and enjoyable; the feeling resembles that of an addicting video game.
+The latter is the most efficient and enjoyable; the feeling resembles that of an addicting video game.
 The former exemplifies my experience with school.
 
 [^indistinguishable]: Usually my enthusiasm and ability to "punch through" decays over time for very specific types of board (i.e. very-similar problems grow monotonous), yet the opposite is true for loosely-related boards (I get better at general problem-solving).
