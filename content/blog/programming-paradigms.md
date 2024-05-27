@@ -3,7 +3,7 @@ title: "Programming Paradigms"
 subtitle: "Why it's practical to learn a variety of languages"
 notability: 7
 tags: ["PL", "FP"]
-date: 2024-03-06T10:03:14-06:00
+date: 2024-05-26T10:03:14-06:00
 draft: true
 ---
 
@@ -29,3 +29,16 @@ My goal is to train myself to deeply understand the formulation of ideas by anal
 
 [^fun-to-learn]: They're also a lot of fun to learn.
 
+---
+
+- on learning langauge, cont.
+    - a hidden necessity for maturity
+    - it isn't so obvious from up close, but look at the extremes:
+        - the 30-year cobol developer who doesn't know what JS is
+        - the FP enthusiast who swears by haskell and scorns all industrial programming and soydevery
+        - the astronomer who solely uses python
+        - the soydev who refuses to use a language that doesn't end in the word "script"
+    - what's the problem here?
+        - lack of exposure, lack of multi-POV and nuanced opinion: they are forced to think in a rigid way
+        - when we move away from the extremes, this becomes less obvious, but it still remains a weakness
+        - these devs can probably perform pretty well in their resp. neeshes (and that's perfectly acceptable if that's what they want), but if they hope to have general programming ability and to be able to write whatever program they want, then they're seriously handicapped
