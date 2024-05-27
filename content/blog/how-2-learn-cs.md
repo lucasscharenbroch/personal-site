@@ -7,6 +7,17 @@ tags: ["Learning", "Tutorial"]
 draft: true
 ---
 
+There is no "shortest path" to programming expertise.
+The only way to achive true skill is through the grind: putting in many hours solving a vast selection of challenges.
+It's useless trying to describe the details of the girnd, as most of the details are unimportant.
+Grind is necessary, but topic of the grind isn't critical.
+
+I *do* think there is a "shortest path" to learning the *fundamentals* of CS, though, or at least it's a subject worth trying to optimize.
+There are a handful of well-defined core topics that are useful to learn as a general foundation for software development.
+I've spent a whlie studying these, and I've found a few excellent resources.
+
+---
+
 - this is basically a guide to self-taught for traditional cs concepts
 - mostly useful for a hollistic knowledge, or getting ahead on a degree
 - how I would do it again
