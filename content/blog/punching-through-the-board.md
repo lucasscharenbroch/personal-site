@@ -10,9 +10,11 @@ tags: ["Workflow", "Analogy"]
 <img src="/images/punch-through-the-board.jpg" alt="A black-belt kicking through a few boards, as three others hold the (now-broken) boards, looking away." width="500px"/>
 {{% /center-text %}}
 
-In my youth, I practiced Tae-Kwon-Do.
+In my youth, I practiced Tae-Kwon-Do[^proof].
 I had very little talent, but I still learned many valuable lessons.
 Few of those lessons were directly related to computer programming, but I have a knack for drawing tenuous connections between code and the outside world.
+
+[^proof]: Here's [proof](/files/me-breaking-a-board.mp4), if you insist.
 
 Board-breaking was an occasional[^tests] event in the school that I trained with.
 We didn't do anything too fringe[^fringe] (mostly thin[^in] boards), but it was still sketchy[^sketchy] enough to be taken somewhat seriously.

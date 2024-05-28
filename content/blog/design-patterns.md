@@ -2,7 +2,7 @@
 title: "Design Patterns"
 subtitle: "Notes and Commentary on the Classic OOP Book"
 date: 2024-05-26T11:33:05-05:00
-notability: 0
+notability: 7
 tags: ["Pl", "Fp"]
 draft: true
 ---
