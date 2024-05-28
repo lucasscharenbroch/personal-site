@@ -114,3 +114,23 @@ pre {
 .taglist li:last-child {
     margin-right: 0;
 }
+
+.no-bullet {
+  list-style-type: none;
+}
+
+/* Style the details element to position it relative */
+details {
+  position: relative;
+}
+
+/* Add the bracket using a pseudo-element */
+details::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -20px; /* Adjust this value to control the distance from the left */
+  width: 0;
+  height: 100%; /* Make the height match the height of the details block */
+  border-right: 7px solid darkslategrey; /* Adjust border properties as needed */
+}
