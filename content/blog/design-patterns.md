@@ -43,7 +43,7 @@ draft: true
 - [Prototype](#prototype-commentary)<a name="prototype"></a>
     - using an instance of an object as a template to copy
 - [Singleton](#singleton-commentary)<a name="singleton"></a>
-    -
+    - a class with exactly one instance
 
 ### Structural Patterns
 
@@ -235,6 +235,10 @@ It's still safe and practical in smaller and more-contained cases, though.
 
 ### Singleton<a name="singleton-commentary"></a>
 
+This seems to be a common and well-known pattern.
+It's basically global variables + OOP syntax.
+
+The liberal use of global state is usually a bad thing, but in moderation, this can be a useful (enforcing that it remains a singleton adds some safety, at least along one dimension).
 [&#8617;](#singleton)
 
 ## General Thoughts
