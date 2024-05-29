@@ -102,9 +102,19 @@ The liberal use of global state is usually a bad thing, but in moderation, this 
 <ul>
 <li>Adapter
 <ul>
-<li>TODO</li>
+<li>A wrapper class that converts one interface to another</li>
 <li class="no-bullet"><details>
 <summary>(commentary)</summary>
+
+It's a wrapper.
+
+The OOP version uses inheritance (and a new subtype), but this can be avoided using typeclasses/ad-hoc polymorhpism.
+
+There are advantages of using a wrapper object when the thing being wrapped becomes more complex, though (e.g. contains multiple objects as state).
+In this case, typeclasses can still be used, but not without introducing a new type.
+
+- "object adapter": adapter class *contains* the adaptee, inherits from the target, forwarding requests to the adaptee field
+- "class adapter": adapter class inherits from both the adaptee and target, forwarding requests to the inherited adaptee methods
 </details></li>
 </ul></li>
 
@@ -156,30 +166,55 @@ Nevertheless, most of the pros and cons remain the same.
 
 <li>Facade
 <ul>
-<li>TODO</li>
+<li>An interface that unifies and abstracts a complex subsystem</li>
 <li class="no-bullet"><details>
 <summary>(commentary)</summary>
 
+It's a bit of a stretch to consider this a design pattern: it's basically the definition of "abstraction", plus an implied context of OOP.
 </details></li>
 </ul></li>
 
 
 <li>Flyweight
 <ul>
-<li>TODO</li>
+<li>Use a set of shared objects to avoid the costs of excess instantiation</li>
 <li class="no-bullet"><details>
 <summary>(commentary)</summary>
 
+("Flyweight" is the lightest weight-class in fighting sports, opposite to "heavyweight".)
+
+This is effectively just an optimization via caching.
+
+While caching in general is certainly useful, this pattern encourages using caching at a higher level than the ideal.
+
+The book uses the example of sharing `Character` objects, which each have a single method: `Draw()`.
+We'll assume that these objects are very expensive to store (perhaps they contain lots of font information).
+Since these `Character` objects are shared, they (by necessity) "cannot make assumptions about the context in which they operate" (they can only contain "intrinsic" (non-context-specific) state, and must be passed their extrinsic (context-specific) state).
+
+I would argue that the ability to hold extrinsic information is one of the primary advantages of using objects in the first place, and that one of the following would be a cleaner and safer way to implement this:
+
+1. Make a singleton class with a `DrawCharacter()` method, which takes (as parameters) the character to draw and the extrinsic information, and handles the caching internally.
+    - This removes the potential for mistaking `Character`s as value-types, and factors out the entire caching process from the user's (the caller of `Draw`'s) code.
+2. Turn the `Character` class into a proxy for the shared data and an adapter/facade for the global caching mechanism.
+    - The wrapper can contain a pointer to the shared object or the minimal information necessary to retrieve it (or make calls that implicitly use it, e.g. `DrawCharacter()` from the singleton).
+    - The wrapper can contain extrinsic information, and abstracts all caching: from the user's perspective, `Character` is a value type.
+    - The wrapper can have multiple methods, and fulfills all of those OOP conventions you so strongly desire.
+
+Perhaps this is implied by the book (and left out because it makes the pattern more complicated), but I am compelled to point it out, as the idea of shared objects (except when absolutely necessary) is appalling to me.
 </details></li>
 </ul></li>
 
 
 <li>Proxy
 <ul>
-<li>TODO</li>
+<li>A wrapper class that (usually) defers or transforms its requests before forwarding them</li>
 <li class="no-bullet"><details>
 <summary>(commentary)</summary>
 
+This is a special case of the Adapter pattern with an emphasis on transformation/augmentation of input (rather than strict translation/forwarding).
+Proxies usually have the same interface as their target, which is not true for adapters.
+
+Proxies could also be viewed as narrower cases of Facades, as they serve as a layer of abstraction.
 </details></li>
 </ul></li>
 </ul>
