@@ -20,3 +20,7 @@ Note: this isn't a security post: "hacking" here means "unclean coding", i.e. "I
 - reframing is very costly (though it might be ideal in the long-run)
 - it's also incredibly computationally difficult
 - if it ain't broke don't fix it
+- Principles from the ["cult of done manifesto"](https://medium.com/@bre/the-cult-of-done-manifesto-724ca1c2ff13):
+    2.  Accept that everything is a draft. It helps to get it done.
+    4.  Pretending you know what you’re doing is almost the same as knowing what you are doing, so just accept that you know what you’re doing even if you don’t and do it.
+    8. "Laugh at perfection. It’s boring and keeps you from being done."
