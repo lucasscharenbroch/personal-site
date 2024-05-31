@@ -2,6 +2,13 @@
 title: "Contact Information"
 ---
 
+The following are a few programs that print my email[^why].
+If you're at all considering it, please don't hesitate to reach out.
+I'm happy to hear from anyone in any capacity (except solicitation).
+
+[^why]: I originally did this to mirror other sites that avoid directly including email addresses (presumably to prevent scraping and spam); I'm not reall sure how effective it is, considering my email is plastered all over my git commits (and elsewhere), but now it's mostly a joke: I like to imagine an HR person being perplexed by this.
+It also makes this page look less empty, as I don't have too many contact mediums.
+
 - C++
 {{< highlight cpp >}}
 string email(string domain_name, string first_name) {
