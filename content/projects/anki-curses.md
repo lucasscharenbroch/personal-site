@@ -2,6 +2,7 @@
 title: "Anki Curses"
 subtitle: "A front-end for the powerful flashcard tool, Anki (Python)"
 notability: 4
+loc: 900
 date: 2023-07-16
 ---
 

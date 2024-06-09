@@ -2,6 +2,7 @@
 title: "Computer Algebra System"
 subtitle: "Symbolic computation tool (C++)"
 notability: 5
+loc: 2900
 date: 2023-09-02T19:19:20-05:00
 ---
 

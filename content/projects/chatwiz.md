@@ -2,6 +2,7 @@
 title: "ChatWiz"
 date: 2023-11-13T07:58:54-06:00
 notability: 4
+loc: 1100
 subtitle: "A stack exchange for LLM answers (JS)"
 ---
 

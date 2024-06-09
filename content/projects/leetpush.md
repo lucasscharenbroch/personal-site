@@ -2,6 +2,7 @@
 title: "Leetpush"
 subtitle: "A Chrome Extension for committing to Github from Leetcode (JS)"
 notability: 2
+loc: 400
 date: 2024-02-11T11:46:13-06:00
 ---
 

@@ -2,6 +2,7 @@
 title: "Pocket Cube Solver"
 subtitle: "2x2x2 Rubik's Cube solver and visualizer (C++, WASM)"
 notability: 2
+loc: 1000
 date: 2023-02-05T14:37:08-05:00
 ---
 

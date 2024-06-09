@@ -2,6 +2,7 @@
 title: "Graphing Calculator"
 subtitle: "Recursive descent parser and graphing tool (C++, WASM)"
 notability: 3
+loc: 1600
 date: 2023-03-25T18:14:48-05:00
 ---
 
