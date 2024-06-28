@@ -134,3 +134,15 @@ details::before {
   height: 100%; /* Make the height match the height of the details block */
   border-right: 7px solid darkslategrey; /* Adjust border properties as needed */
 }
+
+table {
+    border: 1px solid;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td {
+    border-top: 1px solid;
+    border-right: 1px solid;
+    padding: 2px 10px;
+}
