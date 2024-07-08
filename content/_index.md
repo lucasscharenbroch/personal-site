@@ -4,7 +4,7 @@ date: 2023-06-25T12:33:45-05:00
 ---
 # Introduction
 
-{{% img-right-aside src="/images/me.jpg" alt="Lucas Scharenbroch" class="headshot" %}}
+{{% img-right-aside src="/images/me-at-madhacks.jpg" alt="Lucas Scharenbroch" class="headshot" %}}
 
 Hi, I'm Lucas.
 I recently graduated from [UW-Madison](/blog/uw-madison-computer-science), and now I program professionally.

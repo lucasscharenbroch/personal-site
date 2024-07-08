@@ -149,7 +149,7 @@ And even if the scaffolding gets used as the final result, it's better to have a
 
 ## Conclusion
 
-Hack Deliberately.
+Hack deliberately.
 Accept that you must hack (to some extent), but step cautiously: make conscious choices of where you invest in pursuing ideals, and where you forego them.
 
 Whichever choice you make, embrace it and enjoy it: both hacking and obsessing over ideals can be a lot of fun.
