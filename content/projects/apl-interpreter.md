@@ -1,9 +1,10 @@
 ---
 title: "APL Interpreter"
 subtitle: "A REPL for APL on the command-line (Haskell)"
+date: 2024-01-11T12:44:11-06:00
 notability: 8
 loc: 3600
-date: 2024-01-11T12:44:11-06:00
+hours: 215
 ---
 
 ### ([Github Link](https://github.com/lucasscharenbroch/apl-interpreter))
