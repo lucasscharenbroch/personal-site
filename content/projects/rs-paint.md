@@ -1,10 +1,10 @@
 ---
 title: "RS-Paint"
 subtitle: "A light-weight image editor (Rust)"
-date: 2024-07-27T10:19:56-05:00
+date: 2024-08-04T10:19:56-05:00
 notability: 8
 loc: 12000
-draft: true
+hours: 230
 ---
 
 {{% center-text %}}
@@ -16,7 +16,7 @@ draft: true
 ## Motivation
 
 I wrote this program to be "<u>*my* ideal image editor</u>".
-I don't edit images very often, and when I do, I often only reach for a handful of simple operations.
+I don't edit images often, and when I do, I often only reach for a handful of simple operations.
 I want those operations to be **intuitive and highly ergonomic[^ergonomic]** (1).
 That being said, I still need an editor that's **relatively powerful** (2) so I won't be held back by a lack of features.
 Finally, I expect my editor to be **free and natively compatible with Linux** (3).
@@ -57,6 +57,91 @@ One thing that arose from this (combined with the other logistics of this projec
 This project opened my eyes to how [there is little use in avoiding these](/blog/hacking-is-necessary).
 
 [^skeleton]: "Implementing a giant skeleton" is an accurate description of all of my compiler-related projects (which follow the same skeleton: lex, parse, evaluate).
+
+## Design Choices
+
+I would probably describe the look/feel of RS-Paint as "based" (if I'm being generous), and "unpolished" (if I'm being realistic).
+
+My justification for leaving it in such an unrefined state is that "less is more"; modern UIs can easily become over-polished, favoring prettiness over functionality.
+I value intuition and ergonomics much more than I do appearance, and that's why I prefer a "based" UI.
+
+But the real reason why the UI is so unpolished is that I dread the process of visual refinment[^site-css].
+
+[^site-css]: This section perfectly explains the design of my website.
+
+### Icons
+
+All icons in RS-Paint are "bootstrapped", meaning that they were made entirely using RS-Paint.
+I bet you never would have guessed.
+
+{{% center-text %}}
+<figure>
+<img src="/images/rs-paint/bootstrapped-icons.jpg" alt="Shoddily drawn tool icons" width="850px"/>
+<figcaption style="text-align:center">"Bootstrapped" tool icons</figcaption>
+</figure>
+{{% /center-text %}}
+
+When designing these, my primary goal was intuition: the icon should explain exactly what the tool does (the user should never be confused when searching for a tool).
+
+Jokes aside, it's amazing how many popular programs have incomprehensible icons.
+
+Here are gimp[^gimp-no-exception]'s icons.
+I challenge you to explain the functionality (or even just say the name) of half of them[^gimp-complexity].
+
+[^gimp-no-exception]: Gimp isn't the exception here: in my experience, most programs' icons are confusing.
+Confusion is the norm, simplicity is the exception.
+
+[^gimp-complexity]: You might argue that Gimp's icons' meanings are difficult to understand because the things they accomplish are complex (and mine are simple because they have less functionality).
+This is a fair point, and I'll concede that it's acceptable to have complex icons/functionality *so long as it doesn't hamper the intuition of simple operations*.
+The problem with Gimp (and other such programs) is that they destroy simplicity by intertwining simple and complex functionality.
+They place every-day tools right next to tools the average Joe will never use.
+It's not a skill-issue, it's bad UI.
+
+{{% center-text %}}
+<img src="/images/rs-paint/gimp-icons.jpg" alt="Incomprehensible gimp icons" width="250px"/>
+{{% /center-text %}}
+
+### Free Transform
+
+Free-transform in RS-Paint behaves in a slightly different way than you might expect.
+
+Most image editors automatically do the following:
+- "transfer a selection into free-transform mode"
+- "commit the transformed selection"
+
+RS-Paint makes the user explicitly do both of these[^why-explicit].
+
+[^why-explicit]: I chose to do it this way because (1) it's easier to implement (especially when it comes to undo), and (2) it doesn't make any assumptions about what the user wants.
+This is arguably a sacrifice of intuition, but I hope that it's worth the gain in control (it's hard for me to tell, because I've become accustomed to it).
+
+This only impacts tools that interact with free-transform in some way:
+
+- Selection Tools
+    - Rectangle Select
+    - Magic Wand
+- Creation Tools
+    - Shape
+    - Text
+
+Selection tools are *solely for selection*: in order to transform the selection, the user must switch to the free transform tool.
+When the free-transform tool is switched to, the active selection is "consumed" (deleted off of the image).
+It can then be freely transformed and "committed (and kept)" (re-drawn/rasterized) back to the image, then finally "scrapped" (deleting the transformation selection).
+The "commit" button is just shorthand for "commit and keep", then "scrap".
+
+{{% center-text %}}
+<img src="/images/rs-paint/rect-select.gif" alt="Rectangle select, in action" width="850px"/>
+{{% /center-text %}}
+
+Creation tools follow a similar pattern: the creation tool is used solely for creating the thing-to-be-transformed;
+the free-transform-tool must first be switched to (either automatically or manually) to do the actual transforming.
+
+The text tool uses a dialog[^text-dialog] to allow modification during transformation.
+
+{{% center-text %}}
+<img src="/images/rs-paint/creation-tools.gif" alt="Shape and text tools, in action" width="850px"/>
+{{% /center-text %}}
+
+[^text-dialog]: This could also be implemented by switching back to the text tool, but I decided the dialog was cleaner.
 
 ## Problems : Solutions : Commentary
 
@@ -510,6 +595,223 @@ pub trait Transformable {
 }
 ```
 
+## Design Patterns in the Wild
+
+Since [my post on design patterns](/blog/design-patterns), I decided to be on the lookout for patterns that naturally arose in this project.
+Here's what I noticed:
+
+### Builder, Iterator
+
+Both of these are used all over in Rust.
+There probably isn't a file in this project that doesn't use one or the other.
+I feel like they've (especially iterator) transcended the status of "design patterns".
+The term "idiom" feels more accurate.
+
+### Mediator
+
+GTK widgets are assembled all over this program; to facilitate this, I made wrapper structures called <b>`Field`</b>s, which wrap GTK widgets to simplify their interface (this isn't the mediator part: it could probably be described as a facade).
+<b>`Field`</b>s could then be wrapped in <b>`Form`</b>s (just wrappers for GTK containers).
+
+There were a few common patterns of bundled-together <b>`Field`</b>s interacting.
+One example of this is the "lock-aspect-ratio" input (a height and width field with a checkbox to lock the aspect ratio).
+To allow for re-use of such functionality, I created the notion of <b>`Gadget`</b>s, which serve as mediators between <b>`Field`</b>s.
+
+```rs
+pub trait FormBuilderIsh {
+    fn with_field(self, new_field: &impl FormField) -> Self;
+    fn with_focused_field(self, new_field: &impl FormField) -> Self;
+}
+
+pub struct Form {
+    widget: gtk::Box,
+}
+
+pub struct FlowForm {
+    widget: gtk::FlowBox,
+}
+
+pub trait FormField {
+    fn outer_widget(&self) -> &impl IsA<gtk::Widget>;
+}
+
+trait FormGadget {
+    fn add_to_builder<T: FormBuilderIsh>(&self, builder: T) -> T;
+}
+
+pub struct AspectRatioGadget {
+    old_width: usize,
+    old_height: usize,
+    enforce: bool,
+    width_field: NaturalField,
+    height_field: NaturalField,
+    ratio_button: CheckboxField,
+}
+
+impl FormGadget for AspectRatioGadget {
+     fn add_to_builder<T: FormBuilderIsh>(&self, builder: T) -> T {
+        builder
+            .with_field(&self.width_field)
+            .with_field(&self.height_field)
+            .with_field(&self.ratio_button)
+     }
+}
+
+impl AspectRatioGadget {
+    fn update_ratio(&mut self) {
+        self.old_width = self.width_field.value();
+        self.old_height = self.height_field.value();
+    }
+
+    pub fn new_p(
+        width_label: &str,
+        height_label: &str,
+        default_width: usize,
+        default_height: usize,
+        allow_zero: bool,
+    ) -> Rc<RefCell<Self>> {
+        let state_p = Rc::new(RefCell::new(AspectRatioGadget { /* ... */ }));
+
+        // set up hooks that reference the mediator (state_p)
+
+        state_p.borrow().ratio_button.set_toggled_hook(clone!(@strong state_p => move |now_active| {
+            state_p.borrow_mut().enforce = now_active;
+            if now_active {
+                state_p.borrow_mut().update_ratio();
+            }
+        }));
+
+        state_p.borrow().width_field.set_changed_hook(clone!(@strong state_p => move |new_width| {
+            if let Ok(state) = state_p.try_borrow_mut() {
+                if !state.enforce { return }
+
+                let width_change = new_width as f64 / (state.old_width as f64);
+                state.height_field.set_value((state.old_height as f64 * width_change).ceil() as usize);
+            }
+        }));
+
+        state_p.borrow().height_field.set_changed_hook(clone!(@strong state_p => move |new_height| {
+            if let Ok(state) = state_p.try_borrow_mut() {
+                if !state.enforce { return }
+
+                let height_change = new_height as f64 / (state.old_height as f64);
+                state.width_field.set_value((state.old_width as f64 * height_change).ceil() as usize);
+            }
+        }));
+
+        state_p
+    }
+
+    pub fn width(&self) -> usize {
+        self.width_field.value()
+    }
+
+    pub fn height(&self) -> usize {
+        self.height_field.value()
+    }
+}
+```
+
+### Command
+
+<b>`Action`</b>s (which associate undoable code with a struct (see above)) are commands.
+
+### Facade
+
+As mentioned above, in order to prevent the pencil tool re-blending of the same pixel in the same stroke, a hash-map of modified pixels is kept, and reset at the end of each stroke.
+The hash map isn't actually "reset" (cleared), though; instead a counter is incremented (which is much more efficient).
+The API maintains the facade that a hash map is being cleared (by naming the method *<b>clear</b>_pencil_mask*) (since that's easier to understand).
+
+```rs
+pub struct Canvas {
+    /* ... */
+
+    /// A mask corresponding to the flattened image pixel
+    /// vector: `pencil_mask[i]` == `pencil_mask_counter`
+    /// iff the pixel at index `i` has been drawn on
+    /// during the current pencil stroke
+    pencil_mask: Vec<usize>,
+    pencil_mask_counter: usize,
+
+    /* ... */
+}
+
+impl Canvas {
+    fn test_pencil_mask_at(&mut self, r: usize, c: usize) -> bool { /* ... */ }
+    fn set_pencil_mask_at(&mut self, r: usize, c: usize) { /* ... */ }
+
+    pub fn clear_pencil_mask(&mut self) {
+        self.pencil_mask_counter += 1
+    }
+}
+```
+
+### Adapter/Proxy/Facade
+
+I used the [arboard crate](https://crates.io/crates/arboard) for managing the system clipboard.
+It has a **`Clipboard`** struct with **`get_image`** and **`set_image`** methods.
+
+I liked this interface, but didn't want to directly use it in my "business-logic" code because it's pretty low-level, so I wrote my own **`Clipboard`** struct with a similar interface that wraps a **`arboard::Clipboard`** and accepts my higher-level **`Image`** type.
+
+```rs
+/// Wrapper for arboard::Clipboard; using the wrapper
+/// to make it easiser to tweak the api/ add side-effects
+/// (facade pattern)
+/// Fails gracefully when the clipboard is unavailable.
+pub struct Clipboard {
+    clipboard: Option<arboard::Clipboard>,
+    // this is necessary because the system clipboard doesn't own its image data
+    // (it references this instead)
+    copied_image: Option<Image>,
+}
+
+impl Clipboard {
+    pub fn new() -> Self {
+        let clipboard = arboard::Clipboard::new()
+            .map(|c| Some(c))
+            .unwrap_or(None);
+
+        if clipboard.is_none() {
+            eprintln!("Failed to load clipboard");
+        }
+
+        Clipboard {
+            clipboard,
+            copied_image: None,
+        }
+    }
+
+    pub fn get_image(&mut self) -> Option<Image> {
+        self.clipboard.as_mut().and_then(|clipboard| { // only do this if self.clipboard is Some(..)
+
+            if let Ok(image_data) = clipboard.get_image() {
+                // make an `Image` from the `image_data`
+            } else {
+                None
+            }
+
+        })
+    }
+
+    pub fn set_image(&mut self, image: Image) {
+        self.clipboard.as_mut().map(|clipboard| { // only do this if self.clipboard is Some(..)
+
+            let image_data = arboard::ImageData { /* construct this from `image` */ };
+            let _ = clipboard.set_image(image_data);
+
+        });
+    }
+}
+```
+
+### Observer
+
+The observer pattern is built into GTK and used all over through **`connect_...`** methods.
+This is the way button clicks (and virtually any other UI event) are handled.
+
+### Momento
+
+It's questionable if this counts as a momento, but **`LayeredImage`** is serialized as the "project file".
+
 ## Rust
 
 This is my first major[^major] project using Rust[^new-and-major].
@@ -556,7 +858,9 @@ It's hard to imagine what might be next.
 
 #### Interior Mutibility
 
-I finally figured out what **`Rc`** and **`RefCell`** do (after being seriously perplexed when I first saw them in a leetcode problem, then the next hundred times I saw them).
+I finally figured out what **`Rc`** and **`RefCell`** do (after being seriously perplexed when I first saw them[^leetcode], then the next hundred times I saw them).
+
+[^leetcode]: Which was in a leetcode problem, of course.
 
 **`Rc<T>`** is a immutable reference-counting pointer.
 It's immutable in the sense that you're not allowed to mutably borrow the **`T`** (only immutable borrows are allowed).
@@ -613,7 +917,7 @@ fn main() {
 
 #### Lifetimes
 
-When trying to eagerly learn Rust, I found lifetimes to be very elusive.
+When trying to eagerly learn Rust, I found lifetimes elusive.
 I think (much like monads and other similarly complex topics) that they're best understood when you're forced (or encouraged) to use them in context[^you-not-me].
 
 [^you-not-me]: Emphasis on **you** (**you** have to use them, not watch somebody else use them).
@@ -664,26 +968,249 @@ The lifetimes are how we express this to the compiler.
 
 ### Opinions
 
-#### Type System
+#### Haskell-ish-ness (or, Multi-Paradigm spread)
 
-Clumsy at times, but in general, godsend
+It's insane how close Rust comes to Haskell considering how low-level it is.
+As much as I love Haskell, I'll be the first to admit it isn't practical.
+I now view Rust as a viable practical replacement for Haskell.
 
-So many of the right defaults
+Obviously there are many differences, but they're similar in most of the important ways.
+The key point is that, **using Rust, I can solve problems in mostly the same way[^same-way] that I solve them in Haskell**.
+
+[^same-way]: Obviously I wouldn't do anything especially esoteric in Rust, like overly general typeclasses (like **`Monad`**) or currying.
+My point is that Rust makes it easy to write code in a generally functional style.
+
+The same cannot be said about Java or C++ (even when they technically offer the ability to do something haskell-ish, they never *feel*[^feel] like Haskell).
+And while you might argue this is theoretically true for Python, or *perhaps even JavaScript*, the feel is considerably different because of their dynamic typing and the lack of ADTs and traits/generics that results.
+
+[^feel]: [This code_report video](https://youtu.be/wGCWlI4A5z4?si=cPS86o_T1oIFfi_V&t=409) does a good job showing/explaining the difference in "feel" between Rust and the alternatives.
+
+Rust feels like Haskell because *Rust is designed to make functional-style natural* (via these features):
+
+- Algebraic Data Types
+- Iterators
+- Immutability by default
+- Closures, first-class functions
+- Traits
+- Generics
+
+But often the functional approach is sub-ideal[^haskell-bad].
+In these cases, Rust makes it (almost) just as easy to use the imperative approach.
+
+[^haskell-bad]: You don't have to code in Haskell too long before you're bashing your head against the wall because you're three monad transformers deep and you realize you need another layer of mutability.
+Sometimes it's just easier and clearer to give up purity and immutability,
+and doing so can be relatively safe so long as it's in a controlled environment.
+
+That's the appeal of multi-paradigm languages, and Rust seems to do it right[^right-not-perfect].
+
+[^right-not-perfect]: That's not to say Rust is perfect, but rather that I (personally) like the way it does things, and that it shows great potential for how paradigms can be blended.
+
+#### Fun / Satisfying / Easy / Safe / Fast
+
+There are a lot of language features in Rust that simply *feel good to use*.
+They're the type of thing that, when coding with other languages, I say "if I were coding in Rust, I could just do it like this".
+The following is a non-exhaustive list of such features.
+
+**All blocks are expressions**: this is something you don't realize you need until you have to live without it.
+Which of the following two C++ snippets is better?
+
+```cpp
+// (1) "return out of the if-block"
+
+int f(int x) {
+    if(a) {
+        return A;
+    } else if(b) {
+        return B;
+    } else {
+        return C;
+    }
+}
+```
+
+```cpp
+// (2) "set a variable"
+
+int f(int x) {
+    int result;
+
+    if(a) {
+        result = A;
+    } else if(b) {
+        result = B;
+    } else {
+        result = C;
+    }
+
+    return result;
+}
+```
+
+(1) is arguably less extensible, because (due to the inner-returns in each clause) the if-else-block is inherently tied to the function, and it relies on being the only statement in the function body.
+
+(2) isn't great either, because it...
+
+1. Unnecessarily introduces a new variable (**`result`**)
+2. Adds the dimension of mutation of that variable
+3. Opens the possibility that a clause might forget to assign to **`result`** (this is actually true in both cases, but it's easier to assert that a block returns than to assert that it assigns a variable)
+4. Introduces a sentinel value (likely `null`, or garbage) that `result` must first be assigned to
+
+Compare this to the solution in Rust:
+
+```rs
+fn f(x: i32) -> i32 {
+    /* let result = */ if a {
+        A
+    } else if b {
+        B
+    } else {
+        C
+    } /* ; */
+}
+```
+
+The default behavior is to return the last (un-semicolon'd) expression in the block.
+This applies to both the if-else-block and the function block, so we get our desired behavior with a lot less syntax.
+Furthermore, extending the function body (while ensuring each block "returns" something, of the same type) is as simple as uncommenting the above code (placing the if-else expression into a let statement).
+
+This all-blocks-are-expressions property also allows a few other nice conventions {
+
+**No Ternary Operator**: use
+```rs
+if x { y } else { z }
+```
+
+...instead of...
+```cpp
+x ? y : z
+```
+
+(this is [more easily extendable](https://youtu.be/V9uO3x5l-Dk?si=7VX-V_KfwhN-Ts4L&t=926))
+
+**Long computations can be scoped away**:
+```rs
+let x = {
+    /* some long and complex computation, assigning to many variables */
+    result
+};
+```
+
+}
+
+**[ADT](https://en.wikipedia.org/wiki/Algebraic_data_type)s are native and natural**:
+
+"Native": sum types (`enums`) and product-types (tuples) are possible to represent using the core language without excess machinery
+
+"Natural": the language provides features to (greatly) facilitate their use
+- Pattern Matching (`match`)
+    - Even numeric ranges too!
+- Tuple unwrapping within function parameters
+- If-let
+- `?`
+
+**The borrow checker** (when it agrees with what you're trying to do) **feels effortless and fun**.
+It's hard to explain this with an example, so here's an anecdote instead:
+when I went back to coding in other languages after this project, I was so accustomed to Rust that I had a hard time thinking outside of "moves" and "borrows".
+Though it's tricky to pick up, once you do, there's something very natural about this way of thinking.
+
+**Verbosity is minimal**, without being confusing:
+
+Just look at the keywords: `fn`, `pub`, `use`, `mod`, `struct`, `trait`...
+
+The built-in types are also very nice:
+- Numeric types: (`i32`, `u8`, `usize`, ...)
+- Containers: (`Vec<T>`, `HashMap<T>`, ...)
+
+**The code formatting standards** liberally use **line breaks**.
+This might seem a little trivial, but this makes editing code considerably easier (and version-control diffs nicer).
+It also pads my LoC count.
+
+The **built-in Traits** (and trait system in general) are **easy to use**.
+
+Derive usually "just works".
+
+Using generics in impl-blocks is really cool (did I mention it feels like Haskell?).
+
+The built-in traits allow the user to specify the behavior of built-in (language-level[^guy-steele]) operators/conventions (e.g. formatting).
+
+[^guy-steele]: According to [this talk by Guy Steele](https://youtu.be/_ahvzDzKdB0?si=_Eqr6GQGXJqNx9yO&t=2688), giving users power over language-level features is necessary for growing a language.
+
+#### Drawbacks
+
+That being said, Rust isn't solely a joy to work with.
+I think the positives outweigh the negatives, but there are still negatives:
+
+- fighting the type system
+    - borrow checking is sometimes annoying (have to add an extra block or manual drop)
+    - **`Rc<RefCell<T>>`** can be a pain (panics...)
+    - often dealing with references is a little annoying (you have to dereference even value types)
+- macros (though seemingly nice), often have clumsy results, and by nature aren't easy to use (in non-trivial cases)
 
 ## GTK
 
-- rust has trade-offs
-- gtk is a little odd to use with it, because it's a c library
-- interior mutability
-    - gtk uses it, which is confusing at first (you're passing around references as if they're pointers)
-    - I also used it a lot to get static lifetimes - to pass around pointers to my data structures to gtk hooks
-    - perhaps not rustic, but idk if there's a rustic way to make a ui that isn't elm-style (requiring some type of framework)
-- also gotta use glib and gio and all that
-- there's a push to use ".ui" files and css and all that - to work around it, it's a bit ugly
-- sometimes figuring out how to do super low-level stuff in gtk is odd (requries those other libs, often doing runtime and pointer stuff)
+[GTK](https://www.gtk.org/) is the GUI library I used.
+It turned out to be a little less nice to work with than expected.
+This was primarily because GTK is a C library[^gtk-c] (not natively written in Rust, and therefore lacking the Rustic conventions I'm so fond of).
+The bindings do what they can, but it's hard to have a complete facade, and the C starts to seep in at the seams.
 
-## Retrospective
+[^gtk-c]: I used the [gtk-rs](https://gtk-rs.org/) bindings, which are decent, but leave some things to be desired (I blame this on the C-style nature of GTK (and its clash with Rust), not the developers who wrote GTK or the bindings).
 
-- a project I've wanted to do a long time
-- took a long time, was fulfilling - the duality
-- frontier of viability
+GTK is also part of an overarching glib ecosystem, which means that doing certain operations requires digging into other libraries (`glib`, `gio`, `gdk`, and `pango`, to name a few).
+This isn't terrible, but it's a little less cohesive than it could be.
+
+Some aspects of GTK are really convenient (like the built-in dialogues for the [about-screen](https://docs.gtk.org/gtk4/class.AboutDialog.html) and [keyboard-shortcuts](https://docs.gtk.org/gtk4/class.ShortcutsWindow.html)),
+others are perplexing (like the necessity to create a `ListStore` to supply approved filetypes),
+and others straight up annoying (like the deprecation of `FontChooser` without replacement, and the apparent impossibility to do certain low-level things (like listen for certain events)).
+
+There were many sketchy (hacked) work-arounds I had to write when GTK didn't do quite what I wanted.
+
+GTK widgets heavily use interior mutability (passing references to them often means implicitly passing ownership to a (mutable) pointer).
+This causes some odd semantics and questions of ownership (reference counted? garbage collected?) (that I mostly ignored).
+For example:
+
+```rs
+{
+    let wrapper = gtk::Box::builder()
+        .orientation(gtk::Orientation::Horizontal)
+        .spacing(4)
+        .build();
+
+    // creating and passing in a reference to a new Label
+    wrapper.append(&gtk::Label::new(Some("Justification:")));
+
+    // the `Label` is dropped, but still held by `wrapper`
+}
+```
+
+GTK allows/encourages the [use of CSS](https://gtk-rs.org/gtk4-rs/git/book/css.html); I shunned it for a while, but it's actually pretty nice to use[^include-str].
+There's also apparently a `.ui` file format that can be used to specify entire layouts, but I never tried to do that.
+
+[^include-str]: Rust's `include_str!()` macro comes in handy for including the css file at compile-time.
+
+Overall, GTK does the job, but I'd certainly consider other alternatives before using it again.
+A lot of the low-level stuff could definitely be improved.
+The rest is questionable: perhaps UIs are sufficiently complicated that it's infeasible to both idiomatically and cleanly code one using Rust's conventions ([like Haskell](/blog/functional-refactoring-wordle)).
+
+## Romantic Retrospective
+
+This is a program I've dreamed of writing for a long time.
+A program with a big, pretty[^pretty] UI.
+A program that I couldn't fathom[^wicked][^not-wicked] entirely until I sat down and wrote it.
+A program that I would actually use.
+
+[^pretty]: "Pretty" in the eyes of my younger self ("relatively complex").
+
+[^wicked]: This is a paraphrase of the definition of "wicked problem"; this isn't to say I wasn't confident that I could complete it, but rather that it was sufficiently complex that its implementation couldn't effectively be planned.
+There's a certain poignancy to these problems, because solving them involves a leap of faith:
+the [optimism of a programmer that defies logic](https://www.youtube.com/watch?v=t9YLtDJZtPY&t=413s) that says "I can probably do it", despite insufficient evidence that it actually can be done.
+
+[^not-wicked]: I'm not just referring to wicked problems here, though; I'm appealing to the perceived impossibility of the task (especially from the eye of my younger self).
+
+Just a few years ago, I looked at programs like MS-Paint, and was baffled by the fact that made from text[^text].
+
+[^text]: Text! Lifeless Text! To make a living, breathing program....
+[Doesn't sound like equivalent exchange to me](/blog/computers-are-magic).
+
+Now I've written something that I claim is better than (or at least comparable to) MS-Paint.
+
+And now it's done and the next one begins...
