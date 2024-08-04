@@ -210,7 +210,7 @@ The drawback is that more than two points are needed to draw a non-linear spline
 {{% center-text %}}
 <figure>
 <img src="/images/rs-paint/pencil-lag.gif" alt="Pencil stroke lags slightly behind cursor" width="850px"/>
-<figcaption style="text-align:center">(~1/3 speed)</figcaption>
+<figcaption style="text-align:center">(1/3 speed)</figcaption>
 </figure>
 {{% /center-text %}}
 
@@ -362,17 +362,315 @@ struct DrawablesToUpdate {
 
 ### Bitmask Outlining
 
+{{% center-text %}}
+<img src="/images/rs-paint/magic-wand-selection.jpg" alt="A magic wand selection: outlined pixels with the selection shaded" width="850px"/>
+{{% /center-text %}}
+
+The drawing of a bitmask's outline (and filling the selected area) is yet another non-trivial problem.
+
+Luckily, I was able to ride off cairo's back[^cairo] for most of the geometric calculations (in this case, the fill[^cairo-fill]).
+But cairo never does all of the work.
+
+[^cairo]: As you'll soon see, I rely on cairo quite a bit.
+
+[^cairo-fill]: The fill algorithm used for bitmask is the [even-odd rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule), which (as I understand) draws a line from any given point outward, then counts the intersections of the shape's edges to determine if it's "in the shape" (even), or "out of the shape" (odd).
+
+The outline alone isn't too bad: just look at every pixel and check its borders.
+Unfortunately, cairo isn't able to fill a path (shape) that's assembled with the border segments in arbitrary order.
+
+So I used a relatively straight-forward algorithm to, given a bitmask, find the outline (list of points, connected by grid-aligned segments) each distinct "shape".
+
+- Find each segment by scanning each row and column and checking for boundaries
+- Place the segments into hash maps so they can be looked up by their endpoints
+- Start from an arbitrary endpoint of an arbitrary segment, and repeatedly explore unvisited segments that end at the same point
+- Repeat this for each "strongly connected component" (shape) of segments in the bitmask (until there are no unvisited segments)
+- The order in which the segments were visited is the order they should be traced in cairo to allow for filling
+
+(see **`image::bitmask::ImageBitmask::gen_edge_path`** for the full code)
+
+This algorithm might fall apart when given pathological bitmasks (e.g. ones with dithered selection), but since all brushes and magic-wand-selections form "nice" shapes, I haven't ran into any problems with it.
+
+If it were a little less sloppy, it would probably make a good leetcode problem.
+
 ### Free Transform
 
-### Shapes
+I dreaded this problem for a long time, and put it off so it was one of the last tools I implemented.
 
-### Text
+It turned out to be quite fun[^math] to solve, because my insistance on generality exposed the core of the problem, leading to a relatively simple solution.
 
-### Copy/Paste
+[^math]: The non-arithmetic parts were fun, at least.
 
----
+The idea was that free-transform should work on all of the following:
 
-## Rust, GTK
+1. Rectanglular Images
+2. Image Bitmasks
+3. Shapes
+4. Text
+
+(1) and (2) were later combined, but that fact is irrelevant.
+
+So what's the least common denominator of all of these things (that is necessary for free transform)?
+
+1. Sampling: look up a pixel value at a given coordinate[^unit] (used for rasterization)
+2. Drawing (display the thing with cairo; kept sepearte for efficiency)
+
+[^unit]: Coordinates are relative to the unit square (between the points (0.0, 0.0) and (1.0, 1.0)) for complete generality: shapes and text are effectively vector until they're rasterized, so it doesn't make sense to assign them any specific height/width, so we use 1.0.
+
+```rs
+pub trait Samplable {
+    /// Get a pixel value at given (x, y)
+    /// (coords should be in the unit square)
+    fn sample(&self, x: f64, y: f64) -> Pixel;
+}
+
+pub trait Transformable {
+    /// Draw the untransformed thing within the unit square: (0.0, 0.0) (1.0, 1.0)
+    fn draw(&mut self, cr: &cairo::Context, pixel_width: f64, pixel_height: f64);
+    fn gen_sampleable(&mut self, pixel_width: f64, pixel_height: f64) -> Box<dyn Samplable>;
+
+    // (this was later added to allow for different scaling algorithms of selections)
+    fn try_image_ref(&self) -> Option<&Image>;
+}
+```
+
+**`gen_sampleable`**[^spelling] is used instead of an accessor because the underlying data might not be inherently sampleable (and might need extra computation).
+
+[^spelling]: Please forgive the inconsistent spelling of "sampl[e]able": I still haven't made up my mind.
+This is one of the cons of really good autocomplete: it's easy to ignore a typo.
+
+From here, it's a matter of simultaneously maintaining translation, scale, and rotation of the transformation, displaying the transformed result, and modifying it with respect to its current transformation.
+
+It's amazing how easy this sounds if you know the trick and how difficult it sounds if you don't[^graphics].
+
+[^graphics]: This sentence is the probably one of the strongest arguments for getting a CS degree.
+Sometimes, it's useful to have a certain baseline of knowledge, which would otherwise be hard to obtain through [lazy learning](/blog/lazy-vs-eager-learning).
+I remember thinking that it would be useful to wait to start this project until I took a graphics class (UW's CS 559).
+That was generally false, with two major exceptions: (1) this, and (2) splines (see above).
+
+This trick is the [transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix), which (in a nutshell) maintains those three things (translation, scale, and rotation), and makes them easy to apply, invert, and combine (with other matrices).
+
+The implementation also required a few hundred lines of geometry logistics for...
+
+- Determining "what the cursor should do" (translate? scale? (which direction?) rotate?) based on its position relative to the transformation
+- Calculating the correct amounts to translate/scale/rotate to (independently)...
+    1. Clamp the transformation to the grid
+    2. Maintain the aspect ratio of the transformation
+- Draw the free-transform UI thing (the box around the transformation, the points on the corners, etc.)
+
+### Shapes and Text
+
+I expected the implementation of **`gen_sampleable`** for shapes and text to be tricky.
+
+For shapes it would be a matter of maintaining a vector-image (which I have no clue how to do), or doing the math to determine if a given point's distance from a line segment[^icpc] (perhaps they're isomorphic).
+
+[^icpc]: Which I learned (from ICPC (training)) is way harder than it sounds.
+
+For text, I would have to find some tool to render a given font as a vector image, then do a point lookup (sample) on that image.
+
+Luckily, I had a tool at my fingertips that could roughly do both: cairo.
+I was a little hesitant to do this at first (because it feels a little too much like a hack), but I eventually decided that there's no[^no-shame] shame in the hack, so long as it works well[^hacked].
+
+[^no-shame]: Perhaps "no shame" is a little too strong. There is always some shame, but if the hack is deliberate and calculated, it should be embraced. See my [blog on hacking](/blog/hacking-is-necessary) for more on this.
+
+[^hacked]: So many other parts of this project were already "tainted" (in my POV) by hacking anyway, and I was losing patience, so the hacked option started seeming more and more attractive.
+
+So with a handful of lines, I added a default implementation of **`gen_sampleable`** that rode off the back of cairo to make a **`Samplable`** solely by using the **`draw`** method.
+This made implementing both shapes and text as easy as[^shapes-and-text-easy] implenting **`draw`** (to draw the thing to a cairo context).
+
+[^shapes-and-text-easy]: There was more code involved in both (neither was "trivial" after this, per se), but no extra work for drawing or sampling.
+
+```rs
+pub trait Transformable {
+    fn draw(&mut self, cr: &cairo::Context, pixel_width: f64, pixel_height: f64);
+    fn gen_sampleable(&mut self, pixel_width: f64, pixel_height: f64) -> Box<dyn crate::transformable::Samplable> {
+        // default implementation: ride off the back of cairo,
+        // use the `draw` method, then sample off of the resulting context
+
+        let width = pixel_width.ceil() as usize;
+        let height = pixel_height.ceil() as usize;
+
+        let surface = cairo::ImageSurface::create(
+            cairo::Format::ARgb32,
+            width as i32,
+            height as i32,
+        ).unwrap();
+
+        let cr = cairo::Context::new(&surface).unwrap();
+        cr.scale(pixel_width, pixel_height);
+
+        self.draw(&cr, pixel_width, pixel_height);
+
+        std::mem::drop(cr);
+        let raw_data = surface.take_data().unwrap();
+        let drawable_image = DrawableImage::from_raw_data(width, height, raw_data);
+
+        Box::new(drawable_image)
+    }
+    fn try_image_ref(&self) -> Option<&Image> { None }
+}
+```
+
+## Rust
+
+This is my first major[^major] project using Rust[^new-and-major].
+I learned a lot and developed a lot of opinions throughout the process.
+The following are some of them.
+
+[^major]: Major = non-trivial ~= >1000 LoC.
+I would describe my work with Rust before this as "dabbling".
+I would now describe Rust as one of my "primary languages".
+
+[^new-and-major]: Ironically, it's also the biggest project (by LoC) I've done, by far (>12K LoC).
+The second biggest project ([APL Interpreter](/projects/apl-interpreter), which was >3500 LoC) was also my first stab at a language (Haskell at that case).
+I never intended to make this a habit, but it's proven quite effective.
+If my next big project isn't in Rust, it'll likely be in a language I've never used before.
+
+### Learnings
+
+#### Borrow Checking, Basic Semantics (All Hail The LSP)
+
+I think that some degree of eager learning is desirable for Rust[^primagen] (I read the [book](https://doc.rust-lang.org/book/), and I'm glad I did), but, as with most languages, true understanding only comes from using the thing.
+
+[^primagen]: The Primagen says something of the same sentiment [in this video](https://youtu.be/JeoYA7wABAA?si=X-okVi1Y5ZoxF9CJ&t=463).
+
+I owe the speed of my understanding of the Rust's ubiquitous mechanics of Rust to the tight feedback loop of my LSP and IDE.
+
+And the faster you receive feedback from your IDE, the faster you can learn how to use the language.[^preach-to-the-choir]
+In almost no time at all, you'll be anticipating what the red underline means before the error text even appears.
+Soon after that, the you'll be anticipating a red underline before it even shows up.
+This same process happens when you wait for compilation for feedback, but it takes much longer.
+
+[^preach-to-the-choir]: I'm probably preaching to the choir to some extent here (basically everybody uses VSCode nowadays), but I figure that if I convince one stubborn vim user to switch to neovim, I've done a great service.
+
+You can imagine the shrinking of the feedback loop as technology progresses.
+
+- Punch Cards (wait for the operator to hand you the results)
+- Teletype (wait for the terminal to type the result)
+- Terminal Emulator (wait until you're ready to compile to see the results)
+- Modern IDEs (receive the results as you type)
+
+Each step is quite substantial.
+Ignoring the last one is naive.
+
+It's hard to imagine what might be next.
+
+#### Interior Mutibility
+
+I finally figured out what **`Rc`** and **`RefCell`** do (after being seriously perplexed when I first saw them in a leetcode problem, then the next hundred times I saw them).
+
+**`Rc<T>`** is a immutable reference-counting pointer.
+It's immutable in the sense that you're not allowed to mutably borrow the **`T`** (only immutable borrows are allowed).
+Cloning the pointer is allowed, and doing so copies the address and increments the reference count.
+
+**`RefCell<T>`** isn't a pointer at all; it's a "mutable memory location with dynamically checked borrow rules".
+This means two things:
+
+1. You can mutate the **`T`** (get a **`&mut T`**) when you only have immutable access to the **`RefCell`** (a **`&RefCell<T>`**)
+2. Doing so will cause a run-time panic if **`T`** is (or becomes) borrowed anywhere else
+
+Cloning a **`RefCell<T>`** is only allowed if the **`T`** can be cloned, and the clone will be a new memory location.
+This is because (again) **`RefCell<T>`** is not a pointer; it's much like holding onto a **`T`**, just with these special borrowing rules.
+
+**`Rc`** and **`RefCell`** are often used together (as **`Rc<RefCell<T>`**) because their combined behavior is a clonable pointer with interior mutability (which mirrors the behavior of pointers in virtually every other popular modern language).
+
+Since **`Rc<T>`** implements **`Deref<Target = T>`**, methods of **`&T`** can be directly used on the **`Rc<T>`**, and therefore methods of **`RefCell<T>`** can be used on **`Rc<RefCell<T>>`**.
+
+```rs
+use std::cell::RefCell;
+use std::rc::Rc;
+
+fn main() {
+    let seven: Rc<i32> = Rc::new(7);
+
+    {
+        let same_seven = Rc::clone(&seven); // points to the same memory location;
+                                            // the reference count is incremented to 2
+    } // `same_seven` is dropped, the reference count is decremented to 1
+
+    let num: RefCell<i32> = RefCell::new(1); // note that `num` is NOT declared as mutable...
+
+    // ... despite this, we can still change its internal value
+    *num.borrow_mut() = 2;
+    println!("{}", num.borrow()); // => 2
+
+    // but `num` is not a pointer, so we can't have shared ownership of it;
+    // cloning works, but makes a "deep copy"
+    let num_clone = num.clone(); // `num_clone` is an entirely different memory location
+
+    *num.borrow_mut() = 3;
+    println!("{}", num_clone.borrow()); // => 2
+
+    // to make a "shallow copy", we need to wrap the RefCell in a Rc
+    let num2: Rc<RefCell<i32>> = Rc::new(RefCell::new(4));
+    let num2_clone = Rc::clone(&num2);
+
+    // borrow_mut() is a method on RefCell; this call works, because
+    // Rc<RefCell<T> can dereference into RefCell<T>
+    *num2.borrow_mut() = 5;
+    println!("{}", num2_clone.borrow()); // => 5
+} // the reference counts of `seven` and (`num2`/`num2_clone`) are decremented to 0, the memory is freed
+```
+
+#### Lifetimes
+
+When trying to eagerly learn Rust, I found lifetimes to be very elusive.
+I think (much like monads and other similarly complex topics) that they're best understood when you're forced (or encouraged) to use them in context[^you-not-me].
+
+[^you-not-me]: Emphasis on **you** (**you** have to use them, not watch somebody else use them).
+This means that the following explanation might not be too helpful, but I'll include it anyway, because it demonstrates thoughts that I had that helped in my understanding.
+
+The situation when I most often reached for lifetimes (besides `'static`) was when I wanted to use a reference in a struct.
+Doing so is not allowed without explicit lifetimes.
+
+```rs
+pub struct SampleableCommit<'s, 'i> {
+    sampleable: &'s dyn Samplable,
+    matrix: cairo::Matrix,
+    scale_method: ScaleMethod,
+    image_option: Option<&'i Image>,
+    culprit: ActionName,
+}
+
+impl<'s, 'i> AutoDiffAction for SampleableCommit<'s, 'i> {
+    fn name(&self) -> ActionName { /* ... */ }
+    fn exec(self, image: &mut impl crate::image::TrackedLayeredImage) { /* ...  */ }
+}
+
+// code that uses `SampleableCommmit` (simplified)
+fn commit_transformable_no_update(&mut self) {
+    let selection = /* ... */; // 'i begins (the `Image` is stored somewhere within `selection`)
+    let sampleable = selection.transformable.gen_sampleable(width, height); // 's begins
+    let commit_struct = SampleableCommit::new(
+        &*sampleable, // pass in 's
+        selection.matrix,
+        self.ui_p.borrow().toolbar_p.borrow().get_free_transform_scale_method(),
+        selection.transformable.try_image_ref(), // pass in 'i
+        selection.culprit.clone(),
+    );
+
+    // consumes `commit_struct` ('s and 'i both alive, so this is fine)
+    self.image_hist.exec_doable_action_taking_blame(commit_struct);
+
+    // 's and 'i end
+}
+```
+
+For example, the above struct (**`SampleableCommit`**) is used to draw a **`Samplable`** to the image.
+We want to wrap up all of the information necessary for drawing into a single struct (to allow it to implement **`AutoDiffAction`**), yet we don't want to clone the **`Sampleable`** and the **`Image`** (in this case, we couldn't even if we wanted to[^why-not]).
+Since we know that the **`SampleableCommit`** struct will be dropped before the **`Sampleable`** and **`Image`** (`'s` and `'i`), there's no reason we can't wrap the references into a struct.
+The lifetimes are how we express this to the compiler.
+
+[^why-not]: We can't because **`&dyn Sampleable`** exposes no method for cloning.
+
+### Opinions
+
+#### Type System
+
+Clumsy at times, but in general, godsend
+
+So many of the right defaults
+
+## GTK
 
 - rust has trade-offs
 - gtk is a little odd to use with it, because it's a c library
@@ -383,3 +681,9 @@ struct DrawablesToUpdate {
 - also gotta use glib and gio and all that
 - there's a push to use ".ui" files and css and all that - to work around it, it's a bit ugly
 - sometimes figuring out how to do super low-level stuff in gtk is odd (requries those other libs, often doing runtime and pointer stuff)
+
+## Retrospective
+
+- a project I've wanted to do a long time
+- took a long time, was fulfilling - the duality
+- frontier of viability
