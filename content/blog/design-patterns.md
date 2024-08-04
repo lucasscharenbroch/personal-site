@@ -39,12 +39,12 @@ Here are some compelling quotes from the introduction of the book: I think they 
 
 > "Design patterns should not be applied indiscriminately
 > Often they achieve flexibility and variability by introducing additional levels of indirection,
-> and that can complicatea design and/or cost you some performance. A design pattern
+> and that can complicated design and/or cost you some performance. A design pattern
 > should only be applied when the flexibility it affords is actually needed" (31).
 
 The last two quotes highlight the important idea that these patterns must be used in moderation.
 The authors hold this sentiment throughout the book, and it voids the vast majority of the criticisms I expected to have.
-I'm glad that this didn't turn out to be a manifseto for [Enterprise FizzBuzz](https://github.com/EnterpriseQualityCoding/FizzBuzzEnterpriseEdition).
+I'm glad that this didn't turn out to be a manifesto for [Enterprise FizzBuzz](https://github.com/EnterpriseQualityCoding/FizzBuzzEnterpriseEdition).
 Anybody who thinks that probably hasn't actually read it.
 
 ## Creational Patterns
@@ -219,11 +219,11 @@ I would argue that the ability to hold extrinsic information is one of the prima
     - The wrapper can contain extrinsic information, and abstracts all caching: from the user's perspective, `Character` is a value type.
     - The wrapper can have multiple methods, and fulfills all of those OOP conventions you so strongly desire.
 
-Again, all of this only applies if the shared class really is expensive, and can't be represented with a value type (or there's some other reason to link the instances (although that probably wouldn't be considered the same patern anymore)).
+Again, all of this only applies if the shared class really is expensive, and can't be represented with a value type (or there's some other reason to link the instances (although that probably wouldn't be considered the same pattern anymore)).
 
 Perhaps this is implied by the book (and left out because it makes the pattern more complicated), but I am compelled to point it out, as the idea of shared objects (except when absolutely necessary) is appalling to me.
 
-"Sharing terminal symbols with theFlyweight pattern. ... In the Motivation example, a sentence can have the terminal symbol dog (modeled by the LiteralExpression class) appearing many times."
+"Sharing terminal symbols with the Flyweight pattern. ... In the Motivation example, a sentence can have the terminal symbol dog (modeled by the LiteralExpression class) appearing many times."
 I believe this process can be referred to as "interning", and it's widely used in compilers.
 </details></li>
 </ul></li>
@@ -253,9 +253,9 @@ Proxies could also be viewed as narrower cases of Facades, as they serve as a la
 <summary>...</summary>
 
 This one is pretty straight-forward.
-A signal is propigated across objects.
+A signal is propagated across objects.
 
-More complexity (like conditional propigation/handling can easily be added by changing the propigation code (which can be inherited from a `Handler` superclass, or written manually)).
+More complexity (like conditional propagation/handling can easily be added by changing the propagation code (which can be inherited from a `Handler` superclass, or written manually)).
 </details></li>
 </ul></li>
 
@@ -292,7 +292,7 @@ I'm not sure how this qualifies as a design pattern, any more than other types o
 
 Perhaps DSLs/macros/structural-data is common enough within code to consider this different.
 
-I suupose the structure of interpreters is usually relatively uniform, so it was easy to jump on.
+I suppose the structure of interpreters is usually relatively uniform, so it was easy to jump on.
 </details></li>
 </ul></li>
 
@@ -314,8 +314,8 @@ It's useful to view iterators as streams (lazily computed, potentially infinite[
 
 <li>Mediator
 <ul>
-<li>An object that directs interractions between a group of objects</li>
-<li>The interracting objects only need to know about the mediator (and not the objecst they interract with)</li>
+<li>An object that directs interactions between a group of objects</li>
+<li>The interacting objects only need to know about the mediator (and not the objects they interact with)</li>
 <li class="no-bullet"><details>
 <summary>...</summary>
 
