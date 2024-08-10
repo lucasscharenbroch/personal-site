@@ -1012,7 +1012,7 @@ They're the type of thing that, when coding with other languages, I say "if I we
 The following is a non-exhaustive list of such features.
 
 **All blocks are expressions**: this is something you don't realize you need until you have to live without it.
-Which of the following two C++ snippets is better?
+Which of the following C++ snippets is better?
 
 ```cpp
 // (1) "return out of the if-block"
@@ -1046,14 +1046,15 @@ int f(int x) {
 }
 ```
 
-(1) is arguably less extensible, because (due to the inner-returns in each clause) the if-else-block is inherently tied to the function, and it relies on being the only statement in the function body.
+(1) is arguably less extensible, because the if-else-block is inherently tied to the function (due to the inner-returns in each clause), and it relies on being the only statement in the function body.
 
 (2) isn't great either, because it...
 
 1. Unnecessarily introduces a new variable (**`result`**)
-2. Adds the dimension of mutation of that variable
-3. Opens the possibility that a clause might forget to assign to **`result`** (this is actually true in both cases, but it's easier to assert that a block returns than to assert that it assigns a variable)
-4. Introduces a sentinel value (likely `null`, or garbage) that `result` must first be assigned to
+    - Add another name to the soup
+    - Adds a dimension of complexity (mutation of that variable)
+2. Opens the possibility that a clause might forget to assign to **`result`** (this is actually true in both cases, but it's easier to assert that a block returns than to assert that it assigns a variable)
+3. Introduces a sentinel value (likely `null`, or garbage) that `result` must first be assigned to
 
 Compare this to the solution in Rust:
 
@@ -1095,13 +1096,13 @@ let x = {
 };
 ```
 
-}
+}.
 
 **[ADT](https://en.wikipedia.org/wiki/Algebraic_data_type)s are native and natural**:
 
-"Native": sum types (`enums`) and product-types (tuples) are possible to represent using the core language without excess machinery
+"Native": sum types (`enums`) and product-types (tuples) are possible to represent using the core language without excess machinery.
 
-"Natural": the language provides features to (greatly) facilitate their use
+"Natural": the language provides features to (greatly) facilitate their use:
 - Pattern Matching (`match`)
     - Even numeric ranges too!
 - Tuple unwrapping within function parameters
@@ -1125,9 +1126,9 @@ The built-in types are also very nice:
 This might seem a little trivial, but this makes editing code considerably easier (and version-control diffs nicer).
 It also pads my LoC count.
 
-The **built-in Traits** (and trait system in general) are **easy to use**.
+The **built-in traits** (and trait system in general) are **easy to use**.
 
-Derive usually "just works".
+**`derive`** usually "just works".
 
 Using generics in impl-blocks is really cool (did I mention it feels like Haskell?).
 
