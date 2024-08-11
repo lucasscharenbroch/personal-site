@@ -276,7 +276,7 @@ You map your idea to pseudocode in the same way you always do, and since the mul
 You might learn a new language feature or two, but the mapping from idea to pseudocode isn't forced to change.
 
 Instead consider a "galaxy-brain language": a language that steadfastly adheres to a single paradigm.
-When you use such a language, you translate the idea into pseudocode, and you try to translate that pseudocode into code, but you fail, because the paradigms are too different.
+When you use such a language, you translate the idea into pseudocode, and you try to translate that pseudocode into code, but you fail, because the pseudocode is too different from the target-language's code.
 You battle with the code until you find a way that works, then you repeat the process over again.
 Do this over time, and you develop an understanding of the paradigm.
 It's like learning to code again.
@@ -333,7 +333,7 @@ You can instead imagine it as a spectrum of diversity of thought.
 
 ## One Paradigm Is Sub-Ideal
 
-As a programmer becomes comfortable with a single[^small-few] translation method, it becomes harder for them to draw the line between the ideas and their translations.
+As a programmer becomes comfortable with a single[^small-few] translation method (without context of any others), it becomes harder for them to draw the line between the ideas and their translations.
 
 [^small-few]: Or a small few
 
@@ -373,4 +373,4 @@ You can instead imagine it as a spectrum of diversity of thought.
 The more paradigms you have at your disposal, the more ways you'll be able to code the same idea (even in a single language).
 Of these ways, you are free to choose the most exact translation of the original idea, leading to code that is more simple, readable, and maintainable.
 
-Expanding your toolbelt of paradigms will therefore improve the quality of the code you write, improving the development experience of you and everybody who interacts with your work.
+Expanding your toolbelt of paradigms will therefore improve the quality of the code you write, improving the development experience of you and everybody who interacts with your code.
