@@ -10,7 +10,7 @@ date: 2024-02-03T09:27:32-06:00
 
 ## Motivation
 
-As a part of my dive into the functional rabbit-hole, I've read a lot of [SICP](https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs), which has a lot of big ideas[^big-ideas] about how programs execute and interract.
+As a part of my dive into the functional rabbit-hole, I've read a lot of [SICP](https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs), which has a lot of big ideas[^big-ideas] about how programs execute and interact.
 I decided to do this project in hopes of fleshing out what these ideas might look like in a non-trivial program, and seeing to what extent I could get such a program to eat itself.
 
 [^big-ideas]: Big ideas include: procedures vs processes, immutability vs mutability, scoping/closures, and code as data.
@@ -19,7 +19,7 @@ JavaScript is the target language for two main reasons:
 1. It's flexible => easy to get something working
 2. If it's practical to transpile Scheme to anything, it's probably JavaScript
 
-Haskell is the language of choice for transpilation becuase it's (comparatively) safe and fun to write parsers in, and I wanted to learn [Parsec](https://hackage.haskell.org/package/parsec).
+Haskell is the language of choice for transpilation because it's (comparatively) safe and fun to write parsers in, and I wanted to learn [Parsec](https://hackage.haskell.org/package/parsec).
 
 ## The Central Pipeline
 
@@ -35,7 +35,7 @@ Given source files as command-line-arguments, the below steps are followed.
 - Concatenate the resulting code, along with the JS library/boilerplate (js-lib/core.js)
 - Write the result to the output file
 
-[^preprocess]: I'll use the term "preprocessing" for handling include-directives (e.g. **;#include std.scm**), but it's worth noting that this notion of "preprocessing" doesn't exactly match C's notion of preprocessing (C allows for much more advanced logic and textual substitution, while this program solely uses it for determing which files to include, and the order to include them).
+[^preprocess]: I'll use the term "preprocessing" for handling include-directives (e.g. **;#include std.scm**), but it's worth noting that this notion of "preprocessing" doesn't exactly match C's notion of preprocessing (C allows for much more advanced logic and textual substitution, while this program solely uses it for determining which files to include, and the order to include them).
 
 ## Generation
 

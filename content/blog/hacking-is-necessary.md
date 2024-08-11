@@ -114,7 +114,7 @@ Sometimes **`int`** (the hack) is simply *good enough*.
 
 ## Structural Refactoring
 
-The general structure of code (how data is stored, how structure interact, how algorithms are expressed, etc.) can be even more complex than types.
+The general structure of code (how data is stored, how structures interact, how algorithms are expressed, etc.) can be even more complex than types.
 Refactoring structure is incredibly powerful (as it completely changes the invariants and interfaces you work with), but it's also expensive (in time, effort, and risks).
 Structure demands uniformity (both by convention and by necessity[^necessity]), and if that structure is overly refined, it can be just as hard to work with as if it were under-refined.
 
