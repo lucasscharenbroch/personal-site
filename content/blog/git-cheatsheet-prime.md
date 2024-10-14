@@ -64,7 +64,8 @@ I intend for it to evolve over time, as I uncover better ways of doing these thi
 - `ga` &mdash; `git add`  &mdash; ubiquitous
 - `gai` &mdash; `git add -i`  &mdash; interactive add (add partial files)
 - `gp` &mdash; `git push`  &mdash; ubiquitous
-- `gpf` &mdash; `git push --force`  &mdash; set remote branch to match local
+- `gpff` &mdash; `git push --force`  &mdash; set remote branch to match local
+- `gpf` &mdash; `git push --force-with-lease`  &mdash; safer force-push (requires fetch)
 - `gf` &mdash; `git fetch`  &mdash; download (but don't merge) from remote
 - `gpl` &mdash; `git pull`  &mdash; download and merge remote branch
 - `gm` &mdash; `git merge`  &mdash; ubiquitous
