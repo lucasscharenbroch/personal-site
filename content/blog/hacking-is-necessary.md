@@ -1,6 +1,6 @@
 ---
 title: "Hacking Is Necessary"
-subtitle: "The Sobering Futility of Idealistic Programming"
+subtitle: "The sobering futility of idealistic programming"
 date: 2024-06-26T10:06:46-05:00
 notability: 6
 tags: ["Workflow"]
