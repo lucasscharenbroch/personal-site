@@ -98,6 +98,7 @@ I intend for it to evolve over time, as I uncover better ways of doing these thi
 - `git switch -` &mdash; switch to the last-switched-from branch
 - `git switch -c <name> [<parent>]` &mdash; switch to a new branch off of `parent` (or `HEAD`, by default)
 - `git reset --hard @~` &mdash; hard-reset to `HEAD`'s parent
+- `git log -S <string>` &mdash; "Pickaxe": list commits whose diffs include the given `string`
 
 [^gcm]: I feel pretty strongly about this, because it
 (1) shows the files changed, branch, conventional commit message max line width,
