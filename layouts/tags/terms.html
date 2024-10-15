@@ -1,9 +1,9 @@
 {{ define "main" }}
     <h1>{{.Title}}</h1>
     <ul class="page-list">
-    {{ range .Data.Pages }}
+    {{ range $.Site.Taxonomies.tags.ByCount }}
         <li>
-            <a href="{{.RelPermalink}}">{{.Title}}</a>
+            <a href="{{.Page.RelPermalink}}">{{.Page.Title}} ({{.Count}})</a>
         </li>
     {{ end }}
     </ul>
