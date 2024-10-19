@@ -151,7 +151,7 @@ The central project is divided into 6 parts, dispensed across the semester;
 the grade is entirely composed of projects (40%) and exams (60%).
 The project is a reasonable amount of work considering how much of the grade it's worth.
 
-### CS 538 &mdash; Intro to the Theory and Design of Programming Languages
+### CS 538 &mdash; Intro to the Theory and Design of Programming Languages<a name="538"></a>
 Sundries under the large umbrella of PLs.
 Kaiser, the professor who taught and designed the course (at the time I took it) is young and enthusiastic; he doesn't have the pretension of older and "more qualified" professors.
 That being said, the courage has a lot of rough edges.
