@@ -124,13 +124,11 @@ Setting up worktrees for a repository:
 
 ([the docs for this](https://git-scm.com/docs/gitrevisions) have a pretty low opportunity cost)
 
-- `HEAD`[^head], `@` &mdash; `HEAD` (current "active" commit)
+- `HEAD`, `@` &mdash; `HEAD` (current "active" commit)
 - `<rev>^<n>` &mdash; `n`th merge parent of `rev`
 - `<rev>^` &mdash; parent of `rev`
 - `<rev>~<n>` &mdash; `n`th generational parent of `rev`
 - `<rev>~` &mdash; parent of `rev`
-
-[^head]: (`HEAD` is case-insensitive; all-caps is used here for readability)
 
 An elucidating example of `^` and `~` from the docs:
 ```
