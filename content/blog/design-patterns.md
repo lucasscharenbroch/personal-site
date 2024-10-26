@@ -327,10 +327,10 @@ Functional web frameworks (e.g. Elm) embrace this even more heavily, removing al
 </details></li>
 </ul></li>
 
-<li>Momento
+<li>Memento
 <ul>
 <li>An object used to store/back-up the encapsulated state of another</li>
-<li>Ideally, the momento can only be read/written by the object whose state it represents (maintaining encapsulation)</li>
+<li>Ideally, the memento can only be read/written by the object whose state it represents (maintaining encapsulation)</li>
 <li class="no-bullet"><details>
 <summary>...</summary>
 
