@@ -144,7 +144,7 @@ A (somewhat) practical intro to classic ideas in the space of compilers.
 As far as I know, this course has not changed an ounce since the 90s.
 The good part about this is that it contains all of the good ideas that were taught then;
 the downside is that it's quite dry and the code for the projects is (in my humble opinion) awful.
-I'm currently working on a blog post where I refactor the code from this class.
+I'm currently working on a [blog post](/blog/rewriting-a-toy-compiler) where I refactor the code from this class.
 The topics are a mix of discrete-math-like ideas (FSMs, Lexing, Parsing) and low-level implementation details (Code Generation, Language Features, etc.).
 [The course material is publicly available online](https://pages.cs.wisc.edu/~hasti/cs536/).
 The central project is divided into 6 parts, dispensed across the semester;
@@ -154,7 +154,7 @@ The project is a reasonable amount of work considering how much of the grade it'
 ### CS 538 &mdash; Intro to the Theory and Design of Programming Languages<a name="538"></a>
 Sundries under the large umbrella of PLs.
 Kaiser, the professor who taught and designed the course (at the time I took it) is young and enthusiastic; he doesn't have the pretension of older and "more qualified" professors.
-That being said, the courage has a lot of rough edges.
+That being said, the course has a lot of rough edges.
 It gets very mathematical at times (with Lambda Calculus, Continuation-Passing-Style, Imperative Proofs, Haskell, etc.), yet also implementation-heavy (JavaScript, Closures, OOP).
 Many important ideas are covered, but the experience as a whole is a little fragmented.
 The 9 homeworks, 9 programming assignments, and 2 exams vary greatly in difficulty, and a handful are way harder then they ought to be, often because of needless ambiguity.
