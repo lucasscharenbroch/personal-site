@@ -3,7 +3,7 @@ title: "Punching Through the Board"
 subtitle: "Keeping momentum through checkpoints"
 date: 2024-05-24T15:05:29-05:00
 notability: 6
-tags: ["Workflow", "Analogy"]
+tags: ["Workflow", "Analogy", "Non-Technical"]
 ---
 
 {{% center-text %}}

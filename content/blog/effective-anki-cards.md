@@ -2,7 +2,7 @@
 title: "Effective Anki Cards"
 subtitle: "Against long flashcards"
 notability: 3
-tags: ["Workflow"]
+tags: ["Workflow", "Non-Technical"]
 date: 2023-07-08T19:35:55-05:00
 ---
 

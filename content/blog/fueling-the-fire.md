@@ -3,7 +3,7 @@ title: "Fueling the Fire"
 subtitle: "The role of motivation in development"
 date: 2024-08-30T11:30:04-05:00
 notability: 6
-tags: ["workflow", "analogy"]
+tags: ["workflow", "analogy", "non-technical"]
 ---
 
 {{% center-text %}}

@@ -2,7 +2,7 @@
 title: "Speedrunning College"
 subtitle: "The underrated third option"
 notability: 6
-tags: ["College"]
+tags: ["College", "Non-Technical"]
 date: 2024-03-29T09:10:05-06:00
 ---
 

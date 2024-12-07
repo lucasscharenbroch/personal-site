@@ -2,7 +2,7 @@
 title: "Computers Are Magic"
 subtitle: "Finding child-like curiosity in CS"
 notability: 6
-tags: ["Learning", "Analogy"]
+tags: ["Learning", "Analogy", "Non-Technical"]
 date: 2024-04-30T08:47:56-05:00
 ---
 
