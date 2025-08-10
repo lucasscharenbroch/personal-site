@@ -2,9 +2,22 @@
 
 <html>
     <head>
-        <title>Lucas's Page</title>
+        <title>{{ block "title" . }} {{ .Page.Title }}  {{ end }}</title> <!-- This will make each page's title the article's title. -->
         <link rel="stylesheet" href="/style.css"/>
         <link rel="icon" href="/favicon.svg">
+
+        {{- if and .IsPage .Params.subtitle -}} <!-- This is the link preview twitter, telegram etc. use. There are no fallbacks.  -->
+          {{- $page := . -}}
+          {{- $site := .Site -}}
+            <meta property="og:title" content="{{ $page.Title }}">
+            <meta property="og:description" content="{{ $page.Params.subtitle | plainify | truncate 160 }}">
+            <meta property="og:type" content="article">
+            <meta property="article:author" content="Lucas Scharenbroch">
+            <meta property="og:url" content="{{ $page.Permalink }}">
+            <meta property="og:site_name" content="{{ $site.Title }}"> <!-- this will say Luca's webpage according to your hugo.config-->
+            <meta property="article:published_time" content="{{ $page.PublishDate.Format "2006-01-02T15:04:05Z07:00" }}">
+        {{- end }}
+
     </head>
     <body>
         <header>
