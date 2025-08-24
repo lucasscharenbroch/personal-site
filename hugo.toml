@@ -7,3 +7,9 @@ unsafe = true
 
 [taxonomies]
 tag = "tags"
+
+[outputs]
+  home = ['html']
+  section = ['html', 'rss']
+  taxonomy = ['html']
+  term = ['html']
