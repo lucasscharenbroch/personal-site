@@ -1,6 +1,7 @@
 languageCode = 'en-us'
 title = "Lucas's Webpage"
 buildFuture = true
+baseURL = "https://scharenbroch.dev/"
 
 [markup.goldmark.renderer]
 unsafe = true
