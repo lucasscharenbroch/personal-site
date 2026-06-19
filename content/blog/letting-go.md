@@ -4,6 +4,7 @@ subtitle: "Conquering fear and embracing the adventure of life"
 date: 2025-08-10T20:19:42-05:00
 notability: 7
 tags: ["non-technical"]
+unlisted: true
 ---
 
 {{% center-text %}}

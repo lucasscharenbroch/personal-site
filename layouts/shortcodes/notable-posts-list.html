@@ -2,7 +2,7 @@
 {{ $type := .Get 0 }}
 {{ $num := .Get 1 }}
 
-{{ $sortedPages := sort (where .Site.RegularPages "Type" $type) ".Params.notability" "desc" }}
+{{ $sortedPages := sort (where (where .Site.RegularPages "Type" $type) ".Params.unlisted" "!=" "true") ".Params.notability" "desc" }}
 {{ range first $num $sortedPages }}
         <li>
             {{ .Date.Format "January 2006" }} &nbsp; &mdash; &nbsp;
